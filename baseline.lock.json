@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/graphdeco-inria/gaussian-splatting.git",
+  "commit": "2eee0e26d2d5fd00ec462df47752223952f6bf4e",
+  "commit_date": "2023-11-01",
+  "algorithm": "Original 2023 3DGS, before 2024 optional extensions",
+  "upstream_modified": false,
+  "seed": 0,
+  "local_gpu_run": false,
+  "cloud_validated": false
+}

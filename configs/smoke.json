@@ -1,0 +1,13 @@
+{
+  "scene": "train_smoke_not_for_reporting",
+  "source": "data/tandt/train",
+  "output": "outputs/train_smoke_1k",
+  "images": "images",
+  "resolution": 4,
+  "iterations": 1000,
+  "eval_iterations": [1000],
+  "checkpoint_iterations": [1000],
+  "data_device": "cuda",
+  "white_background": false,
+  "port": 6009
+}

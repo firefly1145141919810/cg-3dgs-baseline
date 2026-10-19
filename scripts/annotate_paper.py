@@ -1,0 +1,163 @@
+"""Build visible Chinese margin notes without changing the downloaded original.
+
+Documentation tooling only: pip install pypdf reportlab. No torch/CUDA needed.
+"""
+import argparse
+import io
+from pathlib import Path
+from xml.sax.saxutils import escape
+from pypdf import PdfReader, PdfWriter
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph
+
+ROOT = Path(__file__).resolve().parents[1]
+NOTES = [
+    ('先理解目标，不急着看公式', [
+        ('任务是什么', '输入同一场景的多张照片和已知相机，学习一个三维表示，再从新的相机位置合成照片。不是从一句文字生成物体，也不是直接生成三角网格。'),
+        ('三个关键点', '用三维高斯表示场景；训练时增加、拆分、删除高斯；用可求梯度的快速渲染器把高斯画到屏幕。三个环节共同构成 baseline。'),
+        ('如何看图1', '画质、训练时间与渲染速度是不同维度。图上的数字是作者特定设备和设置的结果，不能当成我们的实验结果。'),
+        ('文献版本提醒', '这是作者网站提供的论文 PDF。首页引用模板残留 2018 和 XXXX 等占位内容；实际工作发表于 2023 年，DOI 为 10.1145/3592433。中文侧栏为本项目学习批注，不是作者原文。')]),
+    ('这篇论文处在什么位置', [
+        ('传统重建', 'SfM 从多图估计相机和稀疏点；网格方法进一步构建表面。3DGS 使用稀疏点起步，但最终保存的是高斯集合，而不是封闭表面。'),
+        ('和 NeRF 的直观区别', '经典 NeRF 通常沿每个像素的射线采样并查询神经网络；3DGS 显式保存大量高斯，再把它们投影到图像。两者都做新视角合成，但表示和主要计算路径不同。'),
+        ('贡献不是单一公式', '高斯本身并非首次出现。论文强调可优化表示、密度控制与高效可微渲染的结合。答辩时应解释整个流程。'),
+        ('阅读优先级', 'Related Work 先掌握问题背景即可；第一遍可以跳到第4页概览，理解流水线后再回来看这些方法。')]),
+    ('公式1到3：为什么需要透明混合', [
+        ('沿射线累积', '想象从相机朝场景看，光先遇到前面的物体，再遇到后面的物体。越靠前且越不透明的贡献，越会挡住后面的颜色。'),
+        ('读公式3', '每个颜色贡献是 c_i × alpha_i × 前方剩余透过率。前方透过率是所有更近贡献的 (1-alpha_j) 的乘积。顺序不可随意交换。'),
+        ('一个数字例子', '黑背景下，前方红色 alpha=0.5，后方蓝色 alpha=0.8：红贡献为0.5，蓝贡献为(1-0.5)×0.8=0.4，剩余0.1由背景提供。'),
+        ('别混淆两个量', '每个高斯存储的 opacity 是一个参数；某个像素处的 alpha 还乘上投影二维高斯的权重。越远离椭圆中心，通常贡献越小。')]),
+    ('公式4到6：高斯怎样变成椭圆', [
+        ('三维高斯是什么', '把它想成可以移动、拉长、旋转的半透明彩色小云团。中心控制位置，协方差控制各方向的大小和朝向。这里不要求像概率密度一样积分为1。'),
+        ('公式4的坐标', '原文为了简洁采用以高斯中心为原点的局部坐标。写在世界坐标里时，应使用 x-mu，而不是忘掉中心 mu。'),
+        ('为什么分解协方差', '公式6写成 R S S^T R^T。代码优化对数尺度和四元数，经 exp 与归一化得到合法尺度/旋转，避免直接随意优化矩阵破坏有效性。'),
+        ('公式5的意义', 'W把世界转到相机坐标；J是透视投影在高斯中心的局部线性近似。变换后的二维协方差描述屏幕椭圆。它不是精确投影所有三维体积。'),
+        ('源码对应', 'scene/gaussian_model.py 保存与变换参数；gaussian_renderer/__init__.py 调用 CUDA 光栅器。详细符号见 BASELINE_GUIDE 第5至8节。')]),
+    ('图2和损失：训练究竟做什么', [
+        ('读图2的闭环', '稀疏点初始化高斯 → 从训练相机渲染 → 与真实图比较 → 反向传播 → 更新参数 → 适时调整高斯数量，循环执行。'),
+        ('公式7', '代码损失为 0.8×L1 + 0.2×(1-SSIM)。L1 看像素误差，SSIM 补充局部结构差异；二者共同给参数更新提供信号。'),
+        ('实际被优化的量', '位置、尺度、旋转、opacity 和球谐颜色系数。当前固定版本不优化相机姿态；不是在训练一个大型通用生成模型。'),
+        ('为什么需要增密', '起始 SfM 点太稀疏，有些细节表示不够。密度控制在误差相关信号较强的区域增加表示能力，同时清除贡献很小的高斯。'),
+        ('源码入口', 'train.py 中 loss.backward() 计算梯度；优化器更新连续参数；GaussianModel 的 densify_and_prune 执行离散结构调整。')]),
+    ('图4与瓦片渲染：质量和速度', [
+        ('克隆与拆分', '小高斯但位置梯度大时复制；大高斯且梯度大时拆成更小的高斯。低 opacity 等条件触发删除。数量不是从头到尾固定。'),
+        ('论文与固定代码的差别', '论文描述克隆后沿位置梯度移动；固定的 2023 代码在 clone 时直接复制参数，没有显式的这一步位移。拆分则按尺度采样位置。请以实际源码记录实验。'),
+        ('16×16瓦片', '先找每个高斯覆盖哪些小图块，把高斯-瓦片对按瓦片编号与深度排序，再由瓦片内的像素累积颜色，避免每个像素遍历整个场景。'),
+        ('排序是近似', '深度顺序不等于对每条像素射线精确求高斯交叠关系，因此会有遮挡近似与视角变化时的伪影。'),
+        ('反向传播为何重要', '渲染器不仅要输出图像，还要把像素误差传回高斯参数。只有能传梯度，渲染器才能参与训练。')]),
+    ('定性结果：比较什么，不能证明什么', [
+        ('如何看图5', '对照真实图像 GT，关注细线、纹理、镜面反射附近和背景边缘。模糊、漂浮碎片与缺失细节通常比整图观感更容易在放大区域看出来。'),
+        ('必须使用留出视角', '训练照片上的好看结果不足以说明新视角能力。我们的 --eval 按固定规则留出测试相机，其照片不进入训练光度损失。'),
+        ('SfM输入的边界', '预处理 SfM 可能由完整图像集生成。应明确这与把测试照片用于优化光度损失是两回事，并如实写进实验协议。'),
+        ('你们需要保存什么', '保存同一测试视角的 GT 与渲染图、对应指标和配置。不要挑一张最好看的图片替代整个测试集的统计。')]),
+    ('表1：论文成绩不是本项目成绩', [
+        ('三个画质指标', 'PSNR 越高越好；SSIM 越高越好；LPIPS 越低越好。它们评价角度不同，没有一个指标等价于所有人眼感知。'),
+        ('7k与30k', '这是优化迭代数，不是图像张数。本工程正式配置为30k，1k低分辨率配置只测试流程能否跑通，不能混为正式结果。'),
+        ('速度与内存口径', '作者 FPS 使用其查看器和设备。本项目另附 Python/CUDA-event 渲染计时，两者实现和计时范围不同，不应直接宣称复现作者 FPS。模型文件大小也不等于训练显存峰值。'),
+        ('重要实现差异', '论文文字描述先以四分之一分辨率开始、每250步提高分辨率；固定 2023 源码没有该逐步分辨率调度，按加载分辨率训练。文档与代码不完全相同要说明。'),
+        ('当前实验状态', '代码准备完成不代表已复现数值。只有在云端训练、渲染、评测成功后，才能填写属于你们的指标。')]),
+    ('消融：怎样判断某个设计有没有用', [
+        ('消融实验是什么', '完整方法作对照，每次只去掉或替换一个组件，其他数据、训练预算和评测条件保持一致，然后观察差异。'),
+        ('本页关注的因素', 'SfM 初始化、各向异性、SH 颜色、克隆与拆分等都有各自作用。单看最终图片难以判断哪个组件带来提升。'),
+        ('不要一次改变太多', '同时换分辨率、训练步数和渲染器，即使分数更好，也无法归因于你提出的扩展。先保留一个可信且固定的 baseline。'),
+        ('我们的当前范围', '目前只准备官方原始算法的可复现实验封装，还没有选择或实现扩展；后续扩展要保留相同测试协议。')]),
+    ('失败案例比漂亮图片更有信息', [
+        ('初始化的影响', '稀疏点给高斯一个合理的几何起点。随机初始化可能让优化更困难；这不是简单堆更多显存就能保证解决的问题。'),
+        ('克隆与拆分各管什么', '不足的小结构需要增加局部表示；覆盖过大的高斯需要拆细。对照图8可以理解仅用其中一种操作为什么会有局限。'),
+        ('未观察区域', '没有被照片充分看到的区域约束很弱，新视角可能出现空洞、漂浮块或拉长结构。新视角合成不是凭空获得真实世界所有几何。'),
+        ('视角变化伪影', '高斯排序与裁剪存在近似，运动时可能出现突然变化。评测时除了静态图，也值得看一段平滑相机轨迹。')]),
+    ('表示的边界与资源开销', [
+        ('各向异性', '三个轴允许不同尺度，比只能膨胀成球更适合表示细长或近似平面的结构。但错误的大椭球也可能产生伪影。'),
+        ('三种内存别混用', '磁盘模型文件、渲染工作内存、训练时参数/梯度/优化器状态不是同一件事。训练显存通常远大于最终模型文件大小。'),
+        ('有算力仍要规范实验', '充足 GPU 可以帮助训练与做消融，但并不自动解决数据覆盖、标定误差、反光和动态对象。先确认输入和评测有效。'),
+        ('本项目可交付边界', '当前输出应是一个场景的高斯模型、测试视角图像、真实指标与运行记录。不能把它直接称为高精度可编辑网格或真实物理材质。')]),
+    ('参考文献怎样使用', [
+        ('按问题去追资料', '不需要从头读完全部引用。遇到相机与稀疏点问题查 SfM/COLMAP；遇到颜色方向性查球谐；遇到渲染混合查体渲染与点渲染。'),
+        ('优先级建议', '先看本仓库中文教程，再读本文概览、公式与算法，最后沿源码索引查实现。相关工作用于解释为什么采用这些设计。'),
+        ('学术表述', '在报告中清楚区分作者的算法、我们写的工程封装、未来自己的改进。不把官方源码说成独立从零实现。'),
+        ('授权边界', '源码保留官方研究用途许可；论文保留原文版权信息。仓库默认私有，不代表材料可以任意再分发或用于商业项目。')]),
+    ('附录：从公式到训练伪代码', [
+        ('附录A的角色', '这里给出协方差相关梯度：误差先传到屏幕椭圆，再通过坐标变换传回三维尺度与旋转。第一次阅读不必背每个偏导。'),
+        ('算法1', '初始化 → 选相机 → 渲染 → 算损失 → 算梯度 → 更新参数 → 按条件增密/裁剪。请对照 train.py 看清先后顺序和分支条件。'),
+        ('固定代码时间表', '每1000步提高 SH 阶数直到3；位置梯度用于增密；增密检查每100步一次且 500<iteration<15000；在相应阶段每3000步重置 opacity。'),
+        ('排序键', '高位表示瓦片，低位编码深度。一次排序让相同瓦片的高斯相邻，并在瓦片内部形成前后顺序。'),
+        ('读代码入口', 'train.py → scene/gaussian_model.py → gaussian_renderer/__init__.py → submodules/diff-gaussian-rasterization/cuda_rasterizer。')]),
+    ('算法2：渲染器的实际细节', [
+        ('每个像素的状态', '从 T=1、颜色=0 开始，依次累积 T×alpha×颜色，再更新 T←T×(1-alpha)，最后加 T×背景颜色。'),
+        ('稳定性与提前结束', '固定 CUDA 实现将 alpha 上限设为0.99，忽略小于1/255的贡献，并在透过率足够小时提前停止；这些是实际数值与性能策略。'),
+        ('反向时重建透过率', '实现利用前向记录，反向遍历贡献，并通过除以 (1-alpha) 恢复有关透过率。不要把 opacity 参数、像素 alpha 和透过率 T 当成同一个量。'),
+        ('附录逐场景表', '这是作者的逐场景结果，便于观察场景难度差异。我们的示例先选 Tanks and Temples 的 train 场景；单场景结果不能代表整套基准平均值。'),
+        ('现在可以做什么', '在云端按 CLOUD.md 配环境并跑冒烟测试，再跑30k，导出真实结果。跑完后回到本文，解释哪里成功、哪里失败以及可能的原因。')]),
+]
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--font', default='C:/Windows/Fonts/simsun.ttc',
+                        help='Embeddable Chinese TrueType font or TTC (subfont 0)')
+    args = parser.parse_args()
+    if not Path(args.font).is_file():
+        raise SystemExit('Pass --font with a local embeddable Chinese TrueType font.')
+    pdfmetrics.registerFont(TTFont('ReadingChinese', args.font, subfontIndex=0))
+    reader = PdfReader(ROOT / 'references/3dgs_original.pdf')
+    assert len(reader.pages) == len(NOTES)
+    writer = PdfWriter()
+    body = ParagraphStyle('cn', fontName='ReadingChinese', fontSize=10.5,
+                          leading=16, textColor='#23344b', wordWrap='CJK')
+    heading = ParagraphStyle('head', parent=body, fontSize=12, leading=18,
+                             textColor='#126b74')
+    markdown = ['# 原论文逐页中文导读', '',
+                '左侧保留作者原文，中文侧栏是本项目学习批注；不是作者的说法或我们的实验结果。', '',
+                '原始文件：`3dgs_original.pdf`；批注版：`../output/pdf/3dgs_annotated_zh.pdf`。', '',
+                '下载来源与 SHA256 见 `paper_source.json`；重建批注需 `pypdf`、`reportlab`，运行 `python scripts/annotate_paper.py --font /path/to/ChineseFont.ttf`。Windows 默认使用宋体。字体以子集嵌入 PDF，不依赖阅读设备安装中文字体。', '']
+    for index, (page, (title, notes)) in enumerate(zip(reader.pages, NOTES), 1):
+        width, height = float(page.mediabox.width), float(page.mediabox.height)
+        side = 260
+        buffer = io.BytesIO()
+        c = canvas.Canvas(buffer, pagesize=(width + side, height))
+        c.setFillColorRGB(.95, .97, .98)
+        c.rect(width, 0, side, height, fill=1, stroke=0)
+        c.setFillColorRGB(.07, .42, .46)
+        c.rect(width, height - 13, side, 13, fill=1, stroke=0)
+        y = height - 38
+        def draw(text, style, gap):
+            nonlocal y
+            p = Paragraph(escape(text), style)
+            _, h = p.wrap(side-32, height)
+            y -= h
+            if y < 48:
+                raise ValueError(f'Notes overflow on page {index}')
+            p.drawOn(c, width+16, y)
+            y -= gap
+        draw(f'中文导读 / 原文第 {index} 页', heading, 10)
+        draw(title, heading, 18)
+        markdown.extend([f'## 第{index}页：{title}', ''])
+        for label, text in notes:
+            draw(label, heading, 3)
+            draw(text, body, 13)
+            markdown.extend([f'### {label}', '', text, ''])
+        c.setFont('ReadingChinese', 9)
+        c.setFillColorRGB(.35,.42,.46)
+        c.drawString(width+16, 25, f'学习批注 · 非作者原文 · {index}/14')
+        c.save()
+        overlay = PdfReader(buffer).pages[0]
+        page.mediabox.upper_right = (width+side, height)
+        page.cropbox.upper_right = (width+side, height)
+        page.merge_page(overlay)
+        writer.add_page(page)
+    writer.add_metadata({'/Title':'3D Gaussian Splatting - Chinese reading notes',
+                         '/Subject':'Original paper with separate visible educational annotations'})
+    dest = ROOT / 'output/pdf/3dgs_annotated_zh.pdf'
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    writer.write(dest)
+    (ROOT/'references/READING_NOTES.md').write_text('\n'.join(markdown), encoding='utf-8')
+    check = PdfReader(dest)
+    assert len(check.pages) == 14
+    for p in check.pages:
+        assert '中文导读' in p.extract_text()
+    print(f'Created {dest}; 14 pages, visible sidebars, original preserved.')
+
+if __name__ == '__main__':
+    main()
