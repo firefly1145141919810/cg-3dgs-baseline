@@ -86,6 +86,8 @@ python scripts/doctor.py
 
 ## 4 准备第一个场景
 
+下载脚本显示进度、速度与剩余时间，并自动尝试续传 `data/tandt_db.zip.part`。网络中断后重新运行同一命令即可，不要删除 `.part` 及其 `.part.json` 元数据，也不要同时启动两个下载进程。旧版本生成、没有元数据的 `.part` 也可尝试续传；下载完成会检查 ZIP CRC。服务器忽略 Range 或通过 If-Range 表示文件已变化时，会提示并从零下载，不会把完整响应追加到旧文件。若响应范围异常、版本不一致或 ZIP 校验失败，脚本停止并保留文件供排查；CRC 不是来源真实性校验。服务器未提供总大小时，只能显示已下载量和速度。
+
 第一轮使用作者提供的 COLMAP 预处理数据，省去原始照片重建问题。来源与条款：
 
 - 作者项目：https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/
