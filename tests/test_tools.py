@@ -1,5 +1,6 @@
 """Cloud/CI CPU tests for wrapper logic; no torch, CUDA, images or training."""
 import json
+import io
 from pathlib import Path
 import struct
 import sys
@@ -10,9 +11,23 @@ import zipfile
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from dataset import validate, binary_names
 from run import load_config, command
-from download_data import safe_extract
+from download_data import safe_extract, copy_download
 
 class ToolTests(unittest.TestCase):
+    def test_download_progress_and_length(self):
+        class Progress:
+            def __init__(self): self.count = 0
+            def update(self, size): self.count += size
+        payload = b'x' * (64 * 1024 + 9)
+        for total in (len(payload), None):
+            progress = Progress()
+            output = io.BytesIO()
+            copy_download(io.BytesIO(payload), output, progress, total)
+            self.assertEqual(output.getvalue(), payload)
+            self.assertEqual(progress.count, len(payload))
+        with self.assertRaisesRegex(OSError, 'Incomplete download'):
+            copy_download(io.BytesIO(b'x'), io.BytesIO(), Progress(), 10)
+
     def test_config_and_eval_flags(self):
         c=load_config('configs/train.json')
         self.assertEqual(c['iterations'],30000)
