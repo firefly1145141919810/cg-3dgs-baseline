@@ -20,8 +20,6 @@
 
 ## 云端快速入口
 
-先在 GitHub 给合作同学私有仓库访问权。SSH 克隆需要先配置自己的 SSH key，也可用 GitHub CLI 登录后通过 HTTPS 克隆。
-
 ```bash
 git clone git@github.com:firefly1145141919810/cg-3dgs-baseline.git
 cd cg-3dgs-baseline
