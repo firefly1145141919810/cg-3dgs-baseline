@@ -13,7 +13,7 @@
 | 第一阶段保留 100% 的参数与渲染检查 | 通过；云端记录38视角PNG像素完全一致 |
 | 第一阶段 opacity 保留 50% 的剪枝评测 | 已完成；约1.63倍渲染速度，PSNR下降2.3863 dB |
 | CUDA 可见贡献统计 | 后续开发，不在本轮代码中 |
-| 恢复训练与不剪枝继续训练对照 | 后续开发，不在本轮代码中 |
+| 恢复训练与不剪枝继续训练对照 | 第二阶段代码已实现，CPU检查通过，待云端20步冒烟和3k正式实验 |
 | truck 场景和多预算完整实验 | 后续实验 |
 
 本轮不需要重新训练 baseline、不更换 CUDA 扩展、不下载新权重。已有的 numpy、Pillow、plyfile 和 baseline 环境即可使用。准备阶段只处理 PLY；评测阶段在 GPU 节点调用原版渲染与评测程序。整个第一阶段没有梯度更新。
@@ -313,7 +313,7 @@ GPU节点离线时，不在GPU节点执行push。上传后告知“第一阶段�
 
 ### 下一步执行计划：先恢复，再改评分
 
-下一轮代码尚未实现，本节是开发与验收计划，不是可直接运行的命令。
+本节为第二阶段实验设计；对应代码已实现，运行命令见第13节。真实GPU训练尚未验证。
 
 1. 保留当前baseline、两个派生PLY、原始数据、配置和日志，不覆盖第一阶段结果。已提交的导出目录足够做本次图像与指标检查，不需要现在重跑。
 2. 新增独立恢复训练入口，从PLY加载全部参数并新建优化器，不把PLY当作包含优化器的checkpoint。先跑短冒烟测试，验证损失有限、能保存重载、渲染参数齐全、高斯数始终不变。
@@ -369,3 +369,146 @@ python scripts/compression_phase1.py export --experiment outputs/compression/tra
 - `scripts/compression_phase1.py`：准备、评测关卡、来源检查、结果与图像导出。
 - `tests/test_compression.py`：CPU合成数据与失败关卡测试。
 - 原版 `render.py`、`metrics.py` 与现有 `benchmark.py`：沿用统一评测路径，核心算法不改动。
+
+## 13 第二阶段：固定数量恢复训练代码与运行
+
+### 代码范围和四组对照
+
+`scripts/recovery_phase2.py` 提供prepare／train／evaluate／export；
+`scripts/recovery_train.py` 是独立训练入口，调用固定版本官方的模型、可微渲染器和损失函数，
+不修改vendor源码，不需要重新编译CUDA或联网安装依赖。
+
+| 名称 | 初始化 | 实际新增优化步数 | 正式最终PLY目录标号 |
+| --- | --- | --- | --- |
+| identity100 | 第一阶段identity100 | 0 | 30000 |
+| opacity50 | 第一阶段opacity50 | 0 | 30000 |
+| identity100_recovery | 第一阶段identity100 | 3000 | 33000 |
+| opacity50_recovery | 第一阶段opacity50 | 3000 | 33000 |
+
+两组训练均从PLY新建Adam优化器，并不是恢复baseline原有的Adam动量。
+每轮随机打乱训练视角后不放回抽取，种子固定为0；两组共享相同相机名称序列，
+评测前核对序列哈希。训练只访问训练相机，测试相机不用于损失、挑checkpoint或调学习率。
+GPU浮点计算不保证跨运行逐位确定，因此相同随机种子不等于完全确定性。
+
+损失固定为 `0.8 × L1 + 0.2 × (1 - SSIM)`。完整SH3从第一步启用，
+位置、颜色SH、opacity、尺度、旋转都可优化；高斯数量不变。
+不调用增密、自动删除、透明度重置和SH逐级开启。
+每一步都执行优化器更新，包括第3000步，然后才保存最终模型。
+
+### 学习率预设（并未根据测试分数调优）
+
+| 参数组 | 学习率 |
+| --- | --- |
+| xyz位置 | 常数 `1.6e-6 × cameras_extent` |
+| SH直流颜色 | 0.00025 |
+| SH其余系数 | 0.0000125（直流的1/20） |
+| opacity原始参数 | 0.005 |
+| 对数尺度 | 0.0005 |
+| 旋转四元数 | 0.0001 |
+
+Adam使用`eps=1e-15`，其余默认参数沿用官方训练设置。位置使用baseline训练末期的
+学习率，其他组使用官方默认值的十分之一，作为预先固定的保守恢复方案；
+这不是已证实的最佳超参数，也不保证恢复到0.5 dB以内。
+
+关键工程细节：官方`load_ply`不会恢复`spatial_lr_scale`，
+所以显式将其设为场景的`cameras_extent`。否则位置学习率会乘以默认0而停止更新。
+模型报告会记录实际学习率和空间尺度。
+
+### 运行前提
+
+保留baseline完整输出、数据、已成功评测的`outputs/compression/train_phase1_v2`。
+默认parent就是这个目录；若你实际使用不同目录，prepare时明确传入`--parent`。
+第二阶段会验证第一阶段的代码、输入及评测产物哈希，不能只从Git导出的六张图重建训练。
+本次未改动第一阶段脚本，原有哈希应继续匹配。
+
+准备额外至少10 GiB可用磁盘空间作为保守预留：四组初始PLY、两组最终PLY、
+含Adam状态的断点、断点写入临时副本、四组完整渲染图和日志都在outputs。
+实际占用随模型和图片大小变化。不要将这些大文件强制加入Git。
+训练图片保留在CPU，每步仅选定GT转到GPU，仍需足够主机内存。
+
+登录节点更新（仓库根目录）：
+
+```bash
+git pull --ff-only
+conda activate cg3dgs
+python -m unittest discover -s tests -v
+```
+
+所有后续GPU操作均在有效GPU作业分配内进行，不能直接在登录节点训练。
+
+### 先跑20步冒烟测试
+
+在GPU节点、仓库根目录：
+
+```bash
+conda activate cg3dgs
+export CUDA_HOME="$CONDA_PREFIX"
+export PATH="$CUDA_HOME/bin:$PATH"
+export TORCH_HOME="$PWD/data/torch-cache"
+python scripts/doctor.py
+
+python scripts/recovery_phase2.py prepare \
+  --experiment outputs/compression/train_recovery_smoke20 --steps 20
+python scripts/recovery_phase2.py train \
+  --experiment outputs/compression/train_recovery_smoke20
+python scripts/recovery_phase2.py evaluate \
+  --experiment outputs/compression/train_recovery_smoke20
+```
+
+冒烟测试也完整渲染／评测四组，因而评测耗时可能超过20步训练本身。
+目的是验证反向传播、保存重载、模型数量、旧对照图像一致性和指标链路；
+不要求20步就有质量提升。协议中的`formal: false`防止把它误当正式结果。
+全部成功后，继续以下正式实验；如果报错，保留日志排查，不要跳过检查。
+
+### 正式3,000步实验
+
+```bash
+python scripts/recovery_phase2.py prepare
+python scripts/recovery_phase2.py train
+python scripts/recovery_phase2.py evaluate
+python scripts/recovery_phase2.py export --name train-recovery3k-first
+```
+
+逐条执行，上一条成功才执行下一条。默认目录为
+`outputs/compression/train_recovery_3k`。正式实验重新从第一阶段PLY开始，
+不接着20步冒烟模型继续训练，避免训练预算混淆。
+train顺序执行两个恢复模型，不同时占用GPU；evaluate对四组重新计时，
+并核对两组未训练对照的PNG仍与第一阶段完全一致。
+脚本不自动挑选PSNR最高的训练中间点，正式评测固定最终3000步。
+
+### 中断与续跑
+
+每500步以及最后一步保存本脚本专用的`recovery_checkpoint.pth`，
+包含模型、Adam状态、随机状态、已完成步数、损失记录和实验哈希。
+先写临时文件，再替换旧断点；中断后重新执行同一个train命令即可。
+若尚未到第一次保存，则从初始PLY重新开始。已完成且哈希通过的训练组自动跳过。
+断点只加载本脚本在可信本地outputs中生成的文件；不要下载并加载来路不明的pth。
+训练步数记录的是累计优化次数，不会把恢复后执行的第一步重复计数。
+断点续跑的GPU数值结果仍不承诺逐位一致。
+
+不要对同一实验目录同时运行多个train/evaluate，也不要在实验进行中更新代码。
+更新相关代码会触发哈希保护，应保留旧目录并建立新实验；不手改哈希。
+评测中断可单独重跑evaluate，不需要重新训练；旧指标会保留带时间戳的备份。
+prepare拒绝覆盖已有目录。新实验使用新目录名，并在后续各命令带相同`--experiment`。
+
+### 上传与验收
+
+成功导出后，在联网登录节点执行：
+
+```bash
+git add results/train-recovery3k-first
+git commit -m "Add fixed-count recovery results"
+git push origin main
+```
+
+导出包含四组指标、逐视角分数、计时、固定六视角渲染、GT、训练损失轨迹、
+训练耗时和学习率；不包含PLY或优化器断点。训练耗时排除断点写入，
+也不包含场景加载、最终PLY保存和评测，不能当作端到端作业时长。
+
+验收首先确认两组恢复的数量仍分别为1,082,124和541,062、优化步数恰为3000、
+相机序列一致，且全部指标有限。然后比较opacity50恢复前后、恢复后与原模型、
+恢复后与未剪枝同预算优化。只有这些结果返回，才能判断是否恢复有效。
+
+本地验证范围：24项CPU测试通过，涵盖固定抽样序列、预算校验、无拓扑修改调用、
+模拟四组prepare/evaluate/export及产物篡改拦截；静态解析通过。
+测试不执行CUDA反向传播或真实优化器断点恢复，二者仍需云端验证。
