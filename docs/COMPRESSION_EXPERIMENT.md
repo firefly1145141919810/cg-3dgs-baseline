@@ -1116,3 +1116,38 @@ git push origin main
 新增检查包括预算合法性、嵌套选择、62字段逐项保存、三组初始化对应、
 索引篡改拒绝、模拟六组评测导出，以及恢复训练函数与已验证版本的AST一致性。
 这些检查不等于新增预算已完成GPU验证。
+
+### 使用Slurm提交本轮正式任务
+
+已通过冒烟后，可在联网登录节点的仓库根目录执行：
+
+```bash
+git pull --ff-only
+mkdir -p logs
+sbatch exp.slurm
+```
+
+`logs`必须在提交前创建，脚本内创建来不及供Slurm打开输出文件。
+日志为`logs/3dgs-phase5-作业号.out`和对应的`.err`，已经加入`.gitignore`。
+脚本保留上传示例的工作目录、分区、GPU和48小时时限配置，
+串行执行train70%、train30%、truck70%、truck30%，每项完成后导出；
+遇到错误立即终止，不会在GPU节点联网或推送Git。
+
+脚本只初始化当前shell的Conda环境，不运行会修改启动配置的`conda init`。
+不使用`mpirun`或多进程`srun`，避免按示例的8个task启动8份相同实验。
+
+导出名附带Slurm作业号，例如`results/train-budget70-recovery3k-job12345`，
+因此**不要使用上一节的first目录名提交本次结果**。所有任务完成后，在登录节点
+将下面的12345换为实际作业号：
+
+```bash
+git add results/train-budget70-recovery3k-job12345 results/train-budget30-recovery3k-job12345 \
+        results/truck-budget70-recovery3k-job12345 results/truck-budget30-recovery3k-job12345
+git commit -m "Add Slurm multi-budget results"
+git push origin main
+```
+
+若中途失败或超时，检查日志后可仅续跑一个场景/预算，例如：
+`sbatch exp.slurm truck 0.3`。已验证完成的训练组跳过，未完成组按已有断点续跑，
+评测与计时会重新执行，导出使用新作业号。不要同时提交会写入同一实验目录的任务。
+提交后可退出SSH；具体运行状态与时限仍由集群Slurm管理。

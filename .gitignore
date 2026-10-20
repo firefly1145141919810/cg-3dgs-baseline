@@ -6,6 +6,7 @@ __pycache__/
 .env.*
 data/
 outputs/
+logs/
 archives/
 tmp/
 *.pth
