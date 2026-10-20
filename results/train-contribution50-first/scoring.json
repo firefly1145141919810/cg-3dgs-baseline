@@ -1,0 +1,2121 @@
+{
+  "complete": true,
+  "manifest_sha256": "f31c8ca52ff8b895c71fed0baecf3942361705ceab0423ce2010f314a1d61c4c",
+  "scores_sha256": "fea3d810e97b641eab96a450d679982b3cc52456f219bdc30b6f539829d1d387",
+  "source_ply_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+  "views": [
+    {
+      "train_index": 0,
+      "camera": "00002",
+      "weight_sum": 0.9926255941390991,
+      "coverage": 0.992626428604126,
+      "width": 980,
+      "height": 545,
+      "finite_difference": 0.07738471031188965,
+      "predicted_derivative": 0.07738526910543442
+    },
+    {
+      "train_index": 1,
+      "camera": "00003",
+      "weight_sum": 0.9924926161766052,
+      "coverage": 0.9924920201301575,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 2,
+      "camera": "00004",
+      "weight_sum": 0.9942119121551514,
+      "coverage": 0.99421226978302,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 3,
+      "camera": "00005",
+      "weight_sum": 0.9885053038597107,
+      "coverage": 0.9885059595108032,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 4,
+      "camera": "00006",
+      "weight_sum": 0.9855985641479492,
+      "coverage": 0.9855991005897522,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 5,
+      "camera": "00007",
+      "weight_sum": 0.985180139541626,
+      "coverage": 0.9851806163787842,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 6,
+      "camera": "00008",
+      "weight_sum": 0.9856489300727844,
+      "coverage": 0.9856493473052979,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 7,
+      "camera": "00010",
+      "weight_sum": 0.9858647584915161,
+      "coverage": 0.9858651161193848,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 8,
+      "camera": "00011",
+      "weight_sum": 0.9808798432350159,
+      "coverage": 0.9808804392814636,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 9,
+      "camera": "00012",
+      "weight_sum": 0.982894241809845,
+      "coverage": 0.9828943610191345,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 10,
+      "camera": "00013",
+      "weight_sum": 0.9885114431381226,
+      "coverage": 0.9885118007659912,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 11,
+      "camera": "00014",
+      "weight_sum": 0.9963685870170593,
+      "coverage": 0.9963687658309937,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 12,
+      "camera": "00015",
+      "weight_sum": 0.9987912178039551,
+      "coverage": 0.9987922310829163,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 13,
+      "camera": "00016",
+      "weight_sum": 0.998188853263855,
+      "coverage": 0.9981899261474609,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 14,
+      "camera": "00018",
+      "weight_sum": 0.9975624084472656,
+      "coverage": 0.9975637793540955,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 15,
+      "camera": "00019",
+      "weight_sum": 0.9978637099266052,
+      "coverage": 0.9978649020195007,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 16,
+      "camera": "00020",
+      "weight_sum": 0.9982345700263977,
+      "coverage": 0.9982360601425171,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 17,
+      "camera": "00021",
+      "weight_sum": 0.9980418086051941,
+      "coverage": 0.9980427026748657,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 18,
+      "camera": "00022",
+      "weight_sum": 0.9969238042831421,
+      "coverage": 0.9969248175621033,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 19,
+      "camera": "00023",
+      "weight_sum": 0.9939984083175659,
+      "coverage": 0.9939989447593689,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 20,
+      "camera": "00024",
+      "weight_sum": 0.9913914799690247,
+      "coverage": 0.9913926124572754,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 21,
+      "camera": "00026",
+      "weight_sum": 0.9888902306556702,
+      "coverage": 0.9888908267021179,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 22,
+      "camera": "00027",
+      "weight_sum": 0.9931396245956421,
+      "coverage": 0.993140697479248,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 23,
+      "camera": "00028",
+      "weight_sum": 0.9914134740829468,
+      "coverage": 0.9914141893386841,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 24,
+      "camera": "00029",
+      "weight_sum": 0.9989615678787231,
+      "coverage": 0.9989628791809082,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 25,
+      "camera": "00030",
+      "weight_sum": 0.994194507598877,
+      "coverage": 0.9941951632499695,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 26,
+      "camera": "00031",
+      "weight_sum": 0.9920960664749146,
+      "coverage": 0.9920967817306519,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 27,
+      "camera": "00032",
+      "weight_sum": 0.9917039275169373,
+      "coverage": 0.991704523563385,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 28,
+      "camera": "00034",
+      "weight_sum": 0.9883798360824585,
+      "coverage": 0.9883804321289062,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 29,
+      "camera": "00035",
+      "weight_sum": 0.988972544670105,
+      "coverage": 0.9889730215072632,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 30,
+      "camera": "00036",
+      "weight_sum": 0.9895166158676147,
+      "coverage": 0.9895169734954834,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 31,
+      "camera": "00037",
+      "weight_sum": 0.9891880750656128,
+      "coverage": 0.9891887903213501,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 32,
+      "camera": "00038",
+      "weight_sum": 0.9897868633270264,
+      "coverage": 0.9897874593734741,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 33,
+      "camera": "00039",
+      "weight_sum": 0.9897498488426208,
+      "coverage": 0.9897503852844238,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 34,
+      "camera": "00040",
+      "weight_sum": 0.9903860092163086,
+      "coverage": 0.9903863668441772,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 35,
+      "camera": "00042",
+      "weight_sum": 0.9884151220321655,
+      "coverage": 0.988415539264679,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 36,
+      "camera": "00043",
+      "weight_sum": 0.9846929311752319,
+      "coverage": 0.9846930503845215,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 37,
+      "camera": "00044",
+      "weight_sum": 0.9858066439628601,
+      "coverage": 0.9858070015907288,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 38,
+      "camera": "00045",
+      "weight_sum": 0.9904930591583252,
+      "coverage": 0.9904932379722595,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 39,
+      "camera": "00046",
+      "weight_sum": 0.9883010983467102,
+      "coverage": 0.9883012771606445,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 40,
+      "camera": "00047",
+      "weight_sum": 0.9849334359169006,
+      "coverage": 0.9849337339401245,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 41,
+      "camera": "00048",
+      "weight_sum": 0.9841896295547485,
+      "coverage": 0.9841898679733276,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 42,
+      "camera": "00050",
+      "weight_sum": 0.9889799356460571,
+      "coverage": 0.9889801740646362,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 43,
+      "camera": "00051",
+      "weight_sum": 0.9866614937782288,
+      "coverage": 0.9866614937782288,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 44,
+      "camera": "00052",
+      "weight_sum": 0.9919397234916687,
+      "coverage": 0.991939902305603,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 45,
+      "camera": "00053",
+      "weight_sum": 0.9902560114860535,
+      "coverage": 0.990256130695343,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 46,
+      "camera": "00054",
+      "weight_sum": 0.9862388372421265,
+      "coverage": 0.9862394332885742,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 47,
+      "camera": "00055",
+      "weight_sum": 0.9864954352378845,
+      "coverage": 0.9864957928657532,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 48,
+      "camera": "00056",
+      "weight_sum": 0.9859437346458435,
+      "coverage": 0.9859440922737122,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 49,
+      "camera": "00058",
+      "weight_sum": 0.9900304079055786,
+      "coverage": 0.990030825138092,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 50,
+      "camera": "00059",
+      "weight_sum": 0.9915427565574646,
+      "coverage": 0.9915433526039124,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 51,
+      "camera": "00060",
+      "weight_sum": 0.9920163154602051,
+      "coverage": 0.9920169115066528,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 52,
+      "camera": "00061",
+      "weight_sum": 0.9923034906387329,
+      "coverage": 0.9923039078712463,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 53,
+      "camera": "00062",
+      "weight_sum": 0.9935680627822876,
+      "coverage": 0.9935688972473145,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 54,
+      "camera": "00063",
+      "weight_sum": 0.9943946003913879,
+      "coverage": 0.9943951964378357,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 55,
+      "camera": "00064",
+      "weight_sum": 0.9952383041381836,
+      "coverage": 0.9952391386032104,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 56,
+      "camera": "00066",
+      "weight_sum": 0.9937382340431213,
+      "coverage": 0.993739128112793,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 57,
+      "camera": "00067",
+      "weight_sum": 0.9927390813827515,
+      "coverage": 0.9927402138710022,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 58,
+      "camera": "00068",
+      "weight_sum": 0.9972308874130249,
+      "coverage": 0.9972316026687622,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 59,
+      "camera": "00069",
+      "weight_sum": 0.9958081245422363,
+      "coverage": 0.9958088994026184,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 60,
+      "camera": "00070",
+      "weight_sum": 0.9920749068260193,
+      "coverage": 0.99207603931427,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 61,
+      "camera": "00071",
+      "weight_sum": 0.9862167835235596,
+      "coverage": 0.986217737197876,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 62,
+      "camera": "00072",
+      "weight_sum": 0.9930837750434875,
+      "coverage": 0.9930844306945801,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 63,
+      "camera": "00074",
+      "weight_sum": 0.9925613403320312,
+      "coverage": 0.9925617575645447,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 64,
+      "camera": "00075",
+      "weight_sum": 0.993461549282074,
+      "coverage": 0.9934618473052979,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 65,
+      "camera": "00076",
+      "weight_sum": 0.9897783994674683,
+      "coverage": 0.9897776246070862,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 66,
+      "camera": "00077",
+      "weight_sum": 0.9870693683624268,
+      "coverage": 0.9870700240135193,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 67,
+      "camera": "00078",
+      "weight_sum": 0.9846903681755066,
+      "coverage": 0.9846908450126648,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 68,
+      "camera": "00079",
+      "weight_sum": 0.9694045782089233,
+      "coverage": 0.969405472278595,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 69,
+      "camera": "00080",
+      "weight_sum": 0.9643360376358032,
+      "coverage": 0.9643352031707764,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 70,
+      "camera": "00082",
+      "weight_sum": 0.9650454521179199,
+      "coverage": 0.9650452733039856,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 71,
+      "camera": "00083",
+      "weight_sum": 0.9624332189559937,
+      "coverage": 0.9624328017234802,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 72,
+      "camera": "00084",
+      "weight_sum": 0.9628525972366333,
+      "coverage": 0.9628511071205139,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 73,
+      "camera": "00085",
+      "weight_sum": 0.9576929807662964,
+      "coverage": 0.9576940536499023,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 74,
+      "camera": "00086",
+      "weight_sum": 0.9622206687927246,
+      "coverage": 0.9622223973274231,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 75,
+      "camera": "00087",
+      "weight_sum": 0.9681721329689026,
+      "coverage": 0.9681730270385742,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 76,
+      "camera": "00088",
+      "weight_sum": 0.9835019111633301,
+      "coverage": 0.9835028648376465,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 77,
+      "camera": "00090",
+      "weight_sum": 0.9879169464111328,
+      "coverage": 0.9879173040390015,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 78,
+      "camera": "00091",
+      "weight_sum": 0.9783841371536255,
+      "coverage": 0.9783852696418762,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 79,
+      "camera": "00092",
+      "weight_sum": 0.9771387577056885,
+      "coverage": 0.977139949798584,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 80,
+      "camera": "00093",
+      "weight_sum": 0.9695595502853394,
+      "coverage": 0.9695603251457214,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 81,
+      "camera": "00094",
+      "weight_sum": 0.974245548248291,
+      "coverage": 0.9742462038993835,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 82,
+      "camera": "00095",
+      "weight_sum": 0.9649452567100525,
+      "coverage": 0.9649467468261719,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 83,
+      "camera": "00096",
+      "weight_sum": 0.9670441746711731,
+      "coverage": 0.9670463800430298,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 84,
+      "camera": "00098",
+      "weight_sum": 0.9727311134338379,
+      "coverage": 0.9727327227592468,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 85,
+      "camera": "00099",
+      "weight_sum": 0.9748354554176331,
+      "coverage": 0.9748368859291077,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 86,
+      "camera": "00100",
+      "weight_sum": 0.9729541540145874,
+      "coverage": 0.9729560017585754,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 87,
+      "camera": "00101",
+      "weight_sum": 0.9757223725318909,
+      "coverage": 0.9757251739501953,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 88,
+      "camera": "00102",
+      "weight_sum": 0.9791272878646851,
+      "coverage": 0.9791319966316223,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 89,
+      "camera": "00103",
+      "weight_sum": 0.9804379940032959,
+      "coverage": 0.980442225933075,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 90,
+      "camera": "00104",
+      "weight_sum": 0.9827650785446167,
+      "coverage": 0.9827689528465271,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 91,
+      "camera": "00106",
+      "weight_sum": 0.9804696440696716,
+      "coverage": 0.9804744124412537,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 92,
+      "camera": "00107",
+      "weight_sum": 0.9825645685195923,
+      "coverage": 0.9825677275657654,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 93,
+      "camera": "00108",
+      "weight_sum": 0.985427737236023,
+      "coverage": 0.9854313135147095,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 94,
+      "camera": "00109",
+      "weight_sum": 0.987544059753418,
+      "coverage": 0.9875461459159851,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 95,
+      "camera": "00110",
+      "weight_sum": 0.9887217283248901,
+      "coverage": 0.9887228012084961,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 96,
+      "camera": "00111",
+      "weight_sum": 0.9895250797271729,
+      "coverage": 0.9895262122154236,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 97,
+      "camera": "00112",
+      "weight_sum": 0.9906924366950989,
+      "coverage": 0.9906938672065735,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 98,
+      "camera": "00114",
+      "weight_sum": 0.9913513660430908,
+      "coverage": 0.9913513660430908,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 99,
+      "camera": "00115",
+      "weight_sum": 0.988764762878418,
+      "coverage": 0.988765299320221,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 100,
+      "camera": "00116",
+      "weight_sum": 0.979106068611145,
+      "coverage": 0.9791064858436584,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 101,
+      "camera": "00117",
+      "weight_sum": 0.9764904975891113,
+      "coverage": 0.9764910936355591,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 102,
+      "camera": "00118",
+      "weight_sum": 0.977868914604187,
+      "coverage": 0.9778690338134766,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 103,
+      "camera": "00119",
+      "weight_sum": 0.9782798290252686,
+      "coverage": 0.9782804250717163,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 104,
+      "camera": "00120",
+      "weight_sum": 0.9802614450454712,
+      "coverage": 0.9802619814872742,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 105,
+      "camera": "00122",
+      "weight_sum": 0.9830232858657837,
+      "coverage": 0.9830238223075867,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 106,
+      "camera": "00123",
+      "weight_sum": 0.9877240657806396,
+      "coverage": 0.9877248406410217,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 107,
+      "camera": "00124",
+      "weight_sum": 0.989254355430603,
+      "coverage": 0.9892550706863403,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 108,
+      "camera": "00125",
+      "weight_sum": 0.9950698614120483,
+      "coverage": 0.9950700998306274,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 109,
+      "camera": "00126",
+      "weight_sum": 0.9936510324478149,
+      "coverage": 0.9936509728431702,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 110,
+      "camera": "00127",
+      "weight_sum": 0.9842360019683838,
+      "coverage": 0.9842365384101868,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 111,
+      "camera": "00128",
+      "weight_sum": 0.9817667603492737,
+      "coverage": 0.9817671775817871,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 112,
+      "camera": "00130",
+      "weight_sum": 0.97735595703125,
+      "coverage": 0.9773561954498291,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 113,
+      "camera": "00131",
+      "weight_sum": 0.9796351790428162,
+      "coverage": 0.9796361327171326,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 114,
+      "camera": "00132",
+      "weight_sum": 0.9787567257881165,
+      "coverage": 0.978756844997406,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 115,
+      "camera": "00133",
+      "weight_sum": 0.9790831804275513,
+      "coverage": 0.9790835976600647,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 116,
+      "camera": "00134",
+      "weight_sum": 0.9792138338088989,
+      "coverage": 0.9792138338088989,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 117,
+      "camera": "00135",
+      "weight_sum": 0.9766353964805603,
+      "coverage": 0.9766346216201782,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 118,
+      "camera": "00136",
+      "weight_sum": 0.9707554578781128,
+      "coverage": 0.9707554578781128,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 119,
+      "camera": "00138",
+      "weight_sum": 0.9669952392578125,
+      "coverage": 0.9669952392578125,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 120,
+      "camera": "00139",
+      "weight_sum": 0.9633171558380127,
+      "coverage": 0.9633172154426575,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 121,
+      "camera": "00140",
+      "weight_sum": 0.9566223621368408,
+      "coverage": 0.9566225409507751,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 122,
+      "camera": "00141",
+      "weight_sum": 0.9516233801841736,
+      "coverage": 0.9516235589981079,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 123,
+      "camera": "00142",
+      "weight_sum": 0.9469243288040161,
+      "coverage": 0.9469246864318848,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 124,
+      "camera": "00143",
+      "weight_sum": 0.9433708786964417,
+      "coverage": 0.9433711767196655,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 125,
+      "camera": "00144",
+      "weight_sum": 0.9515205025672913,
+      "coverage": 0.9515207409858704,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 126,
+      "camera": "00146",
+      "weight_sum": 0.9808332324028015,
+      "coverage": 0.9808333516120911,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 127,
+      "camera": "00147",
+      "weight_sum": 0.9877005219459534,
+      "coverage": 0.9877009391784668,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 128,
+      "camera": "00148",
+      "weight_sum": 0.9893286824226379,
+      "coverage": 0.9893290400505066,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 129,
+      "camera": "00149",
+      "weight_sum": 0.9936812520027161,
+      "coverage": 0.9936818480491638,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 130,
+      "camera": "00150",
+      "weight_sum": 0.9926603436470032,
+      "coverage": 0.9926609992980957,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 131,
+      "camera": "00151",
+      "weight_sum": 0.9877719283103943,
+      "coverage": 0.9877728223800659,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 132,
+      "camera": "00152",
+      "weight_sum": 0.9870796203613281,
+      "coverage": 0.9870803952217102,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 133,
+      "camera": "00154",
+      "weight_sum": 0.9721699953079224,
+      "coverage": 0.9721705317497253,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 134,
+      "camera": "00155",
+      "weight_sum": 0.9683722853660583,
+      "coverage": 0.9683727622032166,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 135,
+      "camera": "00156",
+      "weight_sum": 0.9681501388549805,
+      "coverage": 0.96815025806427,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 136,
+      "camera": "00157",
+      "weight_sum": 0.9746389389038086,
+      "coverage": 0.9746389985084534,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 137,
+      "camera": "00158",
+      "weight_sum": 0.9751449227333069,
+      "coverage": 0.9751452207565308,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 138,
+      "camera": "00159",
+      "weight_sum": 0.9741173982620239,
+      "coverage": 0.9741179943084717,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 139,
+      "camera": "00160",
+      "weight_sum": 0.9741122126579285,
+      "coverage": 0.9741125106811523,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 140,
+      "camera": "00162",
+      "weight_sum": 0.9711203575134277,
+      "coverage": 0.9711207747459412,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 141,
+      "camera": "00163",
+      "weight_sum": 0.97107994556427,
+      "coverage": 0.9710803627967834,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 142,
+      "camera": "00164",
+      "weight_sum": 0.974959671497345,
+      "coverage": 0.9749600887298584,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 143,
+      "camera": "00165",
+      "weight_sum": 0.9741559028625488,
+      "coverage": 0.9741561412811279,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 144,
+      "camera": "00166",
+      "weight_sum": 0.9776947498321533,
+      "coverage": 0.9776950478553772,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 145,
+      "camera": "00167",
+      "weight_sum": 0.981417179107666,
+      "coverage": 0.9814175963401794,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 146,
+      "camera": "00168",
+      "weight_sum": 0.9828692674636841,
+      "coverage": 0.982869565486908,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 147,
+      "camera": "00170",
+      "weight_sum": 0.9874481558799744,
+      "coverage": 0.9874464273452759,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 148,
+      "camera": "00171",
+      "weight_sum": 0.9841336607933044,
+      "coverage": 0.9841340184211731,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 149,
+      "camera": "00172",
+      "weight_sum": 0.9835597276687622,
+      "coverage": 0.9835595488548279,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 150,
+      "camera": "00173",
+      "weight_sum": 0.9874848127365112,
+      "coverage": 0.9874852895736694,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 151,
+      "camera": "00174",
+      "weight_sum": 0.9933509230613708,
+      "coverage": 0.993351399898529,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 152,
+      "camera": "00175",
+      "weight_sum": 0.9956709146499634,
+      "coverage": 0.995671808719635,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 153,
+      "camera": "00176",
+      "weight_sum": 0.9989306926727295,
+      "coverage": 0.9989326596260071,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 154,
+      "camera": "00178",
+      "weight_sum": 0.9985071420669556,
+      "coverage": 0.9985092282295227,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 155,
+      "camera": "00179",
+      "weight_sum": 0.9992817640304565,
+      "coverage": 0.9992824196815491,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 156,
+      "camera": "00180",
+      "weight_sum": 0.9996287822723389,
+      "coverage": 0.9996306300163269,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 157,
+      "camera": "00181",
+      "weight_sum": 0.9994246959686279,
+      "coverage": 0.999427318572998,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 158,
+      "camera": "00182",
+      "weight_sum": 0.9995298385620117,
+      "coverage": 0.9995320439338684,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 159,
+      "camera": "00183",
+      "weight_sum": 0.9995592832565308,
+      "coverage": 0.9995618462562561,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 160,
+      "camera": "00184",
+      "weight_sum": 0.9959943890571594,
+      "coverage": 0.9959951043128967,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 161,
+      "camera": "00186",
+      "weight_sum": 0.9903358221054077,
+      "coverage": 0.9903374910354614,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 162,
+      "camera": "00187",
+      "weight_sum": 0.9922993779182434,
+      "coverage": 0.9923014640808105,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 163,
+      "camera": "00188",
+      "weight_sum": 0.9925005435943604,
+      "coverage": 0.9925026297569275,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 164,
+      "camera": "00189",
+      "weight_sum": 0.9926910996437073,
+      "coverage": 0.9926921725273132,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 165,
+      "camera": "00190",
+      "weight_sum": 0.9929853081703186,
+      "coverage": 0.9929861426353455,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 166,
+      "camera": "00191",
+      "weight_sum": 0.9943838119506836,
+      "coverage": 0.9943857789039612,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 167,
+      "camera": "00192",
+      "weight_sum": 0.9979920983314514,
+      "coverage": 0.9979934692382812,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 168,
+      "camera": "00194",
+      "weight_sum": 0.9993264675140381,
+      "coverage": 0.9993270039558411,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 169,
+      "camera": "00195",
+      "weight_sum": 0.991744339466095,
+      "coverage": 0.9917446374893188,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 170,
+      "camera": "00196",
+      "weight_sum": 0.9853780269622803,
+      "coverage": 0.9853785037994385,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 171,
+      "camera": "00197",
+      "weight_sum": 0.9899721145629883,
+      "coverage": 0.9899731278419495,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 172,
+      "camera": "00198",
+      "weight_sum": 0.9898446798324585,
+      "coverage": 0.9898455142974854,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 173,
+      "camera": "00199",
+      "weight_sum": 0.9926154613494873,
+      "coverage": 0.9926163554191589,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 174,
+      "camera": "00200",
+      "weight_sum": 0.9949959516525269,
+      "coverage": 0.9949960708618164,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 175,
+      "camera": "00202",
+      "weight_sum": 0.9947677850723267,
+      "coverage": 0.9947683215141296,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 176,
+      "camera": "00203",
+      "weight_sum": 0.9938879013061523,
+      "coverage": 0.993887722492218,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 177,
+      "camera": "00204",
+      "weight_sum": 0.9853876829147339,
+      "coverage": 0.9853881597518921,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 178,
+      "camera": "00205",
+      "weight_sum": 0.9796978235244751,
+      "coverage": 0.979699432849884,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 179,
+      "camera": "00206",
+      "weight_sum": 0.9683405160903931,
+      "coverage": 0.9683424234390259,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 180,
+      "camera": "00207",
+      "weight_sum": 0.9698538780212402,
+      "coverage": 0.9698554873466492,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 181,
+      "camera": "00208",
+      "weight_sum": 0.9644441604614258,
+      "coverage": 0.9644449949264526,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 182,
+      "camera": "00210",
+      "weight_sum": 0.9595985412597656,
+      "coverage": 0.959597110748291,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 183,
+      "camera": "00211",
+      "weight_sum": 0.9555560946464539,
+      "coverage": 0.9555557370185852,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 184,
+      "camera": "00212",
+      "weight_sum": 0.9466614127159119,
+      "coverage": 0.9466614723205566,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 185,
+      "camera": "00213",
+      "weight_sum": 0.9225279092788696,
+      "coverage": 0.9225279092788696,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 186,
+      "camera": "00214",
+      "weight_sum": 0.9245336651802063,
+      "coverage": 0.9245340824127197,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 187,
+      "camera": "00215",
+      "weight_sum": 0.9336789846420288,
+      "coverage": 0.9336792230606079,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 188,
+      "camera": "00216",
+      "weight_sum": 0.9405379295349121,
+      "coverage": 0.9405381679534912,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 189,
+      "camera": "00218",
+      "weight_sum": 0.9453631639480591,
+      "coverage": 0.9453636407852173,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 190,
+      "camera": "00219",
+      "weight_sum": 0.9580562114715576,
+      "coverage": 0.9580569863319397,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 191,
+      "camera": "00220",
+      "weight_sum": 0.9685294032096863,
+      "coverage": 0.9685308337211609,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 192,
+      "camera": "00221",
+      "weight_sum": 0.9797748327255249,
+      "coverage": 0.9797766804695129,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 193,
+      "camera": "00222",
+      "weight_sum": 0.9835140705108643,
+      "coverage": 0.9835158586502075,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 194,
+      "camera": "00223",
+      "weight_sum": 0.9810556769371033,
+      "coverage": 0.9810570478439331,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 195,
+      "camera": "00224",
+      "weight_sum": 0.9879181981086731,
+      "coverage": 0.9879202246665955,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 196,
+      "camera": "00226",
+      "weight_sum": 0.9955896735191345,
+      "coverage": 0.9955927729606628,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 197,
+      "camera": "00227",
+      "weight_sum": 0.9944298267364502,
+      "coverage": 0.9944310188293457,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 198,
+      "camera": "00228",
+      "weight_sum": 0.9938125610351562,
+      "coverage": 0.9938111901283264,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 199,
+      "camera": "00229",
+      "weight_sum": 0.9922186136245728,
+      "coverage": 0.992216944694519,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 200,
+      "camera": "00230",
+      "weight_sum": 0.9972988367080688,
+      "coverage": 0.9973018169403076,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 201,
+      "camera": "00231",
+      "weight_sum": 0.9975243210792542,
+      "coverage": 0.9975242018699646,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 202,
+      "camera": "00232",
+      "weight_sum": 0.9972344636917114,
+      "coverage": 0.9972356557846069,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 203,
+      "camera": "00234",
+      "weight_sum": 0.9996740818023682,
+      "coverage": 0.9996724724769592,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 204,
+      "camera": "00235",
+      "weight_sum": 0.9995757341384888,
+      "coverage": 0.9995764493942261,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 205,
+      "camera": "00236",
+      "weight_sum": 0.9984942674636841,
+      "coverage": 0.9984952211380005,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 206,
+      "camera": "00237",
+      "weight_sum": 0.9965983629226685,
+      "coverage": 0.9965993165969849,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 207,
+      "camera": "00238",
+      "weight_sum": 0.99505615234375,
+      "coverage": 0.9950575828552246,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 208,
+      "camera": "00239",
+      "weight_sum": 0.9932953119277954,
+      "coverage": 0.9932956695556641,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 209,
+      "camera": "00240",
+      "weight_sum": 0.9918578863143921,
+      "coverage": 0.9918592572212219,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 210,
+      "camera": "00242",
+      "weight_sum": 0.9970887899398804,
+      "coverage": 0.9970894455909729,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 211,
+      "camera": "00243",
+      "weight_sum": 0.9995097517967224,
+      "coverage": 0.9995100498199463,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 212,
+      "camera": "00244",
+      "weight_sum": 0.9992345571517944,
+      "coverage": 0.9992358684539795,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 213,
+      "camera": "00245",
+      "weight_sum": 0.9982612133026123,
+      "coverage": 0.9982649683952332,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 214,
+      "camera": "00246",
+      "weight_sum": 0.9982104301452637,
+      "coverage": 0.9982091784477234,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 215,
+      "camera": "00247",
+      "weight_sum": 0.9973767399787903,
+      "coverage": 0.997378408908844,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 216,
+      "camera": "00248",
+      "weight_sum": 0.9954833388328552,
+      "coverage": 0.9954848885536194,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 217,
+      "camera": "00250",
+      "weight_sum": 0.9949687123298645,
+      "coverage": 0.9949700832366943,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 218,
+      "camera": "00251",
+      "weight_sum": 0.989456832408905,
+      "coverage": 0.9894577860832214,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 219,
+      "camera": "00252",
+      "weight_sum": 0.9879361987113953,
+      "coverage": 0.9879339933395386,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 220,
+      "camera": "00253",
+      "weight_sum": 0.9905984401702881,
+      "coverage": 0.9905992746353149,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 221,
+      "camera": "00254",
+      "weight_sum": 0.9937361478805542,
+      "coverage": 0.993735671043396,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 222,
+      "camera": "00255",
+      "weight_sum": 0.9951318502426147,
+      "coverage": 0.9951322078704834,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 223,
+      "camera": "00256",
+      "weight_sum": 0.995153546333313,
+      "coverage": 0.9951547384262085,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 224,
+      "camera": "00258",
+      "weight_sum": 0.9814132452011108,
+      "coverage": 0.9814137816429138,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 225,
+      "camera": "00259",
+      "weight_sum": 0.9805848002433777,
+      "coverage": 0.9805857539176941,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 226,
+      "camera": "00260",
+      "weight_sum": 0.9869467616081238,
+      "coverage": 0.986948549747467,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 227,
+      "camera": "00261",
+      "weight_sum": 0.9944381713867188,
+      "coverage": 0.9944414496421814,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 228,
+      "camera": "00262",
+      "weight_sum": 0.994181752204895,
+      "coverage": 0.9941863417625427,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 229,
+      "camera": "00263",
+      "weight_sum": 0.9957825541496277,
+      "coverage": 0.9957847595214844,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 230,
+      "camera": "00264",
+      "weight_sum": 0.9964777231216431,
+      "coverage": 0.9964778423309326,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 231,
+      "camera": "00266",
+      "weight_sum": 0.9966589212417603,
+      "coverage": 0.9966619610786438,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 232,
+      "camera": "00267",
+      "weight_sum": 0.9826069474220276,
+      "coverage": 0.9826088547706604,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 233,
+      "camera": "00268",
+      "weight_sum": 0.9802172183990479,
+      "coverage": 0.9802189469337463,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 234,
+      "camera": "00269",
+      "weight_sum": 0.9917472004890442,
+      "coverage": 0.9917501211166382,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 235,
+      "camera": "00270",
+      "weight_sum": 0.9907544255256653,
+      "coverage": 0.9907575249671936,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 236,
+      "camera": "00271",
+      "weight_sum": 0.9877331256866455,
+      "coverage": 0.9877351522445679,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 237,
+      "camera": "00272",
+      "weight_sum": 0.9799768924713135,
+      "coverage": 0.9799789190292358,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 238,
+      "camera": "00274",
+      "weight_sum": 0.976210355758667,
+      "coverage": 0.9762111902236938,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 239,
+      "camera": "00275",
+      "weight_sum": 0.9757550358772278,
+      "coverage": 0.9757555723190308,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 240,
+      "camera": "00276",
+      "weight_sum": 0.9748554825782776,
+      "coverage": 0.9748550057411194,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 241,
+      "camera": "00277",
+      "weight_sum": 0.9730290770530701,
+      "coverage": 0.9730314016342163,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 242,
+      "camera": "00278",
+      "weight_sum": 0.9717999696731567,
+      "coverage": 0.9718005061149597,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 243,
+      "camera": "00279",
+      "weight_sum": 0.9771713018417358,
+      "coverage": 0.9771724343299866,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 244,
+      "camera": "00280",
+      "weight_sum": 0.9769073128700256,
+      "coverage": 0.976908802986145,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 245,
+      "camera": "00282",
+      "weight_sum": 0.9876224994659424,
+      "coverage": 0.9876250624656677,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 246,
+      "camera": "00283",
+      "weight_sum": 0.9925187826156616,
+      "coverage": 0.9925205707550049,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 247,
+      "camera": "00284",
+      "weight_sum": 0.994432806968689,
+      "coverage": 0.9944341778755188,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 248,
+      "camera": "00285",
+      "weight_sum": 0.992813229560852,
+      "coverage": 0.9928138256072998,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 249,
+      "camera": "00286",
+      "weight_sum": 0.9919664859771729,
+      "coverage": 0.9919666647911072,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 250,
+      "camera": "00287",
+      "weight_sum": 0.9902693033218384,
+      "coverage": 0.9902694821357727,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 251,
+      "camera": "00288",
+      "weight_sum": 0.9880738258361816,
+      "coverage": 0.9880738258361816,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 252,
+      "camera": "00290",
+      "weight_sum": 0.9885143041610718,
+      "coverage": 0.9885141253471375,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 253,
+      "camera": "00291",
+      "weight_sum": 0.9936630129814148,
+      "coverage": 0.9936627149581909,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 254,
+      "camera": "00292",
+      "weight_sum": 0.9964144229888916,
+      "coverage": 0.9964149594306946,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 255,
+      "camera": "00293",
+      "weight_sum": 0.9964696168899536,
+      "coverage": 0.9964700937271118,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 256,
+      "camera": "00294",
+      "weight_sum": 0.9940406084060669,
+      "coverage": 0.9940412044525146,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 257,
+      "camera": "00295",
+      "weight_sum": 0.992367148399353,
+      "coverage": 0.9923673272132874,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 258,
+      "camera": "00296",
+      "weight_sum": 0.9897398948669434,
+      "coverage": 0.9897403120994568,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 259,
+      "camera": "00298",
+      "weight_sum": 0.9859288334846497,
+      "coverage": 0.985929548740387,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 260,
+      "camera": "00299",
+      "weight_sum": 0.9857152700424194,
+      "coverage": 0.9857156276702881,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 261,
+      "camera": "00300",
+      "weight_sum": 0.9846765995025635,
+      "coverage": 0.9846771359443665,
+      "width": 980,
+      "height": 545
+    },
+    {
+      "train_index": 262,
+      "camera": "00301",
+      "weight_sum": 0.9868553876876831,
+      "coverage": 0.9868556261062622,
+      "width": 980,
+      "height": 545
+    }
+  ],
+  "gaussian_count": 1082124,
+  "seconds_excluding_checkpoint_io": 3.1152755431830883,
+  "min": 0.0,
+  "max": 0.0040338254184784685,
+  "sum": 0.9845573105352419,
+  "nonzero_count": 970871,
+  "note": "No GT pixels, no optimizer, no removal-error claim; float32 GPU atomics, float64 accumulation"
+}
