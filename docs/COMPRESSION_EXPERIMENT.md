@@ -12,8 +12,9 @@
 | 第一阶段代码与 CPU 合成数据测试 | 已实现，21项CPU测试通过，云端结果已核查 |
 | 第一阶段保留 100% 的参数与渲染检查 | 通过；云端记录38视角PNG像素完全一致 |
 | 第一阶段 opacity 保留 50% 的剪枝评测 | 已完成；约1.63倍渲染速度，PSNR下降2.3863 dB |
-| 可见贡献统计 | 第三阶段已实现颜色梯度法，复用原CUDA扩展，待云端核验 |
+| 可见贡献统计 | 第三阶段正式结果已核查；保留50%仅下降0.214577 dB |
 | 恢复训练与不剪枝继续训练对照 | 第二阶段3k正式结果已核查；剪枝恢复后PSNR为21.175407 |
+| 评分方法×恢复训练六组对照 | 第四阶段代码已实现，CPU测试通过，待云端验证 |
 | truck 场景和多预算完整实验 | 后续实验 |
 
 本轮不需要重新训练 baseline、不更换 CUDA 扩展、不下载新权重。已有的 numpy、Pillow、plyfile 和 baseline 环境即可使用。准备阶段只处理 PLY；评测阶段在 GPU 节点调用原版渲染与评测程序。整个第一阶段没有梯度更新。
@@ -598,7 +599,7 @@ RTX 4090 D，同一263训练／38测试划分与980×545分辨率；seed=0，恢
 评测时重新计时三组，旧两组PNG必须与第一阶段完全一致，新组也必须匹配GT及视角数量。
 选择评分的耗时独立记录，不计入推理FPS；需在最终报告另外披露。
 
-本轮不实现贡献剪枝后的恢复训练，目的是先隔离评分的效果。
+第三阶段不实现贡献剪枝后的恢复训练，目的是先隔离评分的效果；第四阶段实现见第17节。
 若新评分有效或暴露有解释价值的取舍，再在固定3k恢复预算下验证；不预先保证新评分一定更优。
 平均贡献可能偏向覆盖大区域的高斯，仍可能损失细线或少数视角才出现的结构。
 后续两个场景、多预算及验证集约束不变。
@@ -653,6 +654,148 @@ git commit -m "Add visible contribution pruning results"
 git push origin main
 ```
 
-本地验证：27项CPU测试（含线性混合的梯度公式、合法输入、训练视角调用约束、
+第三阶段交付时本地验证：27项CPU测试（含线性混合的梯度公式、合法输入、训练视角调用约束、
 选点字段不变、三组模拟评测导出及篡改拦截）与静态检查。
-不包含真实CUDA评分或本轮云端数值关卡；这些必须由上述冒烟实验验证。
+现已收到云端正式结果，数值关卡核查见第16节。本地仍未执行GPU模型。
+
+## 16 第三阶段正式结果与分析
+
+来源：[train-contribution50-first](../results/train-contribution50-first/summary.csv)，
+结果提交`2d43d1e`。正式评分遍历263个训练视角，模型来源仍为原30k baseline。
+测试38视角，RTX 4090 D，980×545，SH3；三组均没有恢复训练。
+
+| 指标 | identity100 | opacity50 | contribution50 |
+| --- | --- | --- | --- |
+| 高斯数量 | 1,082,124 | 541,062 | 541,062 |
+| PLY大小 MiB | 255.936 | 127.969 | 127.969 |
+| PSNR ↑ | 21.810524 | 19.424191 | 21.595947 |
+| SSIM ↑ | 0.812434 | 0.774688 | 0.803524 |
+| LPIPS ↓ | 0.208012 | 0.232863 | 0.217566 |
+| 平均渲染 ms | 4.974824 | 3.046757 | 3.413233 |
+| FPS | 201.012 | 328.218 | 292.977 |
+| 推理PyTorch已分配峰值 bytes | 834,924,032 | 416,388,608 | 454,330,880 |
+
+相对原模型，可见贡献剪枝PSNR下降0.214577 dB，已在本场景、本预算、无恢复条件下
+达到此前“不超过约0.5 dB”的探索目标；SSIM仍下降0.008910、LPIPS仍上升0.009554，
+所以不能宣称无损。相对opacity剪枝，PSNR高2.171757 dB，三项汇总画质指标均更好。
+这支持“选哪些高斯保留很重要”，不是单靠额外训练的收益。
+
+代价：contribution50渲染比opacity50多耗时约12.03%，但仍比原模型快约1.458倍。
+两者保留数量、字段与精度完全相同，模型字节数相同；因此高斯数不能单独预测渲染速度。
+覆盖面积、tile分配、遮挡与混合工作量可能造成差异；本轮未记录tile计数，
+不能把具体瓶颈当成已验证事实。两种选择的交集为413,172个，占各自保留集合的76.36%。
+
+评分校验：263条训练视角记录连续完整，权重总和与诊断覆盖率最大差为
+4.7684e-6；首视角有限差分为0.0773847103，梯度预测0.0773852691，误差约5.59e-7。
+评分计时报告约3.12秒，排除每视角断点写入、加载等开销，不是端到端耗时。
+本地复核报告内数值，没有重新在GPU计算梯度或读取完整评分数组。
+
+评测核查：三组各38视角均值及各114个计时样本一致；上传的24张图片
+（6张GT+18张渲染）与哈希记录一致；18张渲染的PSNR独立重算与记录差异小于0.0001 dB。
+没有本地重算SSIM／LPIPS或完整PLY。查看全部六张contribution50诊断图：
+车头、文字和大面积天空外观比之前opacity50更接近未剪枝图；
+00024底盘细节仍模糊，00033的踏板、地面拉伸问题仍在。
+该方法主要降低额外剪枝损伤，并未解决原baseline的重建缺陷。
+
+不要把本轮未恢复的21.595947直接与上一轮opacity恢复后的21.175407作唯一结论。
+下一轮同时比较恢复前后，并重新统一计时，补齐“评分方法×恢复训练”实验矩阵。
+
+## 17 第四阶段：六组评分与恢复消融
+
+### 设计与已实现范围
+
+本轮只改变是否恢复，不改变评分公式、50%预算、学习率、种子或数据划分：
+
+| 组别 | 初始模型（第三阶段） | 新增优化 |
+| --- | --- | --- |
+| identity100 | 全高斯 | 0步 |
+| opacity50 | opacity选点 | 0步 |
+| contribution50 | 可见贡献选点 | 0步 |
+| identity100_recovery | 全高斯 | 3,000步 |
+| opacity50_recovery | opacity选点 | 3,000步 |
+| contribution50_recovery | 可见贡献选点 | 3,000步 |
+
+三个恢复组分别新建Adam，使用第13节完全相同的训练算法、学习率与损失；
+随机种子0，训练相机序列一致，关闭增密、裁剪和opacity reset。
+从第三阶段的未恢复PLY开始，**不读取第二阶段的最终PLY或优化器断点**，
+所以正式总预算不会变成额外6000步。此前两个恢复组重新训练，
+用于在同一协议下补齐三组；GPU浮点计算仍不保证与历史结果逐位相同。
+
+新入口为`recovery_phase4.py`和`recovery_train_phase4.py`。
+为保留旧实验脚本哈希，不改动第一至第三阶段源文件。第四阶段训练代码沿用第二阶段逻辑，
+仅更换实验协议接口；CPU回归测试比较函数AST，防止副本之间训练算法悄悄分叉。
+旧源文件继续是历史实验可追溯的依据。32项CPU测试与静态检查已通过，
+包括六组模拟评测导出、父实验必须正式且完成、配置/产物篡改拦截及训练逻辑一致性；
+新入口尚未在本地或云端真实运行GPU。
+
+### 运行命令
+
+保留完整第三阶段`outputs/compression/train_contribution50`，以及它依赖的第一阶段
+和baseline数据。第四阶段拒绝以2视角冒烟评分结果作为父实验。
+不需要重新评分，不需要安装依赖、编译CUDA或重训baseline。
+建议额外预留至少15 GiB磁盘空间，实际占用随图片和断点而变。
+
+登录节点：
+
+```bash
+git pull --ff-only
+conda activate cg3dgs
+python -m unittest discover -s tests -v
+```
+
+GPU节点仓库根目录：
+
+```bash
+conda activate cg3dgs
+export CUDA_HOME="$CONDA_PREFIX"
+export PATH="$CUDA_HOME/bin:$PATH"
+export TORCH_HOME="$PWD/data/torch-cache"
+
+python scripts/recovery_phase4.py prepare \
+  --experiment outputs/compression/train_scoring_recovery_smoke20 --steps 20
+python scripts/recovery_phase4.py train \
+  --experiment outputs/compression/train_scoring_recovery_smoke20
+python scripts/recovery_phase4.py evaluate \
+  --experiment outputs/compression/train_scoring_recovery_smoke20
+```
+
+20步验证新入口的三组训练和六组评测链路，不要求画质提升。逐条成功后，再跑正式：
+
+```bash
+python scripts/recovery_phase4.py prepare
+python scripts/recovery_phase4.py train
+python scripts/recovery_phase4.py evaluate
+python scripts/recovery_phase4.py export --name train-scoring-recovery3k-first
+```
+
+默认parent为`outputs/compression/train_contribution50`，正式输出为
+`outputs/compression/train_scoring_recovery_3k`。若自定义parent，在prepare时传`--parent`；
+若自定义输出，每一步传相同`--experiment`。
+
+训练顺序为三个恢复组，评测重新渲染并计时全部六组。
+三组未训练对照必须与第三阶段PNG逐像素相同，三个恢复组必须具有相同训练视角序列。
+每500步及最后一步保存可信本地断点，重复train可继续中断任务并跳过已完成的组；
+不要同时对同一目录运行多份脚本。prepare不覆盖已有目录；
+更新代码后不手改哈希，按新目录重建实验。
+
+导出包含六组指标与逐视角分数、36张固定视角渲染、6张GT、三组训练记录与协议，
+不会上传PLY或checkpoint。成功后在联网登录节点：
+
+```bash
+git add results/train-scoring-recovery3k-first
+git commit -m "Add scoring by recovery six-arm results"
+git push origin main
+```
+
+### 返回结果后如何决策
+
+1. 看contribution50恢复前后，量化恢复的增益或退化，不能预设一定提高。
+2. 看contribution50_recovery与opacity50_recovery，同样数量和优化预算比较选点。
+3. 同时与identity100及identity100_recovery比较，分别报告对原baseline和同预算对照的损失。
+4. 同时报告PSNR、SSIM、LPIPS、模型大小、推理显存口径、速度及评分/训练开销，
+   不因某一项好就忽略其余项目。
+5. 冻结本轮方案后，下一阶段优先在truck复现实验，并扩展70%/50%/30%预算，
+   加入独立重复计时。不要围绕已经看过的train测试图反复调评分权重或恢复步数。
+
+本轮不开发新评分、不调参、不扩展预算和场景；先把当前核心方法的公平对照补齐。
+跨场景与多预算仍是最终报告必需的后续证据，单场景成功不等于已完成整个大作业。
