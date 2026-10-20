@@ -1,0 +1,89 @@
+{
+  "schema": 2,
+  "phase": "fixed-count recovery",
+  "steps": 3000,
+  "seed": 0,
+  "created_utc": "2026-10-20T07:07:20.993406+00:00",
+  "formal": true,
+  "parent_manifest_sha256": "ce97bda19f15b69cd47f946c470ed34692e9694b7f5320f86f86663fb5f7906d",
+  "parent_evaluation_sha256": "038a12cd04143f84a3b0754b388ef00b9667508b477ec84ea8ab09814f83cb14",
+  "source_iteration": 30000,
+  "test_views": 38,
+  "train_views": 263,
+  "optimization": {
+    "iterations": 3000,
+    "position_lr_init": 1.6e-06,
+    "position_lr_final": 1.6e-06,
+    "position_lr_delay_mult": 1.0,
+    "position_lr_max_steps": 3000,
+    "feature_lr": 0.00025,
+    "opacity_lr": 0.005,
+    "scaling_lr": 0.0005,
+    "rotation_lr": 0.0001,
+    "percent_dense": 0.01,
+    "lambda_dssim": 0.2
+  },
+  "script_sha256": {
+    "compression_phase1.py": "bb9215f3a1bcd82b34038b1960f964d9271dce6ba0bc76cf4cf91d55fcb045ee",
+    "prune_ply.py": "37b1bbcb588add460ab82fb0c9def585ec132e3a263a50a5faac89f3bb4e4fbe",
+    "run.py": "7a2b3244a0cf50e0552b42a5edf76950ed4380b3346137d4c7483fcd55158e51",
+    "benchmark.py": "b64ba72d67f713941ee6b7dc6e4ff78dcaaad42457e55e5c5f1c96762e9a287e",
+    "dataset.py": "0ee363c2cbaf7700900dffd9eec5b556dc5e7b307183c669ea5cb25f09999bdd",
+    "doctor.py": "7595cfbb9d89265f83b7cdfd99ef21c569e0b025fb336615f56a347fcf1da4b1",
+    "recovery_phase2.py": "782f2f19fa03e174e31907b26bd27974ea32d8442899050cc8424b3fac21a46d",
+    "recovery_train.py": "b9f79177769d0dce406ff3b295685396630c23eca4f69b2192d7601bc63968c4"
+  },
+  "commit": "a4327cc3ddb5de7b53b6dcd4e99ba6c2a08e9ddf",
+  "variants": {
+    "identity100": {
+      "source_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+      "count": 1082124
+    },
+    "opacity50": {
+      "source_sha256": "f30cbd1eec18c08b3fb3cd3fe389c5a7c1afce78ce14b225f2baa95f6a439570",
+      "count": 541062
+    },
+    "identity100_recovery": {
+      "source_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+      "count": 1082124
+    },
+    "opacity50_recovery": {
+      "source_sha256": "f30cbd1eec18c08b3fb3cd3fe389c5a7c1afce78ce14b225f2baa95f6a439570",
+      "count": 541062
+    }
+  },
+  "baseline_config": {
+    "scene": "train",
+    "images": "images",
+    "resolution": -1,
+    "iterations": 30000,
+    "eval_iterations": [
+      7000,
+      30000
+    ],
+    "checkpoint_iterations": [
+      7000,
+      15000,
+      30000
+    ],
+    "data_device": "cuda",
+    "white_background": false,
+    "port": 6009
+  },
+  "selected_images": [
+    "00000.png",
+    "00014.png",
+    "00024.png",
+    "00031.png",
+    "00033.png",
+    "00035.png"
+  ],
+  "selection_note": "Same fixed diagnostic views as Phase 1; not an unbiased gallery",
+  "environment": {
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "torch": "2.2.2+cu121",
+    "torch_cuda": "12.1",
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "platform": "Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28"
+  }
+}
