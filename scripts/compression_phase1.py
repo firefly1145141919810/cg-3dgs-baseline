@@ -22,6 +22,16 @@ from run import ROOT, UPSTREAM, command, execute, load_config, resolve, verify_u
 VARIANTS = [('identity100', 1.0), ('opacity50', 0.5)]
 
 
+def render_config(c):
+    # Upstream merges cfg_args with non-None CLI values. An omitted store_true
+    # flag has value None in its sentinel parser, so False MUST live in cfg_args.
+    return argparse.Namespace(
+        sh_degree=3, source_path=c['source'], model_path=c['output'],
+        images=c['images'], resolution=c['resolution'],
+        white_background=c['white_background'], data_device=c['data_device'],
+        eval=True)
+
+
 def code_hashes():
     return {name: sha256(ROOT / 'scripts' / name) for name in
             ('compression_phase1.py', 'prune_ply.py', 'run.py', 'benchmark.py', 'dataset.py', 'doctor.py')}
@@ -121,9 +131,8 @@ def prepare(config, experiment):
         write_json(model / 'config.json', vc)
         write_json(model / 'manifest.json', {'config': vc, 'derived_experiment': str(experiment),
                    'note': 'iteration directory denotes source baseline, not new training'})
-        # Original renderer requires this file and evals it: generate trusted empty Namespace;
-        # every dataset setting is supplied explicitly on its command line.
-        (model / 'cfg_args').write_text('Namespace()', encoding='utf-8')
+        # Serialize only our validated settings, never copy/evaluate an input file.
+        (model / 'cfg_args').write_text(repr(render_config(vc)), encoding='utf-8')
         report['ply_sha256'] = sha256(target)
         report['indices_sha256'] = sha256(model / 'kept_indices.npy')
         info['variants'][name] = report

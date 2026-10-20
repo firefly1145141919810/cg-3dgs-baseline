@@ -1,5 +1,7 @@
 """Synthetic CPU tests only; never load torch or launch the renderer."""
 import json
+import argparse
+import importlib.util
 import shutil
 from pathlib import Path
 import sys
@@ -12,7 +14,8 @@ from plyfile import PlyData, PlyElement
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from prune_ply import read_vertices, select_indices, write_pruned
-from compression_phase1 import compare_images, checked_metrics, evaluate, prepare, export, verify_inputs
+from compression_phase1 import compare_images, checked_metrics, evaluate, prepare, export, verify_inputs, render_config
+from run import UPSTREAM, command
 
 
 def vertices(n=8):
@@ -32,6 +35,31 @@ class CompressionTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.source = self.root / 'source.ply'
         PlyData([PlyElement.describe(vertices(), 'vertex')]).write(self.source)
+
+    def test_upstream_render_argument_merge_preserves_false_background(self):
+        # Exercise the real pinned upstream parser (stdlib only), not a mock of
+        # rendering. This catches missing False values in its sentinel merge.
+        spec = importlib.util.spec_from_file_location(
+            'upstream_arguments_test', UPSTREAM / 'arguments' / '__init__.py')
+        upstream = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(upstream)
+        for white in (False, True):
+            with self.subTest(white_background=white):
+                c = {'source': str(self.root / "scene with 'quote'"),
+                     'output': str(self.root), 'images': 'images',
+                     'resolution': -1, 'white_background': white,
+                     'data_device': 'cuda', 'iterations': 30000}
+                (self.root / 'cfg_args').write_text(repr(render_config(c)), encoding='utf-8')
+                parser = argparse.ArgumentParser()
+                model = upstream.ModelParams(parser, sentinel=True)
+                upstream.PipelineParams(parser)
+                parser.add_argument('--iteration', type=int, default=-1)
+                parser.add_argument('--skip_train', action='store_true')
+                with patch.object(sys, 'argv', command('render', c)[1:]):
+                    merged = upstream.get_combined_args(parser)
+                actual = model.extract(merged)
+                self.assertEqual(vars(actual), vars(render_config(c)))
+                self.assertIs(actual.white_background, white)
 
     def test_identity_preserves_every_field_and_order(self):
         indices, report = write_pruned(self.source, self.root / 'identity.ply', 1)

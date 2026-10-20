@@ -272,6 +272,31 @@ GPU节点离线时，不在GPU节点执行push。上传后告知“第一阶段�
 
 ## 12 后续维护与最终报告
 
+### 2026-10-20：首次评测配置错误与重跑
+
+首次云端 `identity100` 渲染在加载相机后报错：
+`AttributeError: 'GroupParams' object has no attribute 'white_background'`。
+这是实验包装脚本的配置生成遗漏，不是CUDA或模型损坏。旧版写入空的
+`Namespace()`，而原版渲染器的参数合并会忽略未传入的布尔开关；
+不传 `--white_background` 并不自动补上 `False`。
+修复后保存完整模型配置，显式记录黑色背景 `False`，并增加调用原版参数解析器的
+CPU回归测试，覆盖黑／白背景两种情况。该测试不代表真实GPU渲染已经成功。
+
+更新代码后，旧实验的脚本哈希不再匹配。保留旧目录和失败日志，使用新目录重建派生模型：
+
+```bash
+# 登录节点更新代码
+git pull --ff-only
+# GPU节点，已激活 cg3dgs 环境，在仓库根目录执行
+python scripts/compression_phase1.py prepare --experiment outputs/compression/train_phase1_v2
+python scripts/compression_phase1.py evaluate --experiment outputs/compression/train_phase1_v2
+# 仅在 evaluate 成功后导出
+python scripts/compression_phase1.py export --experiment outputs/compression/train_phase1_v2 --name train-opacity-phase1-first
+```
+
+不需要重新训练baseline、重新下载数据或重新编译CUDA扩展。
+如果新目录已经存在，不覆盖它；按实验版本继续选择新的目录名。
+
 每次用户推送结果后，按下列顺序更新本文：
 
 1. 登记结果目录、提交、代码版本、场景与实验条件。
