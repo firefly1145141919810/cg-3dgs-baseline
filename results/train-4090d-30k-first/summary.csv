@@ -1,0 +1,2 @@
+run,scene,iterations,resolution,SSIM,PSNR,LPIPS,gaussian_count,ply_bytes,gpu,upstream_commit,train_views,test_views,mean_ms,fps_from_mean_ms,peak_torch_allocated_bytes
+train-4090d-30k-first,train,30000,-1,0.8124343156814575,21.810523986816406,0.20801223814487457,1082124,268368284,NVIDIA GeForce RTX 4090 D,2eee0e26d2d5fd00ec462df47752223952f6bf4e,263,38,4.972951295083029,201.0878330919394,834924032

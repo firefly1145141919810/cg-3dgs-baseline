@@ -1,0 +1,74 @@
+{
+  "config": {
+    "scene": "train",
+    "images": "images",
+    "resolution": -1,
+    "iterations": 30000,
+    "eval_iterations": [
+      7000,
+      30000
+    ],
+    "checkpoint_iterations": [
+      7000,
+      15000,
+      30000
+    ],
+    "data_device": "cuda",
+    "white_background": false,
+    "port": 6009
+  },
+  "seed": 0,
+  "upstream": {
+    "commit": "2eee0e26d2d5fd00ec462df47752223952f6bf4e",
+    "submodules": [
+      " 59f5f77e3ddbac3ed9db93ec2cfe99ed6c5d121d submodules/diff-gaussian-rasterization (heads/main)",
+      " 5c46b9c07008ae65cb81ab79cd677ecc1934b903 submodules/diff-gaussian-rasterization/third_party/glm (0.9.5.3-2728-g5c46b9c0)",
+      " 44f764299fa305faf6ec5ebd99939e0508331503 submodules/simple-knn (44f7642)"
+    ]
+  },
+  "wrapper_commit": "ae8c6ae1a3a7580bc7336b3074d730f26c01c126",
+  "dataset_camera_hashes": {
+    "images.bin": "14e48a5bd9afc87ce7f46fbf093852a4ff2185b4b24d79bdcd3ad58db7a101e0",
+    "cameras.bin": "25d6f6bc51d126c680a5f5598bae17722d9b29030eb0b9b0b242406f508b9cc0"
+  },
+  "test_names": [
+    "00001.jpg",
+    "00009.jpg",
+    "00017.jpg",
+    "00025.jpg",
+    "00033.jpg",
+    "00041.jpg",
+    "00049.jpg",
+    "00057.jpg",
+    "00065.jpg",
+    "00073.jpg",
+    "00081.jpg",
+    "00089.jpg",
+    "00097.jpg",
+    "00105.jpg",
+    "00113.jpg",
+    "00121.jpg",
+    "00129.jpg",
+    "00137.jpg",
+    "00145.jpg",
+    "00153.jpg",
+    "00161.jpg",
+    "00169.jpg",
+    "00177.jpg",
+    "00185.jpg",
+    "00193.jpg",
+    "00201.jpg",
+    "00209.jpg",
+    "00217.jpg",
+    "00225.jpg",
+    "00233.jpg",
+    "00241.jpg",
+    "00249.jpg",
+    "00257.jpg",
+    "00265.jpg",
+    "00273.jpg",
+    "00281.jpg",
+    "00289.jpg",
+    "00297.jpg"
+  ]
+}
