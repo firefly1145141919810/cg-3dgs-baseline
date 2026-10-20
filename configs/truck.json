@@ -1,0 +1,13 @@
+{
+  "scene": "truck",
+  "source": "data/tandt/truck",
+  "output": "outputs/truck_baseline_30k",
+  "images": "images",
+  "resolution": -1,
+  "iterations": 30000,
+  "eval_iterations": [7000, 30000],
+  "checkpoint_iterations": [7000, 15000, 30000],
+  "data_device": "cuda",
+  "white_background": false,
+  "port": 6010
+}

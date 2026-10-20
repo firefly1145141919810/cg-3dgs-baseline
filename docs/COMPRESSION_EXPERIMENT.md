@@ -14,8 +14,9 @@
 | 第一阶段 opacity 保留 50% 的剪枝评测 | 已完成；约1.63倍渲染速度，PSNR下降2.3863 dB |
 | 可见贡献统计 | 第三阶段正式结果已核查；保留50%仅下降0.214577 dB |
 | 恢复训练与不剪枝继续训练对照 | 第二阶段3k正式结果已核查；剪枝恢复后PSNR为21.175407 |
-| 评分方法×恢复训练六组对照 | 第四阶段代码已实现，CPU测试通过，待云端验证 |
-| truck 场景和多预算完整实验 | 后续实验 |
+| 评分方法×恢复训练六组对照 | 第四阶段正式结果已核查；贡献恢复组与同预算全模型PSNR差0.052603 dB |
+| truck 跨场景复现 | 固定协议运行入口已实现，待云端执行 |
+| 多预算完整实验 | truck复现之后扩展，尚未执行 |
 
 本轮不需要重新训练 baseline、不更换 CUDA 扩展、不下载新权重。已有的 numpy、Pillow、plyfile 和 baseline 环境即可使用。准备阶段只处理 PLY；评测阶段在 GPU 节点调用原版渲染与评测程序。整个第一阶段没有梯度更新。
 
@@ -726,7 +727,7 @@ git push origin main
 仅更换实验协议接口；CPU回归测试比较函数AST，防止副本之间训练算法悄悄分叉。
 旧源文件继续是历史实验可追溯的依据。32项CPU测试与静态检查已通过，
 包括六组模拟评测导出、父实验必须正式且完成、配置/产物篡改拦截及训练逻辑一致性；
-新入口尚未在本地或云端真实运行GPU。
+当时新入口尚未运行GPU；现已收到正式云端结果，见第18节。本地始终未运行GPU模型。
 
 ### 运行命令
 
@@ -799,3 +800,177 @@ git push origin main
 
 本轮不开发新评分、不调参、不扩展预算和场景；先把当前核心方法的公平对照补齐。
 跨场景与多预算仍是最终报告必需的后续证据，单场景成功不等于已完成整个大作业。
+
+## 18 第四阶段结果：核心六组消融完成
+
+来源：[train-scoring-recovery3k-first](../results/train-scoring-recovery3k-first/summary.csv)，
+结果提交`d433184`，执行代码`113c856`。RTX 4090 D，980×545，
+263训练／38测试视角，seed=0，50%保留预算；恢复组三组均为3000步。
+
+| 模型 | PSNR ↑ | SSIM ↑ | LPIPS ↓ | 平均ms | FPS |
+| --- | --- | --- | --- | --- | --- |
+| identity100 | 21.810524 | 0.812434 | 0.208012 | 4.968767 | 201.257 |
+| opacity50 | 19.424191 | 0.774688 | 0.232863 | 3.043336 | 328.587 |
+| contribution50 | 21.595947 | 0.803524 | 0.217566 | 3.428053 | 291.711 |
+| identity100_recovery | 22.139402 | 0.818250 | 0.203952 | 5.010918 | 199.564 |
+| opacity50_recovery | 21.175035 | 0.802914 | 0.221105 | 3.084995 | 324.150 |
+| contribution50_recovery | 22.086800 | 0.814473 | 0.210707 | 3.447501 | 290.065 |
+
+主要发现：
+
+1. 贡献剪枝恢复后比恢复前提高0.490852 dB。恢复有帮助，但提升小于opacity组，
+   因为它初始剪枝损伤已经较小；这不是对优化难度的严格证明。
+2. 同为541,062个高斯、相同3000步预算，贡献组比opacity组高0.911764 dB，
+   SSIM更高、LPIPS更低。选点方法的优势在恢复后仍然存在。
+3. 相对同预算未剪枝组，贡献恢复组PSNR仅低0.052603 dB，
+   模型约127.97 MiB而非255.94 MiB，渲染约快1.4535倍。
+   但SSIM低约0.003777，LPIPS高0.006755，不能写成无损或所有指标完全一致。
+4. 相对原30k baseline，贡献恢复组PSNR高0.276276 dB、SSIM高0.002038，
+   但LPIPS仍高0.002695。这说明“超过原baseline”必须说明具体指标和额外优化预算。
+
+本地核查六组各38视角的三项均值、各114次计时；三组各3000条训练记录的步数、
+有限损失、数量与相机序列；42张上传图片哈希与36张渲染PSNR独立重算均通过。
+模型完整PLY、SSIM／LPIPS和GPU训练未在本地重新执行。
+查看全部六张贡献恢复诊断图：车头与文字保持较好，视觉上接近未剪枝结果，
+但00024底盘纹理和00033踏板依然模糊，近地碎石拉伸仍在。
+不能用压缩成功掩盖baseline本身的重建缺陷。
+
+当前可以支持的结论是“在train场景、50%预算下，贡献评分加固定数量恢复具有较好的质量—大小—速度折中”。
+还不能据此推广到其他场景或更激进预算。下一步优先保持方案不变复现truck，
+再做70%／50%／30%曲线，而不是继续围绕train测试图调整评分或学习率。
+
+## 19 下一轮：truck跨场景固定协议复现
+
+### 冻结哪些条件，允许哪些自然差异
+
+新增`configs/truck.json`：官方30k训练，seed=0，留出每8张相机中的一张，
+原图配置`resolution=-1`、SH3、黑背景。贡献评分使用全部训练视角，
+保留比例50%，恢复3000步，学习率与损失完全沿用第二/四阶段，不针对truck调参。
+先跑同样的全保留关卡，再比较两种剪枝，最后形成完整六组。
+
+新场景的相机数量、原始图片大小和高斯数自然不同，不应强行填成train的
+263／38、980×545或1,082,124。`-1`也会遵循原版对大图的自动缩放规则。
+视角数量、实际分辨率与最终数量由数据验证和benchmark记录；
+跨场景不直接比较绝对FPS来宣称某方法加速，主要比较每个场景内同口径比值。
+truck也属于当前数据包中的另一个场景，不是另一个完全独立数据集。
+
+新增`scripts/truck_suite.py`只负责调度、校验和跳过已完成阶段。
+底层沿用已验证的`run.py`、`compression_phase1.py`、
+`contribution_phase3.py`、`recovery_phase4.py`，未修改历史实验算法或脚本哈希。
+这是一轮跨场景复现实验，不是新算法开发。
+
+### 数据和环境检查
+
+默认数据路径为`data/tandt/truck`。先确认此前下载的数据包中是否已解压该目录，
+不要因默认路径不存在就重复下载train数据。数据位于别处时，
+只修改`configs/truck.json`的`source`；其他训练与分辨率参数受固定协议检查保护。
+运行开始后不要再修改配置。
+
+在登录节点、仓库根目录执行：
+
+```bash
+git pull --ff-only
+conda activate cg3dgs
+python -m unittest discover -s tests -v
+python scripts/truck_suite.py plan
+python scripts/truck_suite.py check
+```
+
+plan只打印命令，不训练、不生成实验目录。check校验COLMAP相机、图片和初始点云，
+打印实际训练／测试数量及独立输出目录，不需要GPU。check会读取图片计算哈希，
+若集群限制登录节点I/O，请放到获批计算节点。数据检查失败时先处理路径或缺文件。
+
+### GPU执行：可逐阶段，也可一条命令串行
+
+在有效GPU分配内、仓库根目录：
+
+```bash
+conda activate cg3dgs
+export CUDA_HOME="$CONDA_PREFIX"
+export PATH="$CUDA_HOME/bin:$PATH"
+export TORCH_HOME="$PWD/data/torch-cache"
+python scripts/doctor.py
+
+python scripts/truck_suite.py baseline
+python scripts/truck_suite.py opacity
+python scripts/truck_suite.py contribution
+python scripts/truck_suite.py recovery
+```
+
+逐条成功后继续，或用以下命令串行执行相同四阶段：
+
+```bash
+python scripts/truck_suite.py all
+```
+
+all不自动导出或推送。它不会在本地运行，不会并行抢占多个GPU。
+本轮复用已云端验证的训练/评分核心，不再重复增加20步冒烟实验；
+仍保留环境检查、baseline完整性、100%像素一致性、贡献评分数值关卡以及六组评测检查。
+
+| 阶段 | 独立输出 |
+| --- | --- |
+| baseline | outputs/truck_baseline_30k |
+| opacity | outputs/compression/truck_phase1 |
+| contribution | outputs/compression/truck_contribution50 |
+| recovery | outputs/compression/truck_scoring_recovery_3k |
+
+baseline必须为新场景重新训练，不复用train场景的高斯参数。
+后续三个恢复组都从truck的30k派生模型重新建立优化器。
+不要对同一输出并发运行all和单阶段命令，不要在运行中拉取新代码。
+预留数十GiB磁盘余量；具体取决于truck实际模型和视角数量，不能根据train结果保证上限。
+
+### 中断与重跑规则
+
+- 已完成阶段只有通过来源、指标及相关产物检查后才会跳过，不因“目录存在”就认为成功。
+- 评分沿用逐视角断点，恢复训练沿用每500步断点；重复相同阶段或all即可继续。
+- baseline训练断点与恢复训练断点格式不同，不能混用。baseline部分完成时，
+  入口要求你明确指定可信的原版checkpoint，不自动选择“最新文件”：
+
+```bash
+# 仅当此文件确实存在且来自本次truck baseline时使用
+python scripts/truck_suite.py baseline \
+  --checkpoint outputs/truck_baseline_30k/chkpnt15000.pth
+```
+
+baseline恢复沿用原版行为，不保证随机状态精确复现。若尚未生成任何checkpoint，
+保留失败目录并先排查；脚本不会自动删除或覆盖已有运行。
+最终PLY已存在但评测未完成时，重新执行baseline仅补渲染、指标和计时，不重训。
+若某上游阶段不完整但已经有下游实验，入口拒绝重写上游，避免使下游来源失效。
+此时提交错误信息排查，不手改哈希或强制覆盖。
+
+### 导出与提交
+
+六组都完成后：
+
+```bash
+python scripts/truck_suite.py export
+```
+
+默认导出`results/truck-scoring-recovery3k-first`。包含六组结果、训练记录、
+最多六个固定测试视角的渲染和GT、评分校验记录及`cross_scene.json`，
+后者记录truck实际划分、原版版本、原baseline计时、选点重叠和冻结协议。
+视角不足时只导出有效编号。PLY、断点、完整数据不进入Git。
+若导出目录已存在或导出中断，用新的`--name`保留旧目录，不覆盖：
+
+```bash
+python scripts/truck_suite.py export --name truck-scoring-recovery3k-second
+```
+
+成功后在联网登录节点提交实际导出的目录：
+
+```bash
+git add results/truck-scoring-recovery3k-first
+git commit -m "Add frozen truck cross-scene replication"
+git push origin main
+```
+
+### 验收与之后的实验
+
+先核查新场景完整性、像素一致性、评分关卡和同预算训练记录，再比较六组。
+无论truck支持还是不支持train结论，都完整记录，不先调参数把分数“修好”。
+下一轮再以冻结评分与恢复设置跑两个场景的70%／50%／30%预算曲线，
+配合独立重复计时和失败案例。多预算代码本轮未实现，不能把未来计划写成已完成。
+
+本地38项CPU测试与静态检查通过，包括冻结配置、独立路径、命令顺序、
+已完成阶段跳过、部分恢复续跑、baseline显式断点要求和保护下游来源。
+truck数据与GPU实验尚未在本地执行，也尚无云端结果；实际视角数和指标暂不填写。
