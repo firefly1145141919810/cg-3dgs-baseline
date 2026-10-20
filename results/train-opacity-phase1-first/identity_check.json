@@ -1,0 +1,237 @@
+{
+  "passed": true,
+  "comparison": "exact decoded RGB PNG pixels, not float render tensors",
+  "max_abs_8bit": 0,
+  "mean_abs_8bit": 0.0,
+  "changed_channels": 0,
+  "per_view": [
+    {
+      "image": "00000.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00001.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00002.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00003.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00004.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00005.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00006.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00007.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00008.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00009.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00010.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00011.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00012.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00013.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00014.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00015.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00016.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00017.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00018.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00019.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00020.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00021.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00022.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00023.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00024.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00025.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00026.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00027.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00028.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00029.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00030.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00031.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00032.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00033.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00034.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00035.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00036.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    },
+    {
+      "image": "00037.png",
+      "max_abs_8bit": 0,
+      "mean_abs_8bit": 0.0,
+      "changed_channels": 0
+    }
+  ]
+}
