@@ -1,0 +1,111 @@
+{
+  "schema": 5,
+  "keep_fraction": 0.7,
+  "phase": "fixed-count recovery",
+  "steps": 3000,
+  "seed": 0,
+  "created_utc": "2026-10-20T09:52:33.736025+00:00",
+  "formal": true,
+  "parent_manifest_sha256": "f31c8ca52ff8b895c71fed0baecf3942361705ceab0423ce2010f314a1d61c4c",
+  "parent_evaluation_sha256": "c71912e572a73d02ce096ec1d2d1412fc3d158d28cbb02d71ae62e5cf62d53ba",
+  "baseline_metrics": {
+    "SSIM": 0.8124343156814575,
+    "PSNR": 21.810523986816406,
+    "LPIPS": 0.20801223814487457
+  },
+  "source_iteration": 30000,
+  "test_views": 38,
+  "train_views": 263,
+  "optimization": {
+    "iterations": 3000,
+    "position_lr_init": 1.6e-06,
+    "position_lr_final": 1.6e-06,
+    "position_lr_delay_mult": 1.0,
+    "position_lr_max_steps": 3000,
+    "feature_lr": 0.00025,
+    "opacity_lr": 0.005,
+    "scaling_lr": 0.0005,
+    "rotation_lr": 0.0001,
+    "percent_dense": 0.01,
+    "lambda_dssim": 0.2
+  },
+  "script_sha256": {
+    "compression_phase1.py": "bb9215f3a1bcd82b34038b1960f964d9271dce6ba0bc76cf4cf91d55fcb045ee",
+    "prune_ply.py": "37b1bbcb588add460ab82fb0c9def585ec132e3a263a50a5faac89f3bb4e4fbe",
+    "run.py": "7a2b3244a0cf50e0552b42a5edf76950ed4380b3346137d4c7483fcd55158e51",
+    "benchmark.py": "b64ba72d67f713941ee6b7dc6e4ff78dcaaad42457e55e5c5f1c96762e9a287e",
+    "dataset.py": "0ee363c2cbaf7700900dffd9eec5b556dc5e7b307183c669ea5cb25f09999bdd",
+    "doctor.py": "7595cfbb9d89265f83b7cdfd99ef21c569e0b025fb336615f56a347fcf1da4b1",
+    "recovery_phase2.py": "782f2f19fa03e174e31907b26bd27974ea32d8442899050cc8424b3fac21a46d",
+    "recovery_train.py": "b9f79177769d0dce406ff3b295685396630c23eca4f69b2192d7601bc63968c4",
+    "contribution_phase3.py": "32e59d734ecd4a2d30cf312b381db11c772d5235b88ef38c186a4535517db853",
+    "budget_phase5.py": "b300102827c9514aaaa3561c591098c0940323fa4b7256269741cf877e74076c",
+    "recovery_train_phase5.py": "2ac20707aac89e802a814c73f86fe2d0a2ca53e4b76e63b069fc0f5db63e2d8f"
+  },
+  "commit": "fd6f0a2d4a9f433a09cadaf7dee5550ac08c7883",
+  "variants": {
+    "identity100": {
+      "source_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+      "count": 1082124
+    },
+    "opacity": {
+      "source_sha256": "40febf884cb9e12c0dbcbfb1e0b79072cf06485bb491626933dcfc3c37b1d164",
+      "count": 757486,
+      "indices_sha256": "e351b3e8d480f3d9a9604c23a6e0fd4a4abe1f674e202ef8957672c0de0df239"
+    },
+    "contribution": {
+      "source_sha256": "4b0a190b5de84207ad8114298cc52bde08d807fbcbd5a2a6f3764f6737e0622f",
+      "count": 757486,
+      "indices_sha256": "fe7dfb18ce9e3b7bd9aeb0b79aad07ea21c522e783d09a63b7f156f993095cbb"
+    },
+    "identity100_recovery": {
+      "source_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+      "count": 1082124
+    },
+    "opacity_recovery": {
+      "source_sha256": "40febf884cb9e12c0dbcbfb1e0b79072cf06485bb491626933dcfc3c37b1d164",
+      "count": 757486
+    },
+    "contribution_recovery": {
+      "source_sha256": "4b0a190b5de84207ad8114298cc52bde08d807fbcbd5a2a6f3764f6737e0622f",
+      "count": 757486
+    }
+  },
+  "original_count": 1082124,
+  "scores_sha256": "fea3d810e97b641eab96a450d679982b3cc52456f219bdc30b6f539829d1d387",
+  "original_sha256": "70563691c5a70a21b73dadebbce06fdaf9ed970ec98af2398044cea1aa63edca",
+  "baseline_config": {
+    "scene": "train",
+    "images": "images",
+    "resolution": -1,
+    "iterations": 30000,
+    "eval_iterations": [
+      7000,
+      30000
+    ],
+    "checkpoint_iterations": [
+      7000,
+      15000,
+      30000
+    ],
+    "data_device": "cuda",
+    "white_background": false,
+    "port": 6009
+  },
+  "selected_images": [
+    "00000.png",
+    "00014.png",
+    "00024.png",
+    "00031.png",
+    "00033.png",
+    "00035.png"
+  ],
+  "selection_note": "Same fixed diagnostic views as Phase 1; not an unbiased gallery",
+  "environment": {
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "torch": "2.2.2+cu121",
+    "torch_cuda": "12.1",
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "platform": "Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28"
+  }
+}
