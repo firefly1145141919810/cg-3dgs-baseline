@@ -6,13 +6,10 @@
 
 ## 阅读入口
 
-- **历史已重写：旧克隆请先阅读[迁移说明](docs/HISTORY_MIGRATION.md)，不要直接合并或强推旧历史。**
 - [实验目的、设计、配置、结果与结论](docs/COMPRESSION_EXPERIMENT.md)
 - [最终报告PDF](output/pdf/3dgs_final_report.pdf) · [LaTeX源码与图表重建](report/README.md)
 - [零基础原理讲解](docs/BASELINE_GUIDE.md) · [论文阅读索引](references/READING_NOTES.md) · [中文批注论文](output/pdf/3dgs_annotated_zh.pdf)
 - [来源与AI辅助说明](NOTICE.md) · [验证范围](docs/STATUS.md)
-
-实验与报告正文已完成；成员信息、实际分工、演示和最终提交清单仍需核对。
 
 ## 运行环境
 
@@ -24,7 +21,7 @@
 
 ## 1. 获取代码与安装
 
-以下命令均从仓库根目录执行。仓库已公开，HTTPS克隆不需要登录；推送仍需要写权限。已有且诊断通过的环境无需重装。
+除特别说明外，以下命令均从仓库根目录执行。
 
 ```bash
 git clone https://github.com/firefly1145141919810/cg-3dgs-baseline.git
@@ -37,7 +34,7 @@ bash scripts/setup_cloud.sh cu121
 python scripts/doctor.py
 ```
 
-安装需要联网；离线计算节点应提前准备依赖、数据与评测权重。详细安装/排错保留在[环境指南](docs/CLOUD.md)，这里不展开特定云平台配置。
+安装需要联网；离线计算节点应提前准备依赖、数据与评测权重。详细安装与排错见[环境指南](docs/CLOUD.md)。
 
 ## 2. 数据与baseline
 
@@ -58,7 +55,7 @@ python scripts/export_results.py --config configs/train.json --name train-baseli
 
 ## 3. train：50%剪枝与恢复
 
-从已完成train baseline出发执行以下主流程。显式使用历史父目录 `train_phase1_v2`，避免第一阶段默认目录与后续默认父目录不同。仅在新实验中执行 `prepare`，不要覆盖已完成结果。
+从已完成train baseline出发执行以下主流程。第一阶段显式指定 `train_phase1_v2`，与后续阶段默认读取的目录保持一致。每次新实验使用独立输出目录。
 
 ```bash
 # 保存重载验证与不透明度剪枝
@@ -119,7 +116,7 @@ python scripts/budget_phase5.py run --scene train --keep 0.3 --steps 20 \
   --experiment outputs/compression/train_budget30_smoke20
 ```
 
-## 5. 独立计时与长期任务
+## 5. 独立计时
 
 六个正式质量实验全部完成后，对18个恢复后模型设置各启动3个独立进程计时：
 
@@ -131,22 +128,20 @@ python scripts/publish_timing.py --source results/timing-raw-repro \
 
 该入口读取 `outputs/compression/{scene}_scoring_recovery_3k`（50%）及 `{scene}_budget{70|30}_recovery3k`，不改写历史计时。若改变这些模型路径，须相应调整来源收集逻辑，不能只改导出名称。
 
-原始计时记录含绝对路径和节点名，`timing-raw-*`目录已忽略。公开前使用上述发布工具生成脱敏副本，保留独立公开哈希链和原始文件哈希；指标与计时不变。已脱敏目录不用于中断续跑，续跑应使用原始目录。
+`repeat_timing.py`的原始目录用于断点续跑，`publish_timing.py`生成保留数值与来源哈希的可分享结果。计时期间保持GPU独占，避免其他任务影响测量。
 
-个人Slurm脚本已从版本跟踪中移除，本地副本保留但不会分发。使用调度器时请按所在集群规则自行编写作业文件，调用上述Python入口；不要并发争用同一GPU计时，也不要上传账号、工作目录或节点信息。`*.slurm`、`private/`和日志目录均已忽略。
-
-不要并发写同一实验目录。来源或代码哈希不符应排查原因，不能删除校验绕过。恢复阶段可使用已有断点；baseline续跑需明确指定可信checkpoint。完整参数见各入口 `--help`。
+恢复阶段支持已有断点；baseline续跑需指定checkpoint。各入口的完整参数见 `--help`。
 
 ## 结果、检查与报告
 
-`results/`保存指标、协议和固定视角图片；数据、完整模型、日志与缓存不进入Git。导出标签必须唯一，仅提交检查过的公开副本，方法见[同步说明](docs/SYNC.md)。公开前运行 `python scripts/check_public_repo.py`；这是启发式检查，不替代人工检查或历史清理。
+`results/`保存指标、协议和固定视角图片；数据、完整模型、日志与缓存不进入Git。结果导出与模型归档方法见[结果管理](docs/SYNC.md)。
 
 ```bash
 python -m unittest discover -s tests -v
 python scripts/static_check.py
 ```
 
-这些CPU检查不能替代GPU验证。图表由 `scripts/build_report_assets.py`从固定已发布结果生成；独立报告依赖与XeLaTeX编译见[报告说明](report/README.md)。汇总自己的复现实验时须显式更新图表脚本的数据来源，不能把仓库已有图表当成新实验结果。
+测试覆盖范围见[验证说明](docs/STATUS.md)。图表由 `scripts/build_report_assets.py`从固定已发布结果生成；独立报告依赖与XeLaTeX编译见[报告说明](report/README.md)。使用新的实验结果时，需同步更新图表脚本的数据来源。
 
 | 目录 | 内容 |
 | --- | --- |

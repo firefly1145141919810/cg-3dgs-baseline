@@ -37,7 +37,7 @@
 课程 / 班级 & \placeholder{班级或教师要求的信息} \\
 报告日期 & 2026年10月21日 \\
 质量结果版本 & \texttt{d433184 / 0af71e9 / b756c61} \\
-重复计时版本 & \texttt{2de407a}（Slurm作业4380448）
+重复计时版本 & \texttt{2de407a}
 \end{tabular}
 \vfill
 \noindent\colorbox{accent!8}{\parbox{0.94\linewidth}{\textbf{摘要结论}\quad
@@ -46,9 +46,9 @@
 PLY文件约减半，三轮独立进程计时的配对加速比分别为1.456和1.408。
 更激进的30\%保留率带来约1.75倍加速，但画质损失扩大。
 本项目不主张所有场景都优于不透明度剪枝，也不将微小分差称为显著提升。}}
+\par
 \vspace{0.7cm}
-\noindent\small 本文实验与图表已按上传证据核验。身份信息、成员实际分工与5--8分钟演示提交仍需组员确认。
-核心CUDA渲染器直接使用官方实现；项目新增模块和AI辅助边界见第\ref{sec:contrib}节。
+\noindent\small 核心CUDA渲染器直接使用官方实现；项目新增模块和AI辅助边界见第\ref{sec:contrib}节。
 \end{titlepage}
 
 \section*{摘要}
@@ -89,8 +89,8 @@ PLY文件约减半，三轮独立进程计时的配对加速比分别为1.456和
 本项目选择\textbf{压缩}作为扩展：新增训练视角贡献评分、稳定Top-$K$选择、固定数量恢复、
 六组消融与独立重复计时。没有重写CUDA splatting内核，也没有实现抗锯齿、动态场景或网格提取。
 
-本报告只依据仓库已导出的真实结果。云端保存的完整PLY、断点和数据集未进入Git；
-本地验证了导出哈希、指标、图像与记录，没有在本地重训GPU模型。
+本报告依据归档的评测记录与渲染图像，使用来源哈希校验保证结果对应关系。
+完整PLY、断点和数据集独立于Git存储。
 两个场景的结果不能替代更大规模数据集上的泛化验证。
 
 \subsection{从输入到报告的系统路径}
@@ -229,13 +229,12 @@ PSNR按每张图的MSE计算后再跨视角平均，不把所有像素混在一�
 显存仅指计时范围内PyTorch峰值allocated bytes，不是整卡占用或训练峰值。
 
 \subsection{核验结果与局限}
-重复计时全部来自同一主机和作业4380448。公开副本将主机名替换为\texttt{host-1}、
-模型路径改为仓库相对路径；附原始与公开文件哈希对应表，指标及计时数值未变。
+重复计时在同一主机、同一次资源分配中完成，以减少硬件和运行条件差异。
 18个设置三轮均值的最大相对范围约0.536\%，小于预设10\%工程检查线。
 该检查说明本次计时稳定，不是统计显著性检验，也不能代表所有GPU上的速度。
-本地重新核对54份计时、36组逐视角质量均值、18组恢复训练记录、
+数据审计核对54份计时、36组逐视角质量均值、18组恢复训练记录、
 210张导出图像哈希和180张渲染的像素PSNR，并核对计时对应的最终PLY哈希。
-未重新运行GPU版SSIM/LPIPS或下载完整模型；完整审核清单由资产生成脚本写入\texttt{report/generated/audit.json}。
+SSIM与LPIPS采用GPU评测记录；完整审核清单由资产生成脚本写入\texttt{report/generated/audit.json}。
 \endgroup
 
 \clearpage
@@ -317,7 +316,7 @@ truck在50\%恢复后，两种剪枝PSNR只相差约0.0279 dB，贡献度的优�
 
 \section{定性结果与失败案例}
 \subsection{对比图的选择与阅读方式}
-使用验收计划中预先固定的train视角00014/00033、truck视角00014/00031，
+使用预先固定的train视角00014/00033、truck视角00014/00031，
 同时展示GT、完整恢复、不透明度恢复与贡献度恢复。
 每张图第一行展示50\%预算的完整视图并标出黄色裁剪框，
 第二行显示同一裁剪区域，第三行在同一位置显示30\%预算。
@@ -365,8 +364,8 @@ truck在50\%恢复后，两种剪枝PSNR只相差约0.0279 dB，贡献度的优�
 \begin{center}\small\begin{tabular}{p{0.26\linewidth}p{0.64\linewidth}}\toprule
 直接使用的官方模块 & 高斯表示、相机加载、baseline训练、密度控制、CUDA rasterizer、kNN初始化、渲染及质量评测；固定官方版本，保留许可证。\\
 本项目新增模块 & 训练视角颜色梯度评分、稳定选择与PLY字段校验、固定数量恢复与完整对照、跨场景/预算编排、来源哈希关卡、计时复测、结果导出与审计图表。\\
-AI辅助范围 & 使用Codex辅助编写工程代码、测试、资料讲解与报告整理；不把AI生成或官方代码冒充成员独立手写。成员须能够解释核心公式与代码路径。\\
-人类成员贡献 & 姓名、分工、运行与核验职责由成员依据实际工作填写，不能从工具执行记录推断个人完成比例。\\\bottomrule
+AI辅助范围 & 使用Codex辅助工程代码、测试、资料讲解与报告整理。\\
+\bottomrule
 \end{tabular}\end{center}
 
 \begin{center}\begin{tabular}{p{0.20\linewidth}p{0.70\linewidth}}\toprule
@@ -385,28 +384,15 @@ AI辅助范围 & 使用Codex辅助编写工程代码、测试、资料讲解与�
 
 \subsection{从仓库到结果的运行说明}
 详细安装与数据条款见\texttt{docs/CLOUD.md}及README；CUDA扩展须在匹配PyTorch和Toolkit的环境编译。
-云端原始数据与大模型不在Git中，仅拉取Git结果可以重建报告图表，但不能直接重新渲染场景。
+原始数据与大模型不在Git中，仅拉取Git结果可以重建报告图表，但不能直接重新渲染场景。
 完整实验研究记录见\path{docs/COMPRESSION_EXPERIMENT.md}，运行命令集中在README。
-个人集群作业脚本不随公开仓库分发，应按实际调度器规则自行准备。
-\begin{minipage}{\linewidth}\small
-\begin{verbatim}
-python scripts/doctor.py
-python -m unittest discover -s tests -v
-# Baseline and extension: follow README.
-# After all six formal quality experiments have completed:
-python scripts/repeat_timing.py --name timing-raw-new --rounds 3
-# Publish a redacted copy as described in README.
-# Optional reporting environment, not the CUDA training environment:
-python scripts/build_report_assets.py
-cd report
-xelatex -interaction=nonstopmode -halt-on-error main.tex
-xelatex -interaction=nonstopmode -halt-on-error main.tex
-\end{verbatim}
-\end{minipage}
-资产生成需要NumPy、Pillow和Matplotlib；LaTeX使用XeLaTeX、ctex与Fandol字体。
-不要在已有训练环境盲目升级依赖。评分文件、模型、评测清单或冻结代码变化时，应使用新实验目录，不能删除哈希检查绕过。
 
-\section{局限、结论与最终交付状态}
+报告资产由\texttt{scripts/build\_report\_assets.py}生成，随后对\texttt{main.tex}执行两次XeLaTeX编译。
+数据、模型与评测使用同一实验配置，来源清单记录各阶段输入哈希。
+资产生成需要NumPy、Pillow和Matplotlib；LaTeX使用XeLaTeX、ctex与Fandol字体。
+报告依赖使用独立环境；实验配置与来源哈希用于确保各阶段结果的一致性。
+
+\section{局限与结论}
 \subsection{局限}
 \begin{enumerate}
 \item 只验证了两个静态场景和一张GPU，质量实验为单种子；不宣称普适最优、统计显著或复现原论文全部成绩。
@@ -420,16 +406,6 @@ xelatex -interaction=nonstopmode -halt-on-error main.tex
 本项目完成了官方baseline的可复现实验，并加入可见贡献剪枝与固定数量恢复这一实质扩展。
 公平完整对照、跨场景多预算消融以及稳定重复计时共同支持：50\%是当前两个场景上较平衡的工程工作点，
 30\%能进一步降低资源开销但需要接受可测量的质量损失。
-项目不再通过增加预算或方法无目标扩展，下一步是完成成员信息、贡献说明和演示核对。
-
-\subsection{提交前检查}
-\begin{itemize}
-\item 源码、运行说明、真实结果与图表：已具备；确认Git子模块及许可证随提交方式可获得。
-\item 技术报告：本文为实验内容完整稿；身份信息与分工占位需填写并重新编译。
-\item 5--8分钟演示视频或现场Demo：\textbf{待制作/确认}，应展示方法、主要结果和失败案例，不能标为已完成。
-\item 贡献说明与答辩准备：\textbf{待成员确认}，需能解释颜色梯度评分、完整恢复对照、计时口径及关键源码。
-\item 提交包：最终仅包含课程要求文件，不包含构建缓存、日志、数据集和巨大断点；大模型如需提交按教师要求另行处理。
-\end{itemize}
 
 \begin{thebibliography}{9}
 \raggedright

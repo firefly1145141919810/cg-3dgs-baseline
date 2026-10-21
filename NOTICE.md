@@ -1,11 +1,21 @@
-# 来源与贡献边界
+# 来源与贡献说明
 
-核心算法完整采用 Inria / MPII 作者的 gaussian-splatting 官方实现，固定在 `2eee0e26d2d5fd00ec462df47752223952f6bf4e`，未把他人的渲染器、优化器或 CUDA 内核冒充为自己的实现。
+## 官方实现
 
-- 上游：`vendor/gaussian-splatting`，版权与使用条件见该目录的 `LICENSE.md`。本仓库以 Git submodule 保留原始提交、来源及许可证。
-- 本项目新增：云端安装与诊断、固定实验配置、训练视角可见贡献评分、稳定Top-K剪枝、固定数量恢复、六组消融、多预算实验、独立重复计时、来源核验、导出与实验报告。由 AI 协助编写；两场景三预算的质量实验及最终模型重复计时已在用户云端执行并回传核查。本地未重跑GPU模型。
-- 论文：Kerbl, Kopanas, Leimkühler, Drettakis. *3D Gaussian Splatting for Real-Time Radiance Field Rendering*. ACM TOG 42(4), 2023. https://doi.org/10.1145/3592433
-- 原论文及图片版权归原作者/出版方。中文批注是学习解释，不是作者认可的译本；保留未改动原文。公开传播前应另核对相应授权。
-- 数据版权归各提供方。数据不进入 Git；请按各数据集条款使用。
+高斯表示、baseline训练、密度控制、CUDA渲染器、kNN初始化与质量评测采用Inria / MPII的官方Gaussian Splatting实现，固定提交为 `2eee0e26d2d5fd00ec462df47752223952f6bf4e`。
 
-当前已完成baseline加压缩扩展的实验主线，不宣称复现原论文全部分数或提出全新理论。成员姓名、实际分工与贡献说明必须由组员确认；报告明确披露官方直接使用模块及AI辅助范围。课程要求的演示视频或现场Demo仍需确认完成。
+源码以Git子模块保存在 `vendor/gaussian-splatting`，版权与使用条件见其中的 `LICENSE.md`。
+
+## 项目实现与AI辅助
+
+本项目实现训练视角可见贡献评分、稳定Top-K剪枝、固定数量恢复、六组消融、多预算实验、独立重复计时、来源校验、结果导出，以及配套测试、文档与报告。
+
+开发过程中使用Codex辅助工程代码、测试、资料讲解和报告整理。官方模块与项目新增模块的边界、成员分工见技术报告的贡献说明。
+
+## 论文与数据
+
+- Kerbl, Kopanas, Leimkühler, Drettakis. *3D Gaussian Splatting for Real-Time Radiance Field Rendering*. ACM TOG 42(4), 2023. [DOI](https://doi.org/10.1145/3592433)
+- 原论文及图片版权归原作者或出版方。中文批注为学习说明，不是官方译本，未改动论文原文。
+- 数据与场景图像版权归各提供方，使用与传播须遵守相应数据集条款。
+
+第三方材料保留各自许可，本仓库不为其授予新的使用权限。

@@ -1,8 +1,8 @@
-# 云服务器安装与运行
+# Linux环境安装与运行
 
 本教程面向Linux＋NVIDIA GPU，项目训练在Linux计算环境验证，未验证本地Windows训练。bash命令在相应Linux环境执行；下载论文、编辑文档与静态代码检查不需要GPU。
 
-## 1 先确认你实际登录的环境
+## 1 检查运行环境
 
 ```bash
 nvidia-smi
@@ -28,8 +28,6 @@ git clone https://github.com/firefly1145141919810/cg-3dgs-baseline.git
 cd cg-3dgs-baseline
 python scripts/bootstrap.py
 ```
-
-公开仓库HTTPS克隆不需要SSH key或登录；推送才需要权限和身份验证。不要把token写进命令行URL、文档或聊天。
 
 bootstrap 只拉取训练需要的两个 CUDA 子模块及它们的依赖，不下载/编译可选的 SIBR 桌面查看器。不要直接运行 `git submodule update --remote`，它会破坏固定版本。
 
