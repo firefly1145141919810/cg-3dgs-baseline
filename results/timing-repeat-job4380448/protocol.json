@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "rounds": 3,
+  "sources": [
+    {
+      "scene": "train",
+      "budget": 70,
+      "views": 38,
+      "evaluation_sha256": "bf2c6ce02481bad03a714a4b91b1863d642705d8490df3f3a21cc69952038f5d",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/train_budget70_recovery3k/identity100_recovery/config.json",
+          "config_sha256": "66add4437f8b99b75f71cc86b0bc1afa52586fb8b757f169cb627372c19fad1f",
+          "ply": "outputs/compression/train_budget70_recovery3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "faa45c80731e08acc8f1f0acce77221aa09fd89477e98d66a0557ba906404089",
+          "count": 1082124
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/train_budget70_recovery3k/opacity_recovery/config.json",
+          "config_sha256": "689a0ffa9c2a8a46d933dfe31698e1c3e99016e3b66c5baaaf22c47781745b31",
+          "ply": "outputs/compression/train_budget70_recovery3k/opacity_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "cd1387d051b0b3e3558069f559c7c09121a54c9ec3bff5fd4748188ff088ac02",
+          "count": 757486
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/train_budget70_recovery3k/contribution_recovery/config.json",
+          "config_sha256": "4c588a97d9284996bed908f903e1ea37c0ebeb41670e5040f68aa289c98d34c3",
+          "ply": "outputs/compression/train_budget70_recovery3k/contribution_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "70fa9b7a566777eb15134bf3fc441c750350420d0cab49d48477742c8e64bf94",
+          "count": 757486
+        }
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 50,
+      "views": 38,
+      "evaluation_sha256": "fe0ff94dd9e1401e5fc9291ac192836acd0b96efa6763b5e354a64e3d8061cc4",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/train_scoring_recovery_3k/identity100_recovery/config.json",
+          "config_sha256": "bd9ea1dedd3db35d007e730d084adebcece163a719dd271e5f02251224549976",
+          "ply": "outputs/compression/train_scoring_recovery_3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "26a8c288844cc74076385c006a693ee38d976e1234c25ac82ab068d01dd4eb62",
+          "count": 1082124
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/train_scoring_recovery_3k/opacity50_recovery/config.json",
+          "config_sha256": "d7544878934e33321652c6cda53529c9bb2904de7e5e374f573b6d71011db9d3",
+          "ply": "outputs/compression/train_scoring_recovery_3k/opacity50_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "c0a2dad90176e3ffb670de96fb6d753ae0dcb50ab9204032cd5fdadebdca7bde",
+          "count": 541062
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/train_scoring_recovery_3k/contribution50_recovery/config.json",
+          "config_sha256": "b71993820019d0d94a128ad6419a86948a507c92114486be63eb969c0737ea14",
+          "ply": "outputs/compression/train_scoring_recovery_3k/contribution50_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "228bdc847eb8bf1bfa52cf8580924a22d6f8e5f8a84a2785679709b73ea5d922",
+          "count": 541062
+        }
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 30,
+      "views": 38,
+      "evaluation_sha256": "4a50c2bdebeccfe7de908b94124bc2d4129ccb9ca9473055341f366fb0940f96",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/train_budget30_recovery3k/identity100_recovery/config.json",
+          "config_sha256": "0a7a9324f60f7805ac1350af5cf069a3decb732a47fcae61c1885d3ed17c718f",
+          "ply": "outputs/compression/train_budget30_recovery3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "82250c790b7fb7694046c392b79ce57735b12adee58706f64fcbbc1f0fe2f3c8",
+          "count": 1082124
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/train_budget30_recovery3k/opacity_recovery/config.json",
+          "config_sha256": "2067b8780603e318dd3f5c5e21e5667c2aefe81ac58e5eccbfcd499c74a4bbbc",
+          "ply": "outputs/compression/train_budget30_recovery3k/opacity_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "ab4330cddfda3dab2c2f8cee90b785214a589df15f881527e49206d0963eb86d",
+          "count": 324637
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/train_budget30_recovery3k/contribution_recovery/config.json",
+          "config_sha256": "c20f424fb6155a90e57d7c602657ba3df0e495130debf79259d2d0a7a20999ad",
+          "ply": "outputs/compression/train_budget30_recovery3k/contribution_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "ee6b839ed7fd8ad5a57a0f9a7c94fa40bff643f8aa713ae03eccf8034bd09891",
+          "count": 324637
+        }
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 70,
+      "views": 32,
+      "evaluation_sha256": "360a94fe8ec89b11c0619c234482db69dac84a55c2a27f589cb0ed5b53011ac1",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/truck_budget70_recovery3k/identity100_recovery/config.json",
+          "config_sha256": "ebb98bfd5e93a281d9b8b092cc6e9dc4d2bf95d1d1c78188f6cb4d31663d2101",
+          "ply": "outputs/compression/truck_budget70_recovery3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "4dca644683df2b74c949c017d51849749f2b3e39f538f739985b80e486cdf2b6",
+          "count": 2590158
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/truck_budget70_recovery3k/opacity_recovery/config.json",
+          "config_sha256": "d69e39385f2c29b3a4a5d4d8079afde1ffa4c8deb0dc35d424e2d0e753243fe3",
+          "ply": "outputs/compression/truck_budget70_recovery3k/opacity_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "c7c89339fa946ad47ca301fbe9be73c6bcc1e031efb29640336a2082dcbbfc35",
+          "count": 1813110
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/truck_budget70_recovery3k/contribution_recovery/config.json",
+          "config_sha256": "40e36b723b4e2f19f544da75ea5df30fbaf82cfb5c39a5ad2133ff596d8e92c1",
+          "ply": "outputs/compression/truck_budget70_recovery3k/contribution_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "a46d9317709c918b1a8285585ee43026c27739e5457f11e85a2cd057e3d0b825",
+          "count": 1813110
+        }
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 50,
+      "views": 32,
+      "evaluation_sha256": "97b7747f67f7d9fa4b8a2aa2d6a99f57f2509c1d49b8d50e482c7b1ea5a93308",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/truck_scoring_recovery_3k/identity100_recovery/config.json",
+          "config_sha256": "dfbb541550fb8a2c51c6ee49c8a14cc4f74611079f1bcd1b099229d215eb8da7",
+          "ply": "outputs/compression/truck_scoring_recovery_3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "2afdfef5f407ce483b3b4f6fabfab52f53f86ab4b1840e9f471552db928decd5",
+          "count": 2590158
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/truck_scoring_recovery_3k/opacity50_recovery/config.json",
+          "config_sha256": "c88309c86572a31e9970839f14c935b0f064fa00ee844cda328f8bb94cd6dc5d",
+          "ply": "outputs/compression/truck_scoring_recovery_3k/opacity50_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "1a00cf86f57fb3e657827bb7091b0ef0c294820e4908d81c66072ed09807dfc7",
+          "count": 1295079
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/truck_scoring_recovery_3k/contribution50_recovery/config.json",
+          "config_sha256": "91add7a139787f7d13d1755b9c53bab62c2236aa3e21bf5decb4cb195ac33368",
+          "ply": "outputs/compression/truck_scoring_recovery_3k/contribution50_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "0d8048b30ebffe25c27473d13d379c5e041dcce4807b17bd3c8c6a9a6135511b",
+          "count": 1295079
+        }
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 30,
+      "views": 32,
+      "evaluation_sha256": "7ba63d4c3aeff842e8f61aff070c70d19771268069d75fc9f695b7a1f906d03d",
+      "models": {
+        "identity100_recovery": {
+          "config": "outputs/compression/truck_budget30_recovery3k/identity100_recovery/config.json",
+          "config_sha256": "5403b024079c5cae9be1398e875a5f6ace4cd2be3533235bcf41c7df99fa5cb4",
+          "ply": "outputs/compression/truck_budget30_recovery3k/identity100_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "b7bfa3fae77b97e99ba2804a861030ecfe4748f0c5c8a1661c2c9e157dd6a7e7",
+          "count": 2590158
+        },
+        "opacity_recovery": {
+          "config": "outputs/compression/truck_budget30_recovery3k/opacity_recovery/config.json",
+          "config_sha256": "5c7997930c79bd9b68aa522cae8308bb3f9654e360da3fa123d9ee9c89215332",
+          "ply": "outputs/compression/truck_budget30_recovery3k/opacity_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "3d91ce7469626886ecdebcf4e5d7eb5475fc84319d6060caf366e01c1fd5d2a1",
+          "count": 777047
+        },
+        "contribution_recovery": {
+          "config": "outputs/compression/truck_budget30_recovery3k/contribution_recovery/config.json",
+          "config_sha256": "d44a3e719fabde4fc951fc7d061129900a6bad3ca8cbec2d659e3b6a9045df81",
+          "ply": "outputs/compression/truck_budget30_recovery3k/contribution_recovery/point_cloud/iteration_33000/point_cloud.ply",
+          "ply_sha256": "0f2001a68fb0b704ce7d2496934729555a630935777b2dba371683e14c42b2e7",
+          "count": 777047
+        }
+      }
+    }
+  ],
+  "script_sha256": {
+    "repeat_timing.py": "879cd04944a8adb953e4e06329893abe7b4f267b43e8dfb5c3a9e4a152da92b9",
+    "benchmark_repeat_worker.py": "ca6a1878729a23b5978f653a41d9cf2985959261fa970d12ee555d9e6eec9bde"
+  },
+  "order": [
+    [
+      "identity100_recovery",
+      "opacity_recovery",
+      "contribution_recovery"
+    ],
+    [
+      "opacity_recovery",
+      "contribution_recovery",
+      "identity100_recovery"
+    ],
+    [
+      "contribution_recovery",
+      "identity100_recovery",
+      "opacity_recovery"
+    ]
+  ],
+  "warmup": 20,
+  "repeats": 3,
+  "environment": {
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "torch": "2.2.2+cu121",
+    "torch_cuda": "12.1",
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "platform": "Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28"
+  }
+}

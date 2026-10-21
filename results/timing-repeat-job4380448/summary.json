@@ -1,0 +1,603 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "scene": "train",
+      "budget": 70,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 5.0063233689257975,
+        "min": 5.001864420740228,
+        "max": 5.016251227311921
+      },
+      "fps_across_rounds": {
+        "median": 199.74738471889185,
+        "min": 199.3520568817033,
+        "max": 199.92545096854298
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        5.0063233689257975,
+        5.016251227311921,
+        5.001864420740228
+      ],
+      "peak_allocated_bytes": {
+        "median": 838844416,
+        "min": 838844416,
+        "max": 838844416
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 70,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 3.79003509931397,
+        "min": 3.7848676422186065,
+        "max": 3.7906818076183924
+      },
+      "fps_across_rounds": {
+        "median": 263.84979922244224,
+        "min": 263.8047851946401,
+        "max": 264.2100317711036
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.3206920609543769,
+        "min": 1.3197409231501867,
+        "max": 1.32534389613992
+      },
+      "round_mean_ms": [
+        3.7906818076183924,
+        3.7848676422186065,
+        3.79003509931397
+      ],
+      "peak_allocated_bytes": {
+        "median": 583984640,
+        "min": 583984640,
+        "max": 583984640
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 70,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 4.041104546764441,
+        "min": 4.035160976543761,
+        "max": 4.0473086394761735
+      },
+      "fps_across_rounds": {
+        "median": 247.45709704557436,
+        "min": 247.07777169408703,
+        "max": 247.82158774159504
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.2394041755019587,
+        "min": 1.2377468493719201,
+        "max": 1.2406750060350422
+      },
+      "round_mean_ms": [
+        4.035160976543761,
+        4.0473086394761735,
+        4.041104546764441
+      ],
+      "peak_allocated_bytes": {
+        "median": 604220416,
+        "min": 604220416,
+        "max": 604220416
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 50,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 5.0120384442178825,
+        "min": 5.007288719478407,
+        "max": 5.019636212733754
+      },
+      "fps_across_rounds": {
+        "median": 199.51961883964515,
+        "min": 199.21762407068698,
+        "max": 199.70887560567246
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        5.019636212733754,
+        5.0120384442178825,
+        5.007288719478407
+      ],
+      "peak_allocated_bytes": {
+        "median": 838844416,
+        "min": 838844416,
+        "max": 838844416
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 50,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 3.07727439152567,
+        "min": 3.072823583034047,
+        "max": 3.0807626686598124
+      },
+      "fps_across_rounds": {
+        "median": 324.96289663146155,
+        "min": 324.5949485732434,
+        "max": 325.4335867250209
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.629539927747595,
+        "min": 1.6268823610480225,
+        "max": 1.63119552372614
+      },
+      "round_mean_ms": [
+        3.07727439152567,
+        3.0807626686598124,
+        3.072823583034047
+      ],
+      "peak_allocated_bytes": {
+        "median": 420873728,
+        "min": 420873728,
+        "max": 420873728
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 50,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 3.442995370480052,
+        "min": 3.4371301103056524,
+        "max": 3.4432280649218643
+      },
+      "fps_across_rounds": {
+        "median": 290.44477043852993,
+        "min": 290.4251420890683,
+        "max": 290.94039733953315
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.4556219773178511,
+        "min": 1.454340822648346,
+        "max": 1.4604149542326679
+      },
+      "round_mean_ms": [
+        3.4371301103056524,
+        3.4432280649218643,
+        3.442995370480052
+      ],
+      "peak_allocated_bytes": {
+        "median": 457485824,
+        "min": 457485824,
+        "max": 457485824
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 30,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 5.011623033306055,
+        "min": 5.001538540187635,
+        "max": 5.014299490995574
+      },
+      "fps_across_rounds": {
+        "median": 199.53615692047023,
+        "min": 199.4296514988284,
+        "max": 199.93847732351665
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        5.011623033306055,
+        5.001538540187635,
+        5.014299490995574
+      ],
+      "peak_allocated_bytes": {
+        "median": 838844416,
+        "min": 838844416,
+        "max": 838844416
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 30,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 2.5333908817224335,
+        "min": 2.528081410809567,
+        "max": 2.5393119987688566
+      },
+      "fps_across_rounds": {
+        "median": 394.7278752815702,
+        "min": 393.80745669883555,
+        "max": 395.55688188054444
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.9742466811071517,
+        "min": 1.973614520679561,
+        "max": 1.9834406714734103
+      },
+      "round_mean_ms": [
+        2.5393119987688566,
+        2.5333908817224335,
+        2.528081410809567
+      ],
+      "peak_allocated_bytes": {
+        "median": 273127936,
+        "min": 273127936,
+        "max": 273127936
+      }
+    },
+    {
+      "scene": "train",
+      "budget": 30,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 2.8624030895400465,
+        "min": 2.858550464897825,
+        "max": 2.873888287627906
+      },
+      "fps_across_rounds": {
+        "median": 349.3568057043594,
+        "min": 347.9606372679835,
+        "max": 349.82765295897747
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.7508446143101957,
+        "min": 1.7403385377640694,
+        "max": 1.754140622168377
+      },
+      "round_mean_ms": [
+        2.8624030895400465,
+        2.873888287627906,
+        2.858550464897825
+      ],
+      "peak_allocated_bytes": {
+        "median": 308434944,
+        "min": 308434944,
+        "max": 308434944
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 70,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 6.296181331078212,
+        "min": 6.290863653024037,
+        "max": 6.297065332531929
+      },
+      "fps_across_rounds": {
+        "median": 158.82642945239817,
+        "min": 158.80413290835577,
+        "max": 158.9606857111419
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        6.297065332531929,
+        6.290863653024037,
+        6.296181331078212
+      ],
+      "peak_allocated_bytes": {
+        "median": 1667826688,
+        "min": 1667826688,
+        "max": 1667826688
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 70,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 5.050081347425778,
+        "min": 5.046054005622864,
+        "max": 5.052464336156845
+      },
+      "fps_across_rounds": {
+        "median": 198.0166122491747,
+        "min": 197.9232179520241,
+        "max": 198.17465268617636
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.2461604698564581,
+        "min": 1.2456955086932875,
+        "max": 1.2479187352166767
+      },
+      "round_mean_ms": [
+        5.046054005622864,
+        5.050081347425778,
+        5.052464336156845
+      ],
+      "peak_allocated_bytes": {
+        "median": 1190861824,
+        "min": 1190861824,
+        "max": 1190861824
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 70,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 5.210690031449,
+        "min": 5.2068183322747545,
+        "max": 5.218560988704364
+      },
+      "fps_across_rounds": {
+        "median": 191.91316197365856,
+        "min": 191.62370664336618,
+        "max": 192.05586524911845
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.2072995351970035,
+        "min": 1.2066669999952095,
+        "max": 1.2092185533055724
+      },
+      "round_mean_ms": [
+        5.218560988704364,
+        5.210690031449,
+        5.2068183322747545
+      ],
+      "peak_allocated_bytes": {
+        "median": 1199621632,
+        "min": 1199621632,
+        "max": 1199621632
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 50,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 6.297038694222768,
+        "min": 6.292491321762403,
+        "max": 6.302725329995155
+      },
+      "fps_across_rounds": {
+        "median": 158.8048046961268,
+        "min": 158.66152301464305,
+        "max": 158.91956760298237
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        6.292491321762403,
+        6.302725329995155,
+        6.297038694222768
+      ],
+      "peak_allocated_bytes": {
+        "median": 1667826688,
+        "min": 1667826688,
+        "max": 1667826688
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 50,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 4.0710709889729815,
+        "min": 4.064246341586113,
+        "max": 4.0721859981616335
+      },
+      "fps_across_rounds": {
+        "median": 245.63560859258618,
+        "min": 245.56835086890544,
+        "max": 246.0480777869729
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.5481737722252686,
+        "min": 1.546353407497971,
+        "max": 1.5482553942108477
+      },
+      "round_mean_ms": [
+        4.064246341586113,
+        4.0710709889729815,
+        4.0721859981616335
+      ],
+      "peak_allocated_bytes": {
+        "median": 867530752,
+        "min": 867530752,
+        "max": 867530752
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 50,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 4.472185663878918,
+        "min": 4.470154660443465,
+        "max": 4.486195993920167
+      },
+      "fps_across_rounds": {
+        "median": 223.60431233363806,
+        "min": 222.90599905916534,
+        "max": 223.70590638597596
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.4076674745607463,
+        "min": 1.403647701249948,
+        "max": 1.4093165632413687
+      },
+      "round_mean_ms": [
+        4.470154660443465,
+        4.472185663878918,
+        4.486195993920167
+      ],
+      "peak_allocated_bytes": {
+        "median": 890360320,
+        "min": 890360320,
+        "max": 890360320
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 30,
+      "method": "identity100_recovery",
+      "mean_ms_across_rounds": {
+        "median": 6.295416007439296,
+        "min": 6.292808969815572,
+        "max": 6.300175994634628
+      },
+      "fps_across_rounds": {
+        "median": 158.8457377269905,
+        "min": 158.72572462287124,
+        "max": 158.9115456700901
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "round_mean_ms": [
+        6.292808969815572,
+        6.295416007439296,
+        6.300175994634628
+      ],
+      "peak_allocated_bytes": {
+        "median": 1667826688,
+        "min": 1667826688,
+        "max": 1667826688
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 30,
+      "method": "opacity_recovery",
+      "mean_ms_across_rounds": {
+        "median": 3.053707331418991,
+        "min": 3.0534580002228418,
+        "max": 3.0543966591358185
+      },
+      "fps_across_rounds": {
+        "median": 327.47080563719965,
+        "min": 327.39690079510837,
+        "max": 327.49754538199636
+      },
+      "paired_speedup_across_rounds": {
+        "median": 2.0610996900515404,
+        "min": 2.060879491172409,
+        "max": 2.0631237086191474
+      },
+      "round_mean_ms": [
+        3.0534580002228418,
+        3.0543966591358185,
+        3.053707331418991
+      ],
+      "peak_allocated_bytes": {
+        "median": 533449728,
+        "min": 533449728,
+        "max": 533449728
+      }
+    },
+    {
+      "scene": "truck",
+      "budget": 30,
+      "method": "contribution_recovery",
+      "mean_ms_across_rounds": {
+        "median": 3.605296994249026,
+        "min": 3.602751341958841,
+        "max": 3.6122389982144036
+      },
+      "fps_across_rounds": {
+        "median": 277.3696595856446,
+        "min": 276.8366103389943,
+        "max": 277.56564499849526
+      },
+      "paired_speedup_across_rounds": {
+        "median": 1.7461573949334555,
+        "min": 1.7420799047145616,
+        "max": 1.748712413554797
+      },
+      "round_mean_ms": [
+        3.6122389982144036,
+        3.605296994249026,
+        3.602751341958841
+      ],
+      "peak_allocated_bytes": {
+        "median": 574126080,
+        "min": 574126080,
+        "max": 574126080
+      }
+    }
+  ],
+  "sample_sha256": {
+    "train-70-r1-identity100_recovery.json": "656b9d4ddf52b602c75504a9d3dab1c80a5c33c3b2e5d20c389660c6ad101990",
+    "train-70-r1-opacity_recovery.json": "1a60809de0fc79cdcc2fba63b917f53e96524d3f523752717e92f31b290d03b0",
+    "train-70-r1-contribution_recovery.json": "e260f4cd286c097aa0cf9db0206a2823a6f0e72a578f541e2bf636dff54e7fb7",
+    "train-70-r2-identity100_recovery.json": "3f8a909a67ed389d0e1e14d236bcefe4118306d9014fd1c4f76519a066b01146",
+    "train-70-r2-opacity_recovery.json": "e9f90de76a7cfdafea09fe7ed88e52691c002492e76d0e2fc7ced9a291477570",
+    "train-70-r2-contribution_recovery.json": "55e68cbbb1ee535f24394206c3f35d5befc376980198e2e5ff4f09000b81d69d",
+    "train-70-r3-identity100_recovery.json": "e88b5a7edcf08aad50b120e62bc35f3d014d22e2436208f5d83c0f95d4be3b0a",
+    "train-70-r3-opacity_recovery.json": "596f2d280d57771c54d70b23ab8788725efa566b3b394d6719182fef7a4d5263",
+    "train-70-r3-contribution_recovery.json": "6398a06a37060c1af9e982c4a18b89bf12006d60286372d28a1f2bdaea4b66e6",
+    "train-50-r1-identity100_recovery.json": "2a60f236c0fb6ca7f4020ca30eff914c3ba09470de2ebb2da1297da4fa901188",
+    "train-50-r1-opacity_recovery.json": "d6edb5c0b0e28af40da336f704e00f92a3b49f49845b4e5808c78c843cf40699",
+    "train-50-r1-contribution_recovery.json": "b4cae108b612615c5e313865ad6a341ebfca23cc9322c5d0bc9bff55c7ee723e",
+    "train-50-r2-identity100_recovery.json": "f397f4f870b850330ab6bd6fd81ba773c76573cadea66b2ec7005550fed9d101",
+    "train-50-r2-opacity_recovery.json": "845cd60051b81cf4e10f6596954e49fca2f6499ac903331cf277f772d551f8b7",
+    "train-50-r2-contribution_recovery.json": "84b0de2e782d793ff80f8f50cb08fea60d05773b6e397716d6316c22a3300580",
+    "train-50-r3-identity100_recovery.json": "c75c110146ba369139d917ead52d9f931f8359f2800da36dbf4d0e804f69fd6d",
+    "train-50-r3-opacity_recovery.json": "a66f749944c6cff8f52d7df1a700aa326f6491277c9477131f9f917206b40966",
+    "train-50-r3-contribution_recovery.json": "c783c4a1ee8869387528fafa1e4e34ae10551215a55f3eb3a9f29e05716e4f07",
+    "train-30-r1-identity100_recovery.json": "2ef1f69e25fc3208c4fd53d33a9e4c29404fc3a9ec0205abd66f38fbb0763963",
+    "train-30-r1-opacity_recovery.json": "f0bb925b56127f2fa7422c98f5a46f07e6075be0e672cd21b08d9743d6bbd463",
+    "train-30-r1-contribution_recovery.json": "028d8cdcbabad926b18512c16220484a711b5f32f15e7b8ba112719c36ec6717",
+    "train-30-r2-identity100_recovery.json": "905b47950853176256e5ecde91e69988578438715bf347bb6c3dbcb51f61fdc0",
+    "train-30-r2-opacity_recovery.json": "b45ae7200d9bdf853a063638e8139b7748d4a62b04a30d1b017652679ed466ac",
+    "train-30-r2-contribution_recovery.json": "cacc0088f93222dfb5a80ee0983fc422660ee07ee42be3372aa6e0b198543ba3",
+    "train-30-r3-identity100_recovery.json": "7ecdde5945c5909fe8019c41de199aecd984d3469c7aedf19ec7c746d8e629c5",
+    "train-30-r3-opacity_recovery.json": "fb07a60c206d34e6d5e419c9d3ed8d31226923a12aca0bd6df846d7a7c334cf3",
+    "train-30-r3-contribution_recovery.json": "6a46571428643c4ede5bd00c1a2d1834621608f3e8195d634ae83b39a15b5646",
+    "truck-70-r1-identity100_recovery.json": "6cccd1609592f5e6986bb90ef2cb4fd682e7ad368275a165da50e663222b6ff6",
+    "truck-70-r1-opacity_recovery.json": "49a9b32ac54ee918b95c535fb31d4b3a416de6bac8f7d366c1e5462f05a8727a",
+    "truck-70-r1-contribution_recovery.json": "234bdca0682c1eb9ea4b389d627a901494e862140004fe72a55c14db147ad0c9",
+    "truck-70-r2-identity100_recovery.json": "ab995575cfd0827a9577440ad7be07ccae67e9cb6c00b2e701cca0ac09ebf9e8",
+    "truck-70-r2-opacity_recovery.json": "33adf1d66323c4ff8e5ad34f7dfe43547156433d42d53e7ce58fd7f52fceca3a",
+    "truck-70-r2-contribution_recovery.json": "646f06962f834983fa35794dd39896e7cb8dea7575dc19409670d0b3536ac001",
+    "truck-70-r3-identity100_recovery.json": "3b720451ade1c23d19f83835fc1011d2ed2107d80618cacee990332a2eb51a6d",
+    "truck-70-r3-opacity_recovery.json": "e55e8be26d9251ca68ef01689b8495915f2ac350ea77da6c4ad7d2b0704e4d5c",
+    "truck-70-r3-contribution_recovery.json": "b3d2829c9986d05f0f1990cb53a8bef7f16a91902a17bd4a5b18c6d2dbe76d25",
+    "truck-50-r1-identity100_recovery.json": "caf5061cfabe20c6280b023dc9570ec7df52913ebbf19c5a1de577f3bef061cd",
+    "truck-50-r1-opacity_recovery.json": "e3c851c6ad42935057fb1d92e9a983776e8bfa3cc0f34dbaef2b8491f41fef39",
+    "truck-50-r1-contribution_recovery.json": "61ac6255d5339ea833e3186e033efbb8dfdb0577c1e12bf64936e84bee76a54a",
+    "truck-50-r2-identity100_recovery.json": "6177a9b7ae4c3572b0467431260ac0455d8a924dc1707292de5536f83b970910",
+    "truck-50-r2-opacity_recovery.json": "e30e2aff01b300d360e9a0364c75429c14c24829b81cef41cb21e4e588d2ba5c",
+    "truck-50-r2-contribution_recovery.json": "9e097ef4f32bebfef07c3e31b62187dfd47c76d0fcb96251fd4bd19944adaf43",
+    "truck-50-r3-identity100_recovery.json": "8fe2dfab5005603bbca86fd1678e5293a2482036243b13f4c7a009d8cae8269a",
+    "truck-50-r3-opacity_recovery.json": "e154e85c77c1936f9bc1fd440a740e00658887e03635a7b2840c2c7a90631707",
+    "truck-50-r3-contribution_recovery.json": "ac1e6d88560152d589afda86f7f58a3896bc7144cb4010eff982fb9526f4aae2",
+    "truck-30-r1-identity100_recovery.json": "0bbe3a245071d631dbff6329f574753a861e03e3f892dc3abcda60e7970c299a",
+    "truck-30-r1-opacity_recovery.json": "aa8c11c3445691067be97a6afa14b83af2c5df97c78687b3357926bd48834538",
+    "truck-30-r1-contribution_recovery.json": "30dd4beb0b1e56937aa5a9ada3e60b9b322df1f6b42c0caf07cf839c32df6141",
+    "truck-30-r2-identity100_recovery.json": "206e2f7b8f23b920ceed953c6ea2ae01ac02fb94454f1d640c8fa7b6a7cc03ff",
+    "truck-30-r2-opacity_recovery.json": "ac9e369165437e6577e1adf756f70deaea9b065144dbdcc942946e3ab5790164",
+    "truck-30-r2-contribution_recovery.json": "3307ad4151ca1424ee7b0a9f22056889f37914ba9122735e7700c01122deac95",
+    "truck-30-r3-identity100_recovery.json": "eb3b7fdfc5bfbfccb909d51400366abb42b9a869583b70ae829eb851fdd93ee3",
+    "truck-30-r3-opacity_recovery.json": "43104af768be2dc2bc9e618963ef2dbbf4ea960931bd00bb310861d803d5cf69",
+    "truck-30-r3-contribution_recovery.json": "24f3ab078e65d2603cafdeeaccd1bfcda500c941a6511f9ab07da3dc7550bef8"
+  },
+  "manifest_sha256": "69709b6f5143b62987ecf1ee85b0b4f93cf0e53b4f115d6f2cc3b9f8bacf79a4",
+  "note": "Three rotations are process-level repeat measurements, not independent training seeds. Report range, not statistical significance; CUDA-event renderer timing excludes I/O."
+}
