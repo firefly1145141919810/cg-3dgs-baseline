@@ -1,6 +1,6 @@
 # 云服务器安装与运行
 
-本教程针对 Linux＋NVIDIA GPU。不要在本地 Windows 安装训练依赖。所有 bash 命令均在服务器终端执行；下载论文、编辑文档与静态代码检查不需要 GPU。
+本教程面向Linux＋NVIDIA GPU，项目训练在Linux计算环境验证，未验证本地Windows训练。bash命令在相应Linux环境执行；下载论文、编辑文档与静态代码检查不需要GPU。
 
 ## 1 先确认你实际登录的环境
 
@@ -19,17 +19,17 @@ g++ --version
 - Conda 决定 Python 和包安装在哪个隔离环境中；激活错环境会导致“刚装完却无法 import”。
 - 3DGS 需要编译自定义 C++/CUDA 扩展，所以“另一个 PyTorch 项目能运行”不足以证明这些工具齐全。
 
-参考项目 LLM-addition 的文档提及 A100 40GB 任务与 CUDA 12.1 示例，但并未提供可确认的当前 GPU/Toolkit 锁定信息；它的 requirements 快照包含大量系统包且不含完整 torch 依赖，不应照搬。
+不要直接照搬其他项目的环境快照；能运行一般PyTorch代码不等于能够编译本项目CUDA扩展。
 
 ## 2 获取仓库与固定版本源码
 
 ```bash
-git clone git@github.com:firefly1145141919810/cg-3dgs-baseline.git
+git clone https://github.com/firefly1145141919810/cg-3dgs-baseline.git
 cd cg-3dgs-baseline
 python scripts/bootstrap.py
 ```
 
-若没有 SSH key，用 `gh auth login` 完成你自己的账号授权，然后 `gh repo clone firefly1145141919810/cg-3dgs-baseline`。不要把 token 写进命令行 URL、文档或聊天。
+公开仓库HTTPS克隆不需要SSH key或登录；推送才需要权限和身份验证。不要把token写进命令行URL、文档或聊天。
 
 bootstrap 只拉取训练需要的两个 CUDA 子模块及它们的依赖，不下载/编译可选的 SIBR 桌面查看器。不要直接运行 `git submodule update --remote`，它会破坏固定版本。
 
@@ -47,7 +47,7 @@ conda activate cg3dgs
 | cu121 | 3.10 | 2.2.2 / 0.17.2 | 12.1 |
 | cu118 | 3.10 | 2.2.2 / 0.17.2 | 11.8 |
 
-这是针对常见 Ampere/Ada/Hopper GPU 的工程兼容性起点，不是原论文的软件环境，更不是已经在你的服务器验证过的配置。原上游 environment.yml 使用较旧的 Python/PyTorch；为避免旧依赖安装问题，这里独立固定现代一些的配套版本，实验时记录实际环境。
+这是工程兼容性起点，不是原论文的软件环境。cu121已在本项目RTX 4090 D环境验证，不保证其他硬件或cu118配置同样通过。原上游environment.yml使用较旧的Python/PyTorch；这里单独固定配套版本，实验时记录实际环境。
 
 ### nvcc 为 12.1 时
 

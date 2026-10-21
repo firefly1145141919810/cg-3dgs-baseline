@@ -229,7 +229,8 @@ PSNR按每张图的MSE计算后再跨视角平均，不把所有像素混在一�
 显存仅指计时范围内PyTorch峰值allocated bytes，不是整卡占用或训练峰值。
 
 \subsection{核验结果与局限}
-重复计时全部来自\texttt{host-1}和作业4380448。
+重复计时全部来自同一主机和作业4380448。公开副本将主机名替换为\texttt{host-1}、
+模型路径改为仓库相对路径；附原始与公开文件哈希对应表，指标及计时数值未变。
 18个设置三轮均值的最大相对范围约0.536\%，小于预设10\%工程检查线。
 该检查说明本次计时稳定，不是统计显著性检验，也不能代表所有GPU上的速度。
 本地重新核对54份计时、36组逐视角质量均值、18组恢复训练记录、
@@ -385,15 +386,16 @@ AI辅助范围 & 使用Codex辅助编写工程代码、测试、资料讲解与�
 \subsection{从仓库到结果的运行说明}
 详细安装与数据条款见\texttt{docs/CLOUD.md}及README；CUDA扩展须在匹配PyTorch和Toolkit的环境编译。
 云端原始数据与大模型不在Git中，仅拉取Git结果可以重建报告图表，但不能直接重新渲染场景。
-完整实验来源与命令保留在\path{docs/COMPRESSION_EXPERIMENT.md}。
+完整实验研究记录见\path{docs/COMPRESSION_EXPERIMENT.md}，运行命令集中在README。
+个人集群作业脚本不随公开仓库分发，应按实际调度器规则自行准备。
 \begin{minipage}{\linewidth}\small
 \begin{verbatim}
 python scripts/doctor.py
 python -m unittest discover -s tests -v
-# Baseline and extension: follow the experiment manual.
-mkdir -p logs
-sbatch exp.slurm       # 70%/30% formal jobs, only if needed
-sbatch timing.slurm    # repeat timing on existing final models
+# Baseline and extension: follow README.
+# After all six formal quality experiments have completed:
+python scripts/repeat_timing.py --name timing-raw-new --rounds 3
+# Publish a redacted copy as described in README.
 # Optional reporting environment, not the CUDA training environment:
 python scripts/build_report_assets.py
 cd report

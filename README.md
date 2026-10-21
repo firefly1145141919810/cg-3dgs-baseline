@@ -23,10 +23,10 @@
 
 ## 1. 获取代码与安装
 
-以下命令均从仓库根目录执行。私有仓库需先取得GitHub访问权限；已有且诊断通过的环境无需重装。
+以下命令均从仓库根目录执行。仓库已公开，HTTPS克隆不需要登录；推送仍需要写权限。已有且诊断通过的环境无需重装。
 
 ```bash
-git clone git@github.com:firefly1145141919810/cg-3dgs-baseline.git
+git clone https://github.com/firefly1145141919810/cg-3dgs-baseline.git
 cd cg-3dgs-baseline
 python scripts/bootstrap.py
 conda create -n cg3dgs python=3.10 -y
@@ -123,25 +123,22 @@ python scripts/budget_phase5.py run --scene train --keep 0.3 --steps 20 \
 六个正式质量实验全部完成后，对18个恢复后模型设置各启动3个独立进程计时：
 
 ```bash
-python scripts/repeat_timing.py --name timing-repeat-repro --rounds 3
+python scripts/repeat_timing.py --name timing-raw-repro --rounds 3
+python scripts/publish_timing.py --source results/timing-raw-repro \
+  --destination results/timing-repeat-repro
 ```
 
 该入口读取 `outputs/compression/{scene}_scoring_recovery_3k`（50%）及 `{scene}_budget{70|30}_recovery3k`，不改写历史计时。若改变这些模型路径，须相应调整来源收集逻辑，不能只改导出名称。
 
-Slurm入口为 `exp.slurm`（70%/30%）和 `timing.slurm`（计时）。它们保留原集群的工作目录、分区、模块和环境设置，**并非通用配置**；其他环境先修改相应字段，再从仓库根目录提交：
+原始计时记录含绝对路径和节点名，`timing-raw-*`目录已忽略。公开前使用上述发布工具生成脱敏副本，保留独立公开哈希链和原始文件哈希；指标与计时不变。已脱敏目录不用于中断续跑，续跑应使用原始目录。
 
-```bash
-mkdir -p logs
-sbatch exp.slurm
-# 多预算任务全部完成后再提交，避免同GPU争用
-sbatch timing.slurm
-```
+个人Slurm脚本已从版本跟踪中移除，本地副本保留但不会分发。使用调度器时请按所在集群规则自行编写作业文件，调用上述Python入口；不要并发争用同一GPU计时，也不要上传账号、工作目录或节点信息。`*.slurm`、`private/`和日志目录均已忽略。
 
 不要并发写同一实验目录。来源或代码哈希不符应排查原因，不能删除校验绕过。恢复阶段可使用已有断点；baseline续跑需明确指定可信checkpoint。完整参数见各入口 `--help`。
 
 ## 结果、检查与报告
 
-`results/`保存指标、协议和固定视角图片；数据、完整模型、日志与缓存不进入Git。导出标签必须唯一，仅提交成功导出的目录，方法见[同步说明](docs/SYNC.md)。
+`results/`保存指标、协议和固定视角图片；数据、完整模型、日志与缓存不进入Git。导出标签必须唯一，仅提交检查过的公开副本，方法见[同步说明](docs/SYNC.md)。公开前运行 `python scripts/check_public_repo.py`；这是启发式检查，不替代人工检查或历史清理。
 
 ```bash
 python -m unittest discover -s tests -v

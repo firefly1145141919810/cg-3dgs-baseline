@@ -1,15 +1,16 @@
 # 3D Gaussian Splatting for Real-Time Radiance Field Rendering
+> Reference snapshot of the pinned upstream version. Only local asset links below were adapted to pinned upstream URLs for standalone reading; this is not the course project's run guide.
 Bernhard Kerbl*, Georgios Kopanas*, Thomas Leimkühler, George Drettakis (* indicates equal contribution)<br>
 | [Webpage](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/) | [Full Paper](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_high.pdf) | [Video](https://youtu.be/T_kXY43VZnk) | [Other GRAPHDECO Publications](http://www-sop.inria.fr/reves/publis/gdindex.php) | [FUNGRAPH project page](https://fungraph.inria.fr) |<br>
 | [T&T+DB COLMAP (650MB)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip) | [Pre-trained Models (14 GB)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/pretrained/models.zip) | [Viewers for Windows (60MB)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/binaries/viewers.zip) | [Evaluation Images (7 GB)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/evaluation/images.zip) |<br>
-![Teaser image](assets/teaser.png)
+![Teaser image](https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/teaser.png)
 
 This repository contains the official authors implementation associated with the paper "3D Gaussian Splatting for Real-Time Radiance Field Rendering", which can be found [here](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/). We further provide the reference images used to create the error metrics reported in the paper, as well as recently created, pre-trained models. 
 
-<a href="https://www.inria.fr/"><img height="100" src="assets/logo_inria.png"> </a>
-<a href="https://univ-cotedazur.eu/"><img height="100" src="assets/logo_uca.png"> </a>
-<a href="https://www.mpi-inf.mpg.de"><img height="100" src="assets/logo_mpi.png"> </a> 
-<a href="https://team.inria.fr/graphdeco/"> <img style="width:100%;" src="assets/logo_graphdeco.png"></a>
+<a href="https://www.inria.fr/"><img height="100" src="https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/logo_inria.png"> </a>
+<a href="https://univ-cotedazur.eu/"><img height="100" src="https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/logo_uca.png"> </a>
+<a href="https://www.mpi-inf.mpg.de"><img height="100" src="https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/logo_mpi.png"> </a>
+<a href="https://team.inria.fr/graphdeco/"> <img style="width:100%;" src="https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/logo_graphdeco.png"></a>
 
 Abstract: *Radiance Field methods have recently revolutionized novel-view synthesis of scenes captured with multiple photos or videos. However, achieving high visual quality still requires neural networks that are costly to train and render, while recent faster methods inevitably trade off speed for quality. For unbounded and complete scenes (rather than isolated objects) and 1080p resolution rendering, no current method can achieve real-time display rates. We introduce three key elements that allow us to achieve state-of-the-art visual quality while maintaining competitive training times and importantly allow high-quality real-time (≥ 30 fps) novel-view synthesis at 1080p resolution. First, starting from sparse points produced during camera calibration, we represent the scene with 3D Gaussians that preserve desirable properties of continuous volumetric radiance fields for scene optimization while avoiding unnecessary computation in empty space; Second, we perform interleaved optimization/density control of the 3D Gaussians, notably optimizing anisotropic covariance to achieve an accurate representation of the scene; Third, we develop a fast visibility-aware rendering algorithm that supports anisotropic splatting and both accelerates training and allows realtime rendering. We demonstrate state-of-the-art visual quality and real-time rendering on several established datasets.*
 
@@ -384,7 +385,7 @@ It should suffice to provide the ```-m``` parameter pointing to a trained model 
 
 **To unlock the full frame rate, please disable V-Sync on your machine and also in the application (Menu &rarr; Display). In a multi-GPU system (e.g., laptop) your OpenGL/Display GPU should be the same as your CUDA GPU (e.g., by setting the application's GPU preference on Windows, see below) for maximum performance.**
 
-![Teaser image](assets/select.png)
+![Teaser image](https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/select.png)
 
 In addition to the initial point cloud and the splats, you also have the option to visualize the Gaussians by rendering them as ellipsoids from the floating menu.
 SIBR has many other functionalities, please see the [documentation](https://sibr.gitlabpages.inria.fr/) for more details on the viewer, navigation options etc. There is also a Top View (available from the menu) that shows the placement of the input cameras and the original SfM point cloud; please note that Top View slows rendering when enabled. The real-time viewer also uses slightly more aggressive, fast culling, which can be toggled in the floating menu. If you ever encounter an issue that can be solved by turning fast culling off, please let us know.
@@ -484,7 +485,7 @@ python convert.py -s <location> --skip_matching [--resize] #If not resizing, Ima
 
 - *How can I use this for a much larger dataset, like a city district?* The current method was not designed for these, but given enough memory, it should work out. However, the approach can struggle in multi-scale detail scenes (extreme close-ups, mixed with far-away shots). This is usually the case in, e.g., driving data sets (cars close up, buildings far away). For such scenes, you can lower the ```--position_lr_init```, ```--position_lr_final``` and ```--scaling_lr``` (x0.3, x0.1, ...). The more extensive the scene, the lower these values should be. Below, we use default learning rates (left) and ```--position_lr_init 0.000016 --scaling_lr 0.001"``` (right).
 
-| ![Default learning rate result](assets/worse.png "title-1") <!-- --> | <!-- --> ![Reduced learning rate result](assets/better.png "title-2") |
+| ![Default learning rate result](https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/worse.png "title-1") <!-- --> | <!-- --> ![Reduced learning rate result](https://raw.githubusercontent.com/graphdeco-inria/gaussian-splatting/2eee0e26d2d5fd00ec462df47752223952f6bf4e/assets/better.png "title-2") |
 | --- | --- |
 
 - *I'm on Windows and I can't manage to build the submodules, what do I do?* Consider following the steps in the excellent video tutorial [here](https://www.youtube.com/watch?v=UXtuigy_wYc), hopefully they should help. The order in which the steps are done is important! Alternatively, consider using the linked Colab template.

@@ -14,6 +14,7 @@
   "source_sha256": {
     "results/timing-repeat-job4380448/summary.json": "c492e5460fff22ef4454b32519f46a07f4ec48d74c65cc0c4e9a14b67fdc0301",
     "results/timing-repeat-job4380448/protocol.json": "69709b6f5143b62987ecf1ee85b0b4f93cf0e53b4f115d6f2cc3b9f8bacf79a4",
+    "results/timing-repeat-job4380448/public_redaction.json": "3891e3d01ec83ad3479c1de8bb0fac3a5ea638c87ce1b83703f3a1734239e841",
     "results/timing-repeat-job4380448/train-70-r1-identity100_recovery.json": "656b9d4ddf52b602c75504a9d3dab1c80a5c33c3b2e5d20c389660c6ad101990",
     "results/timing-repeat-job4380448/train-70-r1-opacity_recovery.json": "1a60809de0fc79cdcc2fba63b917f53e96524d3f523752717e92f31b290d03b0",
     "results/timing-repeat-job4380448/train-70-r1-contribution_recovery.json": "e260f4cd286c097aa0cf9db0206a2823a6f0e72a578f541e2bf636dff54e7fb7",
@@ -347,6 +348,6 @@
     "results/train-contribution50-first/scoring.json": "d060d521e51d5bc2741cde30196d7b1a06623ce43b1608f3e8a5f6ea8c5262c9",
     "results/truck-scoring-recovery3k-first/scoring.json": "89bbce6be1a80420d3345dcca090dd53b68947f30ecc28720c0501b3f4528780"
   },
-  "builder_sha256": "8f420454a87623b712ad91a89facabf77c1e25750ccfd4f141cf447b3ddb812d",
+  "builder_sha256": "2d602b4cd72b29e495c56bc96313a560d4f5af6551f8bd633e8c03fb17ff7dcd",
   "note": "Checks use exported evidence; full cloud PLY not locally available. No GPU execution."
 }

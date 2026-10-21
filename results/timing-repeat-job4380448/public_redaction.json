@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "purpose": "Public derivative, not byte-identical raw evidence",
+  "changes": [
+    "Model paths made repository-relative",
+    "Hostnames replaced by within-export aliases",
+    "Summary file checksums recomputed for public bytes"
+  ],
+  "metrics_changed": false,
+  "files": {
+    "protocol.json": {
+      "original_sha256": "982916b35eac00f5a53ad83981a6c37a613317d81dd5b65b978ec7e16ab0f5bc",
+      "public_sha256": "69709b6f5143b62987ecf1ee85b0b4f93cf0e53b4f115d6f2cc3b9f8bacf79a4"
+    },
+    "train-70-r1-identity100_recovery.json": {
+      "original_sha256": "b4f3daa12f209c2f8f3af3f42fc3a85e1c6f7d9d2df8a1d0a0ed1d8b2c13fdf5",
+      "public_sha256": "656b9d4ddf52b602c75504a9d3dab1c80a5c33c3b2e5d20c389660c6ad101990"
+    },
+    "train-70-r1-opacity_recovery.json": {
+      "original_sha256": "d02a4725ab4045fbd3c420c99bb58be2e84c1383312d19f89e4023654c9d68ea",
+      "public_sha256": "1a60809de0fc79cdcc2fba63b917f53e96524d3f523752717e92f31b290d03b0"
+    },
+    "train-70-r1-contribution_recovery.json": {
+      "original_sha256": "e8d56495b2144a74a65c35c48a6e6e50f4b1e02091bf0bb2f58004d628d7cd53",
+      "public_sha256": "e260f4cd286c097aa0cf9db0206a2823a6f0e72a578f541e2bf636dff54e7fb7"
+    },
+    "train-70-r2-identity100_recovery.json": {
+      "original_sha256": "64d0e48cac1c16f9dc0f388bc8ff8c56a730bb2600e074578c5848556963d34b",
+      "public_sha256": "3f8a909a67ed389d0e1e14d236bcefe4118306d9014fd1c4f76519a066b01146"
+    },
+    "train-70-r2-opacity_recovery.json": {
+      "original_sha256": "6a959d19f78728c1e757e69c9d0e0ab843902a6d983bb19e773387637e305399",
+      "public_sha256": "e9f90de76a7cfdafea09fe7ed88e52691c002492e76d0e2fc7ced9a291477570"
+    },
+    "train-70-r2-contribution_recovery.json": {
+      "original_sha256": "32c2a75a488fdd341754e7ff6d5ddf78d788cb118a62fe3b83702411680acb1e",
+      "public_sha256": "55e68cbbb1ee535f24394206c3f35d5befc376980198e2e5ff4f09000b81d69d"
+    },
+    "train-70-r3-identity100_recovery.json": {
+      "original_sha256": "956015b7cd4616cbcd9850ce981141fc63a9740fb5cdaeb38961dcbefc95ad01",
+      "public_sha256": "e88b5a7edcf08aad50b120e62bc35f3d014d22e2436208f5d83c0f95d4be3b0a"
+    },
+    "train-70-r3-opacity_recovery.json": {
+      "original_sha256": "4d089865e3ac8a43843df9cd29cfd8db4a02393d2a77e0d0c6e7d3b00c37af4e",
+      "public_sha256": "596f2d280d57771c54d70b23ab8788725efa566b3b394d6719182fef7a4d5263"
+    },
+    "train-70-r3-contribution_recovery.json": {
+      "original_sha256": "ffb1eb614cc8cb0de10107a6c862e23f368e14e0bbb52bd7ea19ca7354ffd16f",
+      "public_sha256": "6398a06a37060c1af9e982c4a18b89bf12006d60286372d28a1f2bdaea4b66e6"
+    },
+    "train-50-r1-identity100_recovery.json": {
+      "original_sha256": "62b5c7caf96c09d493a385f04a211641e34360251d86dc575bc06a8885992e38",
+      "public_sha256": "2a60f236c0fb6ca7f4020ca30eff914c3ba09470de2ebb2da1297da4fa901188"
+    },
+    "train-50-r1-opacity_recovery.json": {
+      "original_sha256": "75461ddb9cb26dbf25a26dddc8c22faefb67de580593d7831ceff5a6dec5468f",
+      "public_sha256": "d6edb5c0b0e28af40da336f704e00f92a3b49f49845b4e5808c78c843cf40699"
+    },
+    "train-50-r1-contribution_recovery.json": {
+      "original_sha256": "8fad9aa98c96af2da9ae145d81bfb7fe9cd2d7d25db528540648522841e0a608",
+      "public_sha256": "b4cae108b612615c5e313865ad6a341ebfca23cc9322c5d0bc9bff55c7ee723e"
+    },
+    "train-50-r2-identity100_recovery.json": {
+      "original_sha256": "fd872285af945561a2f753d8994de08b2394c3b7e901979aa4939b3c37a3e438",
+      "public_sha256": "f397f4f870b850330ab6bd6fd81ba773c76573cadea66b2ec7005550fed9d101"
+    },
+    "train-50-r2-opacity_recovery.json": {
+      "original_sha256": "14bca21b60c1aa1c581015e39e68d8b5b7d9161791b8161911f2bc0af6664cf4",
+      "public_sha256": "845cd60051b81cf4e10f6596954e49fca2f6499ac903331cf277f772d551f8b7"
+    },
+    "train-50-r2-contribution_recovery.json": {
+      "original_sha256": "f98514cda2545f35999d46fa8329b2cda1c724ce07bc799a054553d47976b49f",
+      "public_sha256": "84b0de2e782d793ff80f8f50cb08fea60d05773b6e397716d6316c22a3300580"
+    },
+    "train-50-r3-identity100_recovery.json": {
+      "original_sha256": "f375dc06cba658bb5656e46c97502eefd994325d60e7210f1d92a5b0d753c3ee",
+      "public_sha256": "c75c110146ba369139d917ead52d9f931f8359f2800da36dbf4d0e804f69fd6d"
+    },
+    "train-50-r3-opacity_recovery.json": {
+      "original_sha256": "d6428d307cce9f85c00ed035941e311cba3a320c19bd4a9de1e3833d58417124",
+      "public_sha256": "a66f749944c6cff8f52d7df1a700aa326f6491277c9477131f9f917206b40966"
+    },
+    "train-50-r3-contribution_recovery.json": {
+      "original_sha256": "01c03bc31577998fc87dd511b7710a72097ad083bad4b0ffa0daef7a001340bc",
+      "public_sha256": "c783c4a1ee8869387528fafa1e4e34ae10551215a55f3eb3a9f29e05716e4f07"
+    },
+    "train-30-r1-identity100_recovery.json": {
+      "original_sha256": "7b9c763b11a999aa5efc9a6bcd104d1e24f2977a5d76fc4529af54b13fb691b3",
+      "public_sha256": "2ef1f69e25fc3208c4fd53d33a9e4c29404fc3a9ec0205abd66f38fbb0763963"
+    },
+    "train-30-r1-opacity_recovery.json": {
+      "original_sha256": "e52086fac1b69e8409ce681027d762b20b1ea84318ab7fab72e0f8c254e1980b",
+      "public_sha256": "f0bb925b56127f2fa7422c98f5a46f07e6075be0e672cd21b08d9743d6bbd463"
+    },
+    "train-30-r1-contribution_recovery.json": {
+      "original_sha256": "39abc8ee1c6c2b97faccca688b400f4e943838caed308e03a20d68e3dc7ba607",
+      "public_sha256": "028d8cdcbabad926b18512c16220484a711b5f32f15e7b8ba112719c36ec6717"
+    },
+    "train-30-r2-identity100_recovery.json": {
+      "original_sha256": "56efa63df6af9da7f294b6c1e9f9fd6f589734ee7183a7ce9b54bca9880c30c3",
+      "public_sha256": "905b47950853176256e5ecde91e69988578438715bf347bb6c3dbcb51f61fdc0"
+    },
+    "train-30-r2-opacity_recovery.json": {
+      "original_sha256": "dfe429d08a064d738cb0c78ba2ca19dfd749e8d19257ad9eedca64d6051fbc21",
+      "public_sha256": "b45ae7200d9bdf853a063638e8139b7748d4a62b04a30d1b017652679ed466ac"
+    },
+    "train-30-r2-contribution_recovery.json": {
+      "original_sha256": "48810882187e00cbd817c1b0a3a7efb378e930923795df2ded4ee80fa8aab828",
+      "public_sha256": "cacc0088f93222dfb5a80ee0983fc422660ee07ee42be3372aa6e0b198543ba3"
+    },
+    "train-30-r3-identity100_recovery.json": {
+      "original_sha256": "a1ecbf6dcb166d492a70a2b8fcfe9a8ac915d007aced7c4a4ece02fc08fb825d",
+      "public_sha256": "7ecdde5945c5909fe8019c41de199aecd984d3469c7aedf19ec7c746d8e629c5"
+    },
+    "train-30-r3-opacity_recovery.json": {
+      "original_sha256": "2c2edbcc3cc14b37bb1f96a8644a4d3e3da9a5fe194da0efd94d85f0cae023ec",
+      "public_sha256": "fb07a60c206d34e6d5e419c9d3ed8d31226923a12aca0bd6df846d7a7c334cf3"
+    },
+    "train-30-r3-contribution_recovery.json": {
+      "original_sha256": "b7b5f42f58580cde91123b63d9b41fbb4eb7f2a1194911c2d5d66b5cd79a39d8",
+      "public_sha256": "6a46571428643c4ede5bd00c1a2d1834621608f3e8195d634ae83b39a15b5646"
+    },
+    "truck-70-r1-identity100_recovery.json": {
+      "original_sha256": "7b04bc7e8d409a497be26c0fb9fd5622f70dc4fbeb985a47ef784b2c7744a415",
+      "public_sha256": "6cccd1609592f5e6986bb90ef2cb4fd682e7ad368275a165da50e663222b6ff6"
+    },
+    "truck-70-r1-opacity_recovery.json": {
+      "original_sha256": "69aef274d38b1c56eee9e6de135eec78bd72168aa9fe3ff1b18b0adc0783d829",
+      "public_sha256": "49a9b32ac54ee918b95c535fb31d4b3a416de6bac8f7d366c1e5462f05a8727a"
+    },
+    "truck-70-r1-contribution_recovery.json": {
+      "original_sha256": "938957fc0fc87b413aff155c08bc7b38a7d5e4c91b08f5dd27dcc70a6e6622d9",
+      "public_sha256": "234bdca0682c1eb9ea4b389d627a901494e862140004fe72a55c14db147ad0c9"
+    },
+    "truck-70-r2-identity100_recovery.json": {
+      "original_sha256": "8b249b9cc21a19ee59fdeae17ead9de1896bf04f125aa872464c4a3c62ef5d6e",
+      "public_sha256": "ab995575cfd0827a9577440ad7be07ccae67e9cb6c00b2e701cca0ac09ebf9e8"
+    },
+    "truck-70-r2-opacity_recovery.json": {
+      "original_sha256": "599551f0345a400b4810f7fe8b09a653b76b938e5366a46d4e5b945edbd14ea1",
+      "public_sha256": "33adf1d66323c4ff8e5ad34f7dfe43547156433d42d53e7ce58fd7f52fceca3a"
+    },
+    "truck-70-r2-contribution_recovery.json": {
+      "original_sha256": "223dee2757b9e3498ed7ebf3678f8640128bdf92a6261e87e6cfabe9a37cb916",
+      "public_sha256": "646f06962f834983fa35794dd39896e7cb8dea7575dc19409670d0b3536ac001"
+    },
+    "truck-70-r3-identity100_recovery.json": {
+      "original_sha256": "134850751bf6f03951a614cc305157f55c39fa803f34e0ca8b80d2a736ee90fb",
+      "public_sha256": "3b720451ade1c23d19f83835fc1011d2ed2107d80618cacee990332a2eb51a6d"
+    },
+    "truck-70-r3-opacity_recovery.json": {
+      "original_sha256": "199aae3574ebca1ca3622751d755a47dbb7dc7f3f86f10fb7d1103ada969f351",
+      "public_sha256": "e55e8be26d9251ca68ef01689b8495915f2ac350ea77da6c4ad7d2b0704e4d5c"
+    },
+    "truck-70-r3-contribution_recovery.json": {
+      "original_sha256": "f4aff53b1b36d89aa66091cc1d7fcfb47dfd42a4dce79809822ceb188cb69d44",
+      "public_sha256": "b3d2829c9986d05f0f1990cb53a8bef7f16a91902a17bd4a5b18c6d2dbe76d25"
+    },
+    "truck-50-r1-identity100_recovery.json": {
+      "original_sha256": "c286f3d3e1d94f9c2eb1005825ab14143665d1879a21ed2ade49eec40ff75874",
+      "public_sha256": "caf5061cfabe20c6280b023dc9570ec7df52913ebbf19c5a1de577f3bef061cd"
+    },
+    "truck-50-r1-opacity_recovery.json": {
+      "original_sha256": "bba61a38e33d1af497649f92c86222c4ee2732d3ac22d3ef31c3cb310b224ac4",
+      "public_sha256": "e3c851c6ad42935057fb1d92e9a983776e8bfa3cc0f34dbaef2b8491f41fef39"
+    },
+    "truck-50-r1-contribution_recovery.json": {
+      "original_sha256": "4c1367cad4d8c66155794aded5e8dafe54e50f7271705be567c408a298eea993",
+      "public_sha256": "61ac6255d5339ea833e3186e033efbb8dfdb0577c1e12bf64936e84bee76a54a"
+    },
+    "truck-50-r2-identity100_recovery.json": {
+      "original_sha256": "b04aabef71c02d0a29e5c9bb1631ea58a438c2c2179e3d4d5fc7b41b1bd74cbf",
+      "public_sha256": "6177a9b7ae4c3572b0467431260ac0455d8a924dc1707292de5536f83b970910"
+    },
+    "truck-50-r2-opacity_recovery.json": {
+      "original_sha256": "91beb678f7aa4971dbaf79dca7613cb280090b893f4583c4fd13fdeb7bac8a27",
+      "public_sha256": "e30e2aff01b300d360e9a0364c75429c14c24829b81cef41cb21e4e588d2ba5c"
+    },
+    "truck-50-r2-contribution_recovery.json": {
+      "original_sha256": "64429107e4a58708cc457ca6c811e6e0425c774ff65ed1f95b992c8464d791d9",
+      "public_sha256": "9e097ef4f32bebfef07c3e31b62187dfd47c76d0fcb96251fd4bd19944adaf43"
+    },
+    "truck-50-r3-identity100_recovery.json": {
+      "original_sha256": "0c328492fd03d1b2787496d8e0003d1eea92fc5849b839b5196768b9bc475676",
+      "public_sha256": "8fe2dfab5005603bbca86fd1678e5293a2482036243b13f4c7a009d8cae8269a"
+    },
+    "truck-50-r3-opacity_recovery.json": {
+      "original_sha256": "92092d14698c4bb36154251811478cec820c47df894e5c5ecaa719af8abd421e",
+      "public_sha256": "e154e85c77c1936f9bc1fd440a740e00658887e03635a7b2840c2c7a90631707"
+    },
+    "truck-50-r3-contribution_recovery.json": {
+      "original_sha256": "d74f99ef06b966d1cacfa4fec7ccde8a17488af27cf083559d32d6d698709a1f",
+      "public_sha256": "ac1e6d88560152d589afda86f7f58a3896bc7144cb4010eff982fb9526f4aae2"
+    },
+    "truck-30-r1-identity100_recovery.json": {
+      "original_sha256": "e95d9ea000fac6271767892e7bb84d35ccef3da00623840bcbe683e5b45c680f",
+      "public_sha256": "0bbe3a245071d631dbff6329f574753a861e03e3f892dc3abcda60e7970c299a"
+    },
+    "truck-30-r1-opacity_recovery.json": {
+      "original_sha256": "d1778b3f44d4d59b2e09583f9c71a3dc0e48ccc1295c56162d518ece82b5746c",
+      "public_sha256": "aa8c11c3445691067be97a6afa14b83af2c5df97c78687b3357926bd48834538"
+    },
+    "truck-30-r1-contribution_recovery.json": {
+      "original_sha256": "aa428a792bbe9e82f3701b1f425928979161fd32d67e41cbf26f57526da8fcd4",
+      "public_sha256": "30dd4beb0b1e56937aa5a9ada3e60b9b322df1f6b42c0caf07cf839c32df6141"
+    },
+    "truck-30-r2-identity100_recovery.json": {
+      "original_sha256": "db8f5854610383b9817541c60e9a8df16039790950dcc3c02f84cbceb86a700c",
+      "public_sha256": "206e2f7b8f23b920ceed953c6ea2ae01ac02fb94454f1d640c8fa7b6a7cc03ff"
+    },
+    "truck-30-r2-opacity_recovery.json": {
+      "original_sha256": "e0bd3a7bc44f16307c2fbbda760ffdb60b295388e79c8732e4d3305b722c7615",
+      "public_sha256": "ac9e369165437e6577e1adf756f70deaea9b065144dbdcc942946e3ab5790164"
+    },
+    "truck-30-r2-contribution_recovery.json": {
+      "original_sha256": "a3668987e62184c730279c54a5112e08756164286015e6bd610a8883f4d328f4",
+      "public_sha256": "3307ad4151ca1424ee7b0a9f22056889f37914ba9122735e7700c01122deac95"
+    },
+    "truck-30-r3-identity100_recovery.json": {
+      "original_sha256": "2187b33cf43b0c3a5b2b556715914ed8987eec277adf3dc3c4420b84bbf0446a",
+      "public_sha256": "eb3b7fdfc5bfbfccb909d51400366abb42b9a869583b70ae829eb851fdd93ee3"
+    },
+    "truck-30-r3-opacity_recovery.json": {
+      "original_sha256": "15bd547aec0b36f39c750674d92897c9a1e44d23b1438585cd1a49831ebe8e7e",
+      "public_sha256": "43104af768be2dc2bc9e618963ef2dbbf4ea960931bd00bb310861d803d5cf69"
+    },
+    "truck-30-r3-contribution_recovery.json": {
+      "original_sha256": "89a238119734b0c7f964b7a120c0ffa951fa6f7542d4133b59c6ae24cba23ec7",
+      "public_sha256": "24f3ab078e65d2603cafdeeaccd1bfcda500c941a6511f9ab07da3dc7550bef8"
+    },
+    "summary.json": {
+      "original_sha256": "3018292195f1884aa3e98ca0458237b771c657e0b1dd1980e72951b418ae27f9",
+      "public_sha256": "c492e5460fff22ef4454b32519f46a07f4ec48d74c65cc0c4e9a14b67fdc0301"
+    }
+  }
+}

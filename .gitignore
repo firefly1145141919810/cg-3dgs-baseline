@@ -7,6 +7,13 @@ __pycache__/
 data/
 outputs/
 logs/
+*.slurm
+private/
+results/timing-raw-*/
+*.pem
+*.key
+id_rsa*
+id_ed25519*
 archives/
 tmp/
 *.pth
@@ -24,5 +31,9 @@ report/*.log
 report/*.out
 report/*.toc
 report/*.synctex.gz
+report/*.synctex(busy)
+report/*.fdb_latexmk
+report/*.fls
+report/*.xdv
 report/main.pdf
 .DS_Store

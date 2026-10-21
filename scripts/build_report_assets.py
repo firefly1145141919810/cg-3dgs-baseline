@@ -40,6 +40,14 @@ def variant(method, budget):
 
 def audit():
     t = load(TIMING / 'summary.json'); p = load(TIMING / 'protocol.json')
+    redaction = TIMING / 'public_redaction.json'
+    if redaction.exists():
+        disclosure = load(redaction)
+        assert disclosure['metrics_changed'] is False
+        assert set(disclosure['files']) == {'protocol.json', 'summary.json', *t['sample_sha256']}
+        for name, hashes in disclosure['files'].items():
+            assert Path(name).name == name
+            assert sha(TIMING / name) == hashes['public_sha256']
     assert t['complete'] and p['rounds'] == 3
     assert t['manifest_sha256'] == sha(TIMING / 'protocol.json')
     for name, h in p['script_sha256'].items():
