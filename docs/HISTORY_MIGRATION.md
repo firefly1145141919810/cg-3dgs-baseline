@@ -10,7 +10,7 @@
 
 完整旧历史bundle和原始计时记录仅保留在本机被忽略的private目录。它们仍含旧信息，**不得上传、加入公开分支或作为恢复远程历史的来源**。
 
-GitHub分支已重写不代表他人fork、克隆、缓存或旧提交直链立即消失。若仍能通过旧SHA访问，需联系GitHub Support请求清理缓存/不可达对象；本项目不能撤回他人的副本。此项不等于发现凭据泄露，若另发现有效凭据仍应先轮换。
+GitHub分支已重写不代表他人fork、克隆、缓存或旧提交直链立即消失。必要时可联系GitHub Support评估是否符合缓存/不可达对象清理条件，但其不承诺处理非敏感数据；本项目不能撤回他人的副本。此项不等于发现凭据泄露，若另发现有效凭据仍应先轮换。边界见[GitHub官方说明](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)。
 
 ## 本台Windows电脑
 
