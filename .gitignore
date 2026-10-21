@@ -19,4 +19,10 @@ docs/*.aux
 docs/*.log
 docs/*.out
 docs/*.toc
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/main.pdf
 .DS_Store

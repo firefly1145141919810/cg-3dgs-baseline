@@ -1,0 +1,4 @@
+# Optional, isolated reporting environment (Python 3.12), not cg3dgs.
+matplotlib==3.11.2
+numpy==2.5.4
+Pillow==13.0.0
