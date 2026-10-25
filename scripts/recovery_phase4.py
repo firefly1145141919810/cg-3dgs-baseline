@@ -1,4 +1,6 @@
 """Phase 4: six-arm scoring x recovery ablation. Historical phase-2 files stay frozen."""
+from artifact_io import export_directory
+from result_validation import checked_row
 import argparse
 import csv
 import datetime as dt
@@ -191,7 +193,7 @@ def evaluate(experiment):
     print('Six-arm evaluation complete; formal:', info['formal'])
 
 
-def export(experiment, name):
+def export(experiment, name, *, extra=None):
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', name):
         raise ValueError('Unsafe export name')
     info = verify(experiment)
@@ -208,37 +210,41 @@ def export(experiment, name):
         metrics = checked_metrics(experiment / v, c['iterations'], info['test_views'])
         if any(row[k] != metrics[k] for k in ('PSNR', 'SSIM', 'LPIPS')):
             raise ValueError('Summary disagrees with evaluated metrics')
+        checked_row(row, experiment / v, c, info['test_views'], info['baseline_metrics'],
+                    info['steps'] if v in TRAIN_VARIANTS else 0)
         if v in TRAIN_VARIANTS:
             check_finished(info, experiment, v)
     dest = ROOT / 'results' / name
     if dest.exists():
         raise FileExistsError('Use a new result label')
-    dest.mkdir(parents=True)
-    write_json(dest / 'summary.json', e)
-    with (dest / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=list(e['rows'][0]))
-        writer.writeheader(); writer.writerows(e['rows'])
-    public = {k: v for k, v in info.items() if k not in ('parent', 'baseline_config')}
-    public['baseline_config'] = {k: v for k, v in info['baseline_config'].items() if k not in ('source', 'output')}
-    selected = [f'{i:05d}.png' for i in (0, 14, 24, 31, 33, 35) if i < info['test_views']]
-    public['selected_images'] = selected
-    public['selection_note'] = 'Same fixed diagnostic views as Phase 1; not an unbiased gallery'
-    env = read_json(experiment / 'evaluation_environment.json')
-    public['environment'] = {k: env.get(k) for k in ('python', 'torch', 'torch_cuda', 'gpu', 'platform')}
-    write_json(dest / 'protocol.json', public)
-    for v in VARIANTS:
-        model = experiment / v
-        (dest / v / 'renders').mkdir(parents=True)
-        for src, target in [('benchmark.json', 'benchmark.json'), ('per_view.json', 'metrics_per_view.json')]:
-            shutil.copy2(model / src, dest / v / target)
-        if v in TRAIN_VARIANTS:
-            shutil.copy2(model / 'training.json', dest / v / 'training.json')
-        iteration = model_config(info, experiment, v)['iterations']
+    with export_directory(dest) as staging:
+        write_json(staging / 'summary.json', e)
+        with (staging / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=list(e['rows'][0]))
+            writer.writeheader(); writer.writerows(e['rows'])
+        public = {k: v for k, v in info.items() if k not in ('parent', 'baseline_config')}
+        public['baseline_config'] = {k: v for k, v in info['baseline_config'].items() if k not in ('source', 'output')}
+        selected = [f'{i:05d}.png' for i in (0, 14, 24, 31, 33, 35) if i < info['test_views']]
+        public['selected_images'] = selected
+        public['selection_note'] = 'Same fixed diagnostic views as Phase 1; not an unbiased gallery'
+        env = read_json(experiment / 'evaluation_environment.json')
+        public['environment'] = {k: env.get(k) for k in ('python', 'torch', 'torch_cuda', 'gpu', 'platform')}
+        write_json(staging / 'protocol.json', public)
+        for v in VARIANTS:
+            model = experiment / v
+            (staging / v / 'renders').mkdir(parents=True)
+            for src, target in [('benchmark.json', 'benchmark.json'), ('per_view.json', 'metrics_per_view.json')]:
+                shutil.copy2(model / src, staging / v / target)
+            if v in TRAIN_VARIANTS:
+                shutil.copy2(model / 'training.json', staging / v / 'training.json')
+            iteration = model_config(info, experiment, v)['iterations']
+            for n in selected:
+                shutil.copy2(model / f'test/ours_{iteration}/renders' / n, staging / v / 'renders' / n)
+        (staging / 'gt').mkdir()
         for n in selected:
-            shutil.copy2(model / f'test/ours_{iteration}/renders' / n, dest / v / 'renders' / n)
-    (dest / 'gt').mkdir()
-    for n in selected:
-        shutil.copy2(experiment / 'identity100' / f'test/ours_{info["source_iteration"]}/gt' / n, dest / 'gt' / n)
+            shutil.copy2(experiment / 'identity100' / f'test/ours_{info["source_iteration"]}/gt' / n, staging / 'gt' / n)
+        if extra is not None:
+            extra(staging)
     print('Exported small results, no PLY/checkpoint:', dest)
 
 

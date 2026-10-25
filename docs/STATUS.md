@@ -18,13 +18,15 @@ python scripts/static_check.py
 python scripts/check_public_repo.py
 ```
 
-54项CPU测试覆盖数据读取、配置、稳定选点、评分与恢复约束、结果导出、来源校验及发布工具；静态检查覆盖36个Python文件。发布检查用于识别常见凭据与机器特定路径，不构成完整安全审计。
+67项CPU测试覆盖数据读取、配置、稳定选点、评分与恢复约束、结果导出、来源校验及发布工具；静态检查覆盖39个Python文件。发布检查用于识别常见凭据与机器特定路径，不构成完整安全审计。
 
-报告资产生成器另行校验实验输入及来源哈希，生成 `report/generated/audit.json`。PSNR可由导出的渲染与参考图片复算；SSIM与LPIPS采用GPU评测记录。
+GitHub Actions在PR和推送时执行普通及优化模式的CPU测试、静态检查和已发布实验的完整审计，无需CUDA或场景数据。
+
+报告资产生成器校验实验输入及来源哈希，生成 `report/generated/audit.json`。只核验、不重建图表时运行 `python scripts/build_report_assets.py --audit-only`。PSNR可由导出的渲染与参考图片复算；SSIM与LPIPS采用GPU评测记录。
 
 ## 验证边界
 
 - 质量实验为单种子；三轮独立计时不是三个训练种子，不能用于证明微小画质差异具有统计显著性。
 - 中断续跑逻辑有CPU测试，但未覆盖所有真实GPU中断情形的逐位一致性。
 - 当前性能只代表记录中的硬件与软件配置；其他GPU、CUDA版本和操作系统尚未完成同等验证。
-- CPU测试与结果审计不替代GPU训练和渲染验证。
+- CPU测试与结果审计不替代GPU训练和渲染验证；中断故障测试验证文件发布和重试逻辑，不模拟所有GPU或存储硬件故障。

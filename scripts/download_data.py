@@ -6,6 +6,9 @@ from pathlib import Path
 import urllib.error
 import urllib.request
 import zipfile
+import zlib
+import shutil
+from artifact_io import staged_file
 from dataset import sha256
 
 URL = 'https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip'
@@ -117,8 +120,24 @@ def safe_extract(archive, destination):
             target = (destination / info.filename).resolve()
             if not target.is_relative_to(destination): raise ValueError('Unsafe ZIP path')
             if (info.external_attr >> 16) & 0o170000 == 0o120000: raise ValueError('ZIP symlinks are not supported')
-            if target.exists() and not info.is_dir(): raise ValueError('Refusing overwrite: '+str(target))
-        z.extractall(destination)
+            if target.exists() and not info.is_dir():
+                if not target.is_file() or target.stat().st_size != info.file_size:
+                    raise ValueError('Refusing overwrite: ' + str(target))
+                crc = 0
+                with target.open('rb') as stream:
+                    for block in iter(lambda: stream.read(1024 * 1024), b''):
+                        crc = zlib.crc32(block, crc)
+                if crc != info.CRC:
+                    raise ValueError('Refusing overwrite: ' + str(target))
+        for info in z.infolist():
+            target = (destination / info.filename).resolve()
+            if info.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+            elif not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with staged_file(target) as temporary:
+                    with z.open(info) as source, temporary.open('wb') as output:
+                        shutil.copyfileobj(source, output, length=1024 * 1024)
 
 def main():
     p=argparse.ArgumentParser()

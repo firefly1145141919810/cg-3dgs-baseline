@@ -3,6 +3,8 @@
 prepare: CPU; evaluate: cloud CUDA, no training; export: CPU.
 Uses the original render/metrics code without modifying upstream.
 """
+from artifact_io import export_directory
+from result_validation import checked_row
 import argparse
 import csv
 import datetime as dt
@@ -34,7 +36,8 @@ def render_config(c):
 
 def code_hashes():
     return {name: sha256(ROOT / 'scripts' / name) for name in
-            ('compression_phase1.py', 'prune_ply.py', 'run.py', 'benchmark.py', 'dataset.py', 'doctor.py')}
+            ('compression_phase1.py', 'prune_ply.py', 'run.py', 'benchmark.py', 'dataset.py', 'doctor.py',
+             'artifact_io.py', 'result_validation.py')}
 
 
 def read_json(path):
@@ -251,6 +254,8 @@ def export(experiment, label):
         raise ValueError('Only a fully evaluated experiment with passed identity gate can be exported')
     if any(sha256(experiment / name) != digest for name, digest in evaluation['artifact_sha256'].items()):
         raise ValueError('Evaluation images, metrics or benchmark changed after evaluation')
+    if [r['variant'] for r in evaluation['rows']] != [v for v, _ in VARIANTS]:
+        raise ValueError('Missing/duplicate evaluation rows')
     dest = ROOT / 'results' / label
     if dest.exists():
         raise FileExistsError('Export exists; use a new label')
@@ -264,32 +269,33 @@ def export(experiment, label):
         row = next(r for r in evaluation['rows'] if r['variant'] == name)
         if any(metrics[k] != row[k] for k in ('PSNR', 'SSIM', 'LPIPS')):
             raise ValueError('Metrics changed after evaluation')
+        checked_row(row, model, dict(c, output=str(model)), info['test_views'], info['baseline_metrics'], 0)
         assert_image_sets(images / 'renders', info['test_views'])
-    dest.mkdir(parents=True)
-    write_json(dest / 'summary.json', evaluation)
-    with (dest / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=list(evaluation['rows'][0]))
-        writer.writeheader()
-        writer.writerows(evaluation['rows'])
-    public = dict(info)
-    public['baseline_config'] = {k: v for k, v in c.items() if k not in ('source', 'output')}
-    public['selected_images'] = selected_names
-    public['selection_note'] = 'Fixed diagnostic views, including previously observed failures; not an unbiased gallery'
-    env = read_json(experiment / 'evaluation_environment.json')
-    public['evaluation_environment'] = {k: env.get(k) for k in
-        ('python', 'platform', 'torch', 'torch_cuda', 'gpu', 'compute_capability', 'nvidia-smi', 'nvcc')}
-    write_json(dest / 'protocol.json', public)
-    shutil.copy2(experiment / 'identity_check.json', dest / 'identity_check.json')
-    for name, _ in VARIANTS:
-        model = experiment / name
-        (dest / name / 'renders').mkdir(parents=True)
-        shutil.copy2(model / 'benchmark.json', dest / name / 'benchmark.json')
-        shutil.copy2(model / 'per_view.json', dest / name / 'metrics_per_view.json')
+    with export_directory(dest) as staging:
+        write_json(staging / 'summary.json', evaluation)
+        with (staging / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=list(evaluation['rows'][0]))
+            writer.writeheader()
+            writer.writerows(evaluation['rows'])
+        public = dict(info)
+        public['baseline_config'] = {k: v for k, v in c.items() if k not in ('source', 'output')}
+        public['selected_images'] = selected_names
+        public['selection_note'] = 'Fixed diagnostic views, including previously observed failures; not an unbiased gallery'
+        env = read_json(experiment / 'evaluation_environment.json')
+        public['evaluation_environment'] = {k: env.get(k) for k in
+            ('python', 'platform', 'torch', 'torch_cuda', 'gpu', 'compute_capability', 'nvidia-smi', 'nvcc')}
+        write_json(staging / 'protocol.json', public)
+        shutil.copy2(experiment / 'identity_check.json', staging / 'identity_check.json')
+        for name, _ in VARIANTS:
+            model = experiment / name
+            (staging / name / 'renders').mkdir(parents=True)
+            shutil.copy2(model / 'benchmark.json', staging / name / 'benchmark.json')
+            shutil.copy2(model / 'per_view.json', staging / name / 'metrics_per_view.json')
+            for image in selected_names:
+                shutil.copy2(model / f'test/ours_{c["iterations"]}/renders' / image, staging / name / 'renders' / image)
+        (staging / 'gt').mkdir()
         for image in selected_names:
-            shutil.copy2(model / f'test/ours_{c["iterations"]}/renders' / image, dest / name / 'renders' / image)
-    (dest / 'gt').mkdir()
-    for image in selected_names:
-        shutil.copy2(Path(c['output']) / f'test/ours_{c["iterations"]}/gt' / image, dest / 'gt' / image)
+            shutil.copy2(Path(c['output']) / f'test/ours_{c["iterations"]}/gt' / image, staging / 'gt' / image)
     print('Exported metrics AND paired images (no model/checkpoint):', dest)
 
 

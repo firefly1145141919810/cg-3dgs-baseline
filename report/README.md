@@ -22,6 +22,7 @@ python scripts/build_report_assets.py
 再重建图表与表格；失败会停止，不会修改原实验。所有读取的输入哈希写入 `generated/audit.json`。
 未来使用新结果时需显式修改数据目录与相应来源说明，不自动选择最新/最好的一次实验。
 图表重建只读取JSON与PNG，不需要GPU或完整PLY；计时文件的元数据与哈希映射记录在对应目录的 `public_redaction.json` 中。
+来源校验读取Git中固定版本的计时代码，并与实验协议中的哈希核对；请使用完整Git克隆（浅克隆先运行 `git fetch --unshallow`）。当前代码更新不会改变历史测量所对应的版本。
 
 ## 编辑及编译
 

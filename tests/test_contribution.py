@@ -88,11 +88,20 @@ class ContributionTests(unittest.TestCase):
                         write_json(model/'per_view.json',{'ours_30000':{k:{'00000.png':v} for k,v in metric.items()}})
                     elif stage=='benchmark':
                         write_json(model/'benchmark.json',{'gaussian_count':8 if model.name=='identity100' else 4,
-                            'test_views':1,'repeats':3,'samples_ms':[2.,2.,2.],'mean_ms':2.,
+                            'config_resolution':-1,'image_sizes':[[4,3]],'test_views':1,'repeats':3,'samples_ms':[2.,2.,2.],'mean_ms':2.,
                             'fps_from_mean_ms':500.,'peak_torch_allocated_bytes':1024})
                 with patch('doctor.diagnose',return_value={'errors':[]}),patch.object(p3,'execute',side_effect=fake_execute):
                     p3.evaluate(experiment)
                 with patch.object(p3,'ROOT',root):
+                    saved = (experiment / 'evaluation.json').read_text()
+                    for field in ('mean_ms','fps_from_mean_ms','peak_torch_allocated_bytes','gaussian_count','ply_bytes'):
+                        bad = json.loads(saved); bad['rows'][0][field] += 999
+                        (experiment / 'evaluation.json').write_text(json.dumps(bad))
+                        with self.assertRaises(ValueError): p3.export(experiment,'bad-summary')
+                    (experiment / 'evaluation.json').write_text(saved)
+                    with patch.object(p3.shutil,'copy2',side_effect=OSError('copy interrupted')):
+                        with self.assertRaises(OSError): p3.export(experiment,'mock')
+                    self.assertFalse((root / 'results/mock').exists())
                     p3.export(experiment,'mock')
                     self.assertEqual(len(list((root/'results/mock').glob('*/renders/00000.png'))),3)
                     self.assertFalse(list((root/'results/mock').rglob('*.ply')))

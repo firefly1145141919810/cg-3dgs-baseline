@@ -205,24 +205,24 @@ def export(config, name):
     if not ready(config, 'recovery'):
         raise ValueError('Finish six-arm recovery before export')
     c, p = paths(config)
-    # Existing exporter refuses overwrites and validates all artifact hashes.
-    run_command([sys.executable, str(ROOT / 'scripts/recovery_phase4.py'), 'export',
-                 '--experiment', str(p['recovery']), '--name', name])
+    import recovery_phase4
+    def extra(dest):
+        shutil.copy2(p['contribution'] / 'scoring.json', dest / 'scoring.json')
+        data = read(p['baseline'] / 'dataset.json')
+        write_json(dest / 'cross_scene.json', {
+            'scene': 'truck', 'protocol': 'Frozen replication of train: 50% selection, 3000-step recovery, seed 0',
+            'config': {k: v for k, v in c.items() if k not in ('source', 'output')},
+            'train_views': len(data['train']), 'test_views': len(data['test']),
+            'test_names': data['test'], 'dataset_camera_hashes': data['camera_hashes'],
+            'upstream': read(p['baseline'] / 'manifest.json')['upstream'],
+            'baseline_manifest_sha256': sha256(p['baseline'] / 'manifest.json'),
+            'baseline_benchmark': read(p['baseline'] / 'benchmark.json'),
+            'contribution_selection': read(p['contribution'] / 'prepared.json')['variants'],
+            'scoring_sha256': sha256(dest / 'scoring.json'),
+            'suite_script_sha256': sha256(Path(__file__)),
+            'warning': 'Within-scene comparisons only; resolutions/view counts can differ from train'})
+    recovery_phase4.export(p['recovery'], name, extra=extra)
     dest = ROOT / 'results' / name
-    shutil.copy2(p['contribution'] / 'scoring.json', dest / 'scoring.json')
-    data = read(p['baseline'] / 'dataset.json')
-    write_json(dest / 'cross_scene.json', {
-        'scene': 'truck', 'protocol': 'Frozen replication of train: 50% selection, 3000-step recovery, seed 0',
-        'config': {k: v for k, v in c.items() if k not in ('source', 'output')},
-        'train_views': len(data['train']), 'test_views': len(data['test']),
-        'test_names': data['test'], 'dataset_camera_hashes': data['camera_hashes'],
-        'upstream': read(p['baseline'] / 'manifest.json')['upstream'],
-        'baseline_manifest_sha256': sha256(p['baseline'] / 'manifest.json'),
-        'baseline_benchmark': read(p['baseline'] / 'benchmark.json'),
-        'contribution_selection': read(p['contribution'] / 'prepared.json')['variants'],
-        'scoring_sha256': sha256(dest / 'scoring.json'),
-        'suite_script_sha256': sha256(Path(__file__)),
-        'warning': 'Within-scene comparisons only; resolutions/view counts can differ from train'})
     print('Export complete. Upload this results directory; no PLY/checkpoint included:', dest)
 
 

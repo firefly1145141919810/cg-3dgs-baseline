@@ -16,6 +16,8 @@ id_rsa*
 id_ed25519*
 archives/
 tmp/
+*.partial
+*.corrupt
 *.pth
 *.pt
 *.ply

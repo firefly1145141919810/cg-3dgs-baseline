@@ -8,12 +8,13 @@ import subprocess
 import sys
 import time
 from dataset import validate
+from artifact_io import atomic_json
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM = ROOT / 'vendor/gaussian-splatting'
 
 def write_json(path, data):
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    atomic_json(path, data)
 
 def resolve(value):
     p = Path(value).expanduser()
@@ -54,7 +55,7 @@ def command(stage, c, checkpoint=None):
     return cmd
 
 def verify_upstream():
-    expected = json.loads((ROOT / 'baseline.lock.json').read_text())['commit']
+    expected = json.loads((ROOT / 'baseline.lock.json').read_text(encoding='utf-8'))['commit']
     current = subprocess.check_output(['git','rev-parse','HEAD'], cwd=UPSTREAM, text=True).strip()
     if current != expected: raise ValueError('Wrong upstream commit; run bootstrap.py')
     dirty = subprocess.check_output(['git','status','--porcelain','--untracked-files=no'], cwd=UPSTREAM, text=True)
@@ -106,9 +107,9 @@ def main():
     if 'train' in stages and not args.resume and out.exists() and any(out.iterdir()):
         raise ValueError('Refusing to overwrite existing run. Use new output or --resume.')
     if manifest.exists():
-        previous = json.loads(manifest.read_text())
+        previous = json.loads(manifest.read_text(encoding='utf-8'))
         if previous['config'] != c: raise ValueError('Config differs from recorded run')
-        old = json.loads((out/'dataset.json').read_text())
+        old = json.loads((out/'dataset.json').read_text(encoding='utf-8'))
         for key in ('train','test','camera_hashes','image_sha256'):
             if old[key] != dataset[key]: raise ValueError('Dataset changed: '+key)
     elif 'train' not in stages or args.resume:
@@ -142,7 +143,7 @@ def main():
                     prior.rename(out / (filename + '.' + str(time.time_ns()) + '.bak'))
         execute(command(stage,c,args.resume),out,stage)
         if stage == 'metrics':
-            result = json.loads((out/'results.json').read_text())
+            result = json.loads((out/'results.json').read_text(encoding='utf-8'))
             if f'ours_{c["iterations"]}' not in result: raise ValueError('Upstream metrics failed or skipped final method')
     print('Completed stages:', ', '.join(stages))
 

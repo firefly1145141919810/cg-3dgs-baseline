@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import statistics
 import sys
+from artifact_io import recover_json, export_directory
 from dataset import sha256
 from run import ROOT, execute, write_json
 from compression_phase1 import read_json
@@ -109,7 +110,7 @@ def main():
     sources = collect_sources()
     manifest = {'schema': 1, 'rounds': a.rounds, 'sources': sources,
                 'script_sha256': {n: sha256(ROOT / 'scripts' / n) for n in
-                                  ('repeat_timing.py', 'benchmark_repeat_worker.py')},
+                                  ('repeat_timing.py', 'benchmark_repeat_worker.py', 'artifact_io.py', 'run.py', 'result_validation.py')},
                 'order': [list(order(r)) for r in range(a.rounds)], 'warmup': 20, 'repeats': 3,
                 'environment': {k: env.get(k) for k in ('python', 'torch', 'torch_cuda', 'gpu', 'platform')}}
     dest = ROOT / 'results' / a.name
@@ -117,14 +118,15 @@ def main():
         if read_json(dest / 'protocol.json') != manifest:
             raise ValueError('Resume protocol/source/environment differs; use new label')
     else:
-        dest.mkdir(parents=True)
-        write_json(dest / 'protocol.json', manifest)
+        with export_directory(dest) as staging:
+            write_json(staging / 'protocol.json', manifest)
     if (dest / 'summary.json').exists():
-        previous = read_json(dest / 'summary.json')
-        if previous != summarize(manifest, dest):
+        previous = recover_json(dest / 'summary.json')
+        if previous is not None and previous != summarize(manifest, dest):
             raise ValueError('Completed summary/samples changed')
-        print('Verified completed timing; no new measurements:', dest)
-        return
+        if previous is not None:
+            print('Verified completed timing; no new measurements:', dest)
+            return
     # A resumed run revalidates every existing sample; successful samples are not overwritten.
     for source in sources:
         for r in range(a.rounds):
@@ -132,7 +134,8 @@ def main():
                 model = source['models'][method]
                 name = f'{source["scene"]}-{source["budget"]}-r{r + 1}-{method}.json'
                 target = dest / name
-                if not target.exists():
+                existing = recover_json(target)
+                if existing is None:
                     if sha256(Path(model['config'])) != model['config_sha256'] or sha256(Path(model['ply'])) != model['ply_sha256']:
                         raise ValueError('Source changed during timing')
                     log_dir = ROOT / 'outputs/repeat_timing' / a.name

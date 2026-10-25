@@ -34,6 +34,17 @@ class RepeatTimingTests(unittest.TestCase):
                 self.assertEqual(runner.call_count, 18)
                 timing.main()
                 self.assertEqual(runner.call_count, 18)
+                dest = root / 'results/fixture'
+                # A valid sample is never retimed; only a truncated one is quarantined.
+                sample = dest / 'train-50-r1-opacity_recovery.json'
+                sample.write_text('{')
+                (dest / 'summary.json').write_text('{')
+                timing.main()
+                self.assertEqual(runner.call_count, 19)
+                self.assertEqual(len(list(dest.glob('*.corrupt'))), 2)
+                (dest / 'summary.json').write_text('{')
+                timing.main()
+                self.assertEqual(runner.call_count, 19)
 
     def test_sources_include_each_budget_and_historical_names(self):
         def info(old):

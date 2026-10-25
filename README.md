@@ -6,6 +6,7 @@
 
 ## 阅读入口
 
+- [项目演示：结果展示与现场运行](docs/DEMO.md)
 - [实验目的、设计、配置、结果与结论](docs/COMPRESSION_EXPERIMENT.md)
 - [最终报告PDF](output/pdf/3dgs_final_report.pdf) · [LaTeX源码与图表重建](report/README.md)
 - [零基础原理讲解](docs/BASELINE_GUIDE.md) · [论文阅读索引](references/READING_NOTES.md) · [中文批注论文](output/pdf/3dgs_annotated_zh.pdf)

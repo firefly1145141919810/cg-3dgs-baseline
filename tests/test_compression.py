@@ -164,7 +164,7 @@ class CompressionTests(unittest.TestCase):
             elif stage == 'benchmark':
                 count = 8 if model.name == 'identity100' else 4
                 (model / 'benchmark.json').write_text(json.dumps(
-                    {'gaussian_count': count, 'test_views': 1, 'repeats': 3,
+                    {'config_resolution': -1, 'image_sizes': [[4, 3]], 'gaussian_count': count, 'test_views': 1, 'repeats': 3,
                      'samples_ms': [2., 2., 2.], 'mean_ms': 2., 'fps_from_mean_ms': 500.,
                      'peak_torch_allocated_bytes': 1024}))
             else:
@@ -181,6 +181,15 @@ class CompressionTests(unittest.TestCase):
             evaluate(experiment)
             self.assertTrue(json.loads((experiment / 'evaluation.json').read_text())['complete'])
             with patch('compression_phase1.ROOT', self.root):
+                saved = (experiment / 'evaluation.json').read_text()
+                for field in ('mean_ms', 'fps_from_mean_ms', 'peak_torch_allocated_bytes', 'gaussian_count', 'ply_bytes'):
+                    bad = json.loads(saved); bad['rows'][0][field] += 999
+                    (experiment / 'evaluation.json').write_text(json.dumps(bad))
+                    with self.assertRaises(ValueError): export(experiment, 'bad-summary')
+                (experiment / 'evaluation.json').write_text(saved)
+                with patch('compression_phase1.shutil.copy2', side_effect=OSError('copy interrupted')):
+                    with self.assertRaises(OSError): export(experiment, 'fixture-result')
+                self.assertFalse((self.root / 'results/fixture-result').exists())
                 export(experiment, 'fixture-result')
                 output = self.root / 'results/fixture-result'
                 self.assertTrue((output / 'gt/00000.png').exists())

@@ -57,7 +57,7 @@ class RecoveryTests(unittest.TestCase):
             write_json(parent / 'dataset.json', {'train': ['a.png', 'b.png']})
             for v in ('identity100', 'opacity50'):
                 ply = p2.ply_path(parent / v, 30000); ply.parent.mkdir(parents=True)
-                ply.write_bytes(b'synthetic-copy-only-' + v.encode())
+                ply.write_bytes(('ply\nformat binary_little_endian 1.0\nelement vertex ' + str(pi['variants'][v]['kept_count']) + '\nend_header\n').encode())
                 images = parent / v / 'test/ours_30000/renders'; images.mkdir(parents=True)
                 Image.new('RGB', (4, 3), (23, 45, 67)).save(images / '00000.png')
             gt = baseline / 'test/ours_30000/gt'; gt.mkdir(parents=True)
@@ -75,7 +75,7 @@ class RecoveryTests(unittest.TestCase):
                     self.assertEqual(config['iterations'], 30002)
                     final = p2.ply_path(experiment / v, config['iterations'])
                     final.parent.mkdir(parents=True)
-                    final.write_bytes(b'mock-updated-model')
+                    final.write_bytes(('ply\nformat binary_little_endian 1.0\nelement vertex ' + str(info['variants'][v]['count']) + '\nend_header\n').encode())
                     write_json(experiment / v / 'training.json', {
                         'complete': True, 'steps': 2, 'count': info['variants'][v]['count'],
                         'source_ply_sha256': info['variants'][v]['source_sha256'],
@@ -96,12 +96,24 @@ class RecoveryTests(unittest.TestCase):
                     elif stage == 'benchmark':
                         write_json(model / 'benchmark.json', {
                             'gaussian_count': info['variants'][model.name]['count'], 'test_views': 1,
-                            'repeats': 3, 'samples_ms': [2., 2., 2.], 'mean_ms': 2.,
+                            'config_resolution': -1, 'image_sizes': [[4, 3]], 'repeats': 3, 'samples_ms': [2., 2., 2.], 'mean_ms': 2.,
                             'fps_from_mean_ms': 500., 'peak_torch_allocated_bytes': 1024})
                 with patch('doctor.diagnose', return_value={'errors': []}), \
                      patch.object(p2, 'execute', side_effect=fake_execute):
                     p2.evaluate(experiment)
                 with patch.object(p2, 'ROOT', root):
+                    saved_evaluation = json.loads((experiment / 'evaluation.json').read_text())
+                    for field in ('mean_ms', 'fps_from_mean_ms', 'peak_torch_allocated_bytes',
+                                  'gaussian_count', 'ply_bytes', 'recovery_steps', 'delta_PSNR'):
+                        changed = json.loads(json.dumps(saved_evaluation))
+                        changed['rows'][0][field] += 999
+                        write_json(experiment / 'evaluation.json', changed)
+                        with self.assertRaises(ValueError): p2.export(experiment, 'bad-summary')
+                        self.assertFalse((root / 'results/bad-summary').exists())
+                    write_json(experiment / 'evaluation.json', saved_evaluation)
+                    with patch.object(p2.shutil, 'copy2', side_effect=OSError('copy interrupted')):
+                        with self.assertRaises(OSError): p2.export(experiment, 'mock-result')
+                    self.assertFalse((root / 'results/mock-result').exists())
                     p2.export(experiment, 'mock-result')
                     result = root / 'results/mock-result'
                     self.assertEqual(len(list(result.glob('*/renders/00000.png'))), 4)

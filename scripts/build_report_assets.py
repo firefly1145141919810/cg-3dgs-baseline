@@ -2,12 +2,14 @@
 
 Optional reporting dependencies: numpy, Pillow, matplotlib. Never imports torch.
 """
+import argparse
 import hashlib
 import json
 import math
 from pathlib import Path
 import statistics
 import sys
+import subprocess
 import numpy as np
 from PIL import Image
 
@@ -38,79 +40,105 @@ def variant(method, budget):
     return method
 
 
+def require(condition, message):
+    if not condition:
+        raise ValueError('Evidence audit failed: ' + message)
+
+
+def expected_images(folder, names):
+    require({p.name for p in folder.glob('*.png')} == set(names), 'image set: ' + str(folder))
+
+
+def measurement_code_hash(name):
+    # Frozen measurements belong to their recorded code, not the latest implementation.
+    require(name in {'repeat_timing.py', 'benchmark_repeat_worker.py'}, 'measurement script name')
+    blob = subprocess.check_output(['git', 'show',
+        '7d91257be58f575f712f5f0136356b23ebcc7564:scripts/' + name], cwd=ROOT)
+    return hashlib.sha256(blob).hexdigest()
+
+
 def audit():
     t = load(TIMING / 'summary.json'); p = load(TIMING / 'protocol.json')
     redaction = TIMING / 'public_redaction.json'
     if redaction.exists():
         disclosure = load(redaction)
-        assert disclosure['metrics_changed'] is False
-        assert set(disclosure['files']) == {'protocol.json', 'summary.json', *t['sample_sha256']}
+        require(disclosure['metrics_changed'] is False, "disclosure['metrics_changed'] is False")
+        require(set(disclosure['files']) == {'protocol.json', 'summary.json', *t['sample_sha256']}, "set(disclosure['files']) == {'protocol.json', 'summary.json', *t['sample_sha256']}")
         for name, hashes in disclosure['files'].items():
-            assert Path(name).name == name
-            assert sha(TIMING / name) == hashes['public_sha256']
-    assert t['complete'] and p['rounds'] == 3
-    assert t['manifest_sha256'] == sha(TIMING / 'protocol.json')
+            require(Path(name).name == name, "Path(name).name == name")
+            require(sha(TIMING / name) == hashes['public_sha256'], "sha(TIMING / name) == hashes['public_sha256']")
+    require(t['complete'] and p['rounds'] == 3, "t['complete'] and p['rounds'] == 3")
+    require(t['manifest_sha256'] == sha(TIMING / 'protocol.json'), "t['manifest_sha256'] == sha(TIMING / 'protocol.json')")
     for name, h in p['script_sha256'].items():
-        assert sha(ROOT / 'scripts' / name) == h
-    assert p['order'] == [list(METHODS[i:] + METHODS[:i]) for i in range(3)]
+        require(measurement_code_hash(name) == h, "measurement_code_hash(name) == h")
+    require(p['order'] == [list(METHODS[i:] + METHODS[:i]) for i in range(3)], "p['order'] == [list(METHODS[i:] + METHODS[:i]) for i in range(3)]")
     hosts, jobs = set(), set()
     timings = {(r['scene'], r['budget'], r['method']): r for r in t['rows']}
-    assert len(timings) == 18 and len(t['sample_sha256']) == 54
+    require(len(timings) == 18 and len(t['sample_sha256']) == 54, "len(timings) == 18 and len(t['sample_sha256']) == 54")
     raw = {}
     for name, h in t['sample_sha256'].items():
-        assert sha(TIMING / name) == h
+        require(sha(TIMING / name) == h, "sha(TIMING / name) == h")
         b = load(TIMING / name); raw[name] = b
-        assert b['warmup'] == 20 and b['repeats'] == 3
-        assert len(b['samples_ms']) == b['test_views'] * 3
-        assert all(math.isfinite(x) and x > 0 for x in b['samples_ms'])
-        assert math.isclose(statistics.mean(b['samples_ms']), b['mean_ms'], rel_tol=1e-8)
-        assert math.isclose(1000 / b['mean_ms'], b['fps_from_mean_ms'], rel_tol=1e-8)
+        require(b['warmup'] == 20 and b['repeats'] == 3, "b['warmup'] == 20 and b['repeats'] == 3")
+        require(len(b['samples_ms']) == b['test_views'] * 3, "len(b['samples_ms']) == b['test_views'] * 3")
+        require(all(math.isfinite(x) and x > 0 for x in b['samples_ms']), "all(math.isfinite(x) and x > 0 for x in b['samples_ms'])")
+        require(math.isclose(statistics.mean(b['samples_ms']), b['mean_ms'], rel_tol=1e-8), "math.isclose(statistics.mean(b['samples_ms']), b['mean_ms'], rel_tol=1e-8)")
+        require(math.isclose(1000 / b['mean_ms'], b['fps_from_mean_ms'], rel_tol=1e-8), "math.isclose(1000 / b['mean_ms'], b['fps_from_mean_ms'], rel_tol=1e-8)")
         hosts.add(b['measurement_host']); jobs.add(b['slurm_job_id'])
     quality, counts = {}, {'images': 0, 'pixel_psnr': 0, 'training_reports': 0}
     for source in p['sources']:
         scene, budget = source['scene'], source['budget']
         d = folder(scene, budget); e = load(d / 'summary.json'); protocol = load(d / 'protocol.json')
-        assert sha(d / 'summary.json') == source['evaluation_sha256']
-        assert e['complete'] and protocol['formal'] and protocol['steps'] == 3000
+        require(sha(d / 'summary.json') == source['evaluation_sha256'], "sha(d / 'summary.json') == source['evaluation_sha256']")
+        require(e['complete'] and protocol['formal'] and protocol['steps'] == 3000, "e['complete'] and protocol['formal'] and protocol['steps'] == 3000")
         quality[scene, budget] = {r['variant']: r for r in e['rows']}
-        assert len(quality[scene, budget]) == 6
+        require(len(quality[scene, budget]) == 6, "len(quality[scene, budget]) == 6")
+        selected = protocol['selected_images']
+        expected = [f'{i:05d}.png' for i in (0, 14, 24, 31, 33, 35) if i < protocol['test_views']]
+        require(selected == expected, 'fixed diagnostic image selection')
+        expected_images(d / 'gt', selected)
         seq = set()
         for r in e['rows']:
             v = r['variant']; model = d / v
+            expected_images(model / 'renders', selected)
             per = next(iter(load(model / 'metrics_per_view.json').values()))
-            assert sha(model / 'metrics_per_view.json') == e['artifact_sha256'][f'{v}/per_view.json']
+            require(sha(model / 'metrics_per_view.json') == e['artifact_sha256'][f'{v}/per_view.json'], "sha(model / 'metrics_per_view.json') == e['artifact_sha256'][f'{v}/per_view.json']")
             for metric in ('PSNR', 'SSIM', 'LPIPS'):
+                require(set(per[metric]) == {f'{i:05d}.png' for i in range(protocol['test_views'])}, 'metric view indices')
                 values = list(per[metric].values())
-                assert len(values) == protocol['test_views'] and all(math.isfinite(x) for x in values)
-                assert abs(statistics.mean(values) - r[metric]) < 1e-5
+                require(len(values) == protocol['test_views'] and all(math.isfinite(x) for x in values), "len(values) == protocol['test_views'] and all(math.isfinite(x) for x in values)")
+                require(abs(statistics.mean(values) - r[metric]) < 1e-5, "abs(statistics.mean(values) - r[metric]) < 1e-5")
             recovered = v.endswith('_recovery'); iteration = 33000 if recovered else 30000
             for image in (model / 'renders').glob('*.png'):
-                assert sha(image) == e['artifact_sha256'][f'{v}/test/ours_{iteration}/renders/{image.name}']
+                require(sha(image) == e['artifact_sha256'][f'{v}/test/ours_{iteration}/renders/{image.name}'], "sha(image) == e['artifact_sha256'][f'{v}/test/ours_{iteration}/renders/{image.name}']")
                 READS[image.relative_to(ROOT).as_posix()] = sha(image)
                 gt = d / 'gt' / image.name
-                a = np.asarray(Image.open(image), dtype=np.float64) / 255
-                b = np.asarray(Image.open(gt), dtype=np.float64) / 255
-                assert abs(-10 * np.log10(np.mean((a-b)**2)) - per['PSNR'][image.name]) < 1e-4
+                with Image.open(image) as render_image, Image.open(gt) as gt_image:
+                    require(render_image.mode == gt_image.mode == 'RGB' and render_image.size == gt_image.size,
+                            'paired image size/mode')
+                    a = np.asarray(render_image, dtype=np.float64) / 255
+                    b = np.asarray(gt_image, dtype=np.float64) / 255
+                require(abs(-10 * np.log10(np.mean((a-b)**2)) - per['PSNR'][image.name]) < 1e-4, "abs(-10 * np.log10(np.mean((a-b)**2)) - per['PSNR'][image.name]) < 1e-4")
                 counts['images'] += 1; counts['pixel_psnr'] += 1
             if recovered:
                 tr = load(model / 'training.json'); seq.add(tr['camera_sequence_sha256'])
-                assert sha(model / 'training.json') == e['artifact_sha256'][f'{v}/training.json']
-                assert tr['complete'] and tr['steps'] == 3000 and len(tr['trace']) == 3000
-                assert tr['count'] == r['gaussian_count'] and tr['manifest_sha256'] == e['manifest_sha256']
-                assert all(x['step'] == i+1 and math.isfinite(x['loss']) for i, x in enumerate(tr['trace']))
+                require(sha(model / 'training.json') == e['artifact_sha256'][f'{v}/training.json'], "sha(model / 'training.json') == e['artifact_sha256'][f'{v}/training.json']")
+                require(tr['complete'] and tr['steps'] == 3000 and len(tr['trace']) == 3000, "tr['complete'] and tr['steps'] == 3000 and len(tr['trace']) == 3000")
+                require(tr['count'] == r['gaussian_count'] and tr['manifest_sha256'] == e['manifest_sha256'], "tr['count'] == r['gaussian_count'] and tr['manifest_sha256'] == e['manifest_sha256']")
+                require(all(x['step'] == i+1 and math.isfinite(x['loss']) for i, x in enumerate(tr['trace'])), "all(x['step'] == i+1 and math.isfinite(x['loss']) for i, x in enumerate(tr['trace']))")
                 counts['training_reports'] += 1
-        assert len(seq) == 1
+        require(len(seq) == 1, "len(seq) == 1")
         for gt in (d / 'gt').glob('*.png'):
-            assert sha(gt) == e['artifact_sha256'][f'identity100/test/ours_30000/gt/{gt.name}']
+            require(sha(gt) == e['artifact_sha256'][f'identity100/test/ours_30000/gt/{gt.name}'], "sha(gt) == e['artifact_sha256'][f'identity100/test/ours_30000/gt/{gt.name}']")
             READS[gt.relative_to(ROOT).as_posix()] = sha(gt); counts['images'] += 1
         for method in METHODS:
             v = variant(method, budget); tr = load(d / v / 'training.json')
-            assert tr['final_ply_sha256'] == source['models'][method]['ply_sha256']
-            assert tr['count'] == source['models'][method]['count']
+            require(tr['final_ply_sha256'] == source['models'][method]['ply_sha256'], "tr['final_ply_sha256'] == source['models'][method]['ply_sha256']")
+            require(tr['count'] == source['models'][method]['count'], "tr['count'] == source['models'][method]['count']")
             values = [raw[f'{scene}-{budget}-r{i}-{method}.json'] for i in (1, 2, 3)]
             for b in values:
-                assert b['gaussian_count'] == tr['count'] and b['test_views'] == protocol['test_views']
-                assert b['gpu'] == p['environment']['gpu']
+                require(b['gaussian_count'] == tr['count'] and b['test_views'] == protocol['test_views'], "b['gaussian_count'] == tr['count'] and b['test_views'] == protocol['test_views']")
+                require(b['gpu'] == p['environment']['gpu'], "b['gpu'] == p['environment']['gpu']")
             means = [b['mean_ms'] for b in values]
             ratios = [raw[f'{scene}-{budget}-r{i}-identity100_recovery.json']['mean_ms'] / means[i-1] for i in (1,2,3)]
             row = timings[scene, budget, method]
@@ -118,10 +146,11 @@ def audit():
                                 ('paired_speedup_across_rounds', ratios),
                                 ('peak_allocated_bytes', [b['peak_torch_allocated_bytes'] for b in values])]:
                 expected = {'median': statistics.median(values), 'min': min(values), 'max': max(values)}
-                assert row[key] == expected
+                require(row[key] == expected, "row[key] == expected")
     spreads = [(r['mean_ms_across_rounds']['max'] - r['mean_ms_across_rounds']['min']) /
                r['mean_ms_across_rounds']['median'] for r in t['rows']]
-    assert len(hosts) == len(jobs) == 1 and max(spreads) < .1
+    require(len(hosts) == len(jobs) == 1 and max(spreads) < .1, "len(hosts) == len(jobs) == 1 and max(spreads) < .1")
+    require(counts == {'images': 210, 'pixel_psnr': 180, 'training_reports': 18}, 'complete fixed evidence counts')
     return quality, timings, {'passed': True, **counts, 'timing_samples': 54,
                              'hosts': sorted(hosts), 'jobs': sorted(jobs), 'max_relative_timing_range': max(spreads)}
 
@@ -248,7 +277,7 @@ def tables(quality,timings):
     for scene in ('train','truck'):
         scorepath=ROOT/'results'/('train-contribution50-first' if scene=='train' else 'truck-scoring-recovery3k-first')/'scoring.json'
         score=load(scorepath)
-        assert score['complete'] and len(score['views']) == (263 if scene=='train' else 219)
+        require(score['complete'] and len(score['views']) == (263 if scene=='train' else 219), "score['complete'] and len(score['views']) == (263 if scene=='train' else 219)")
         for b in (70,50,30):
             secs=[load(folder(scene,b)/variant(m,b)/'training.json')['training_seconds_excluding_checkpoint_io'] for m in METHODS]
             rows.append([scene,f'{b}\\%',f'{score["seconds_excluding_checkpoint_io"]:.3f}']+[f'{s:.3f}' for s in secs])
@@ -256,6 +285,12 @@ def tables(quality,timings):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--audit-only', action='store_true', help='Validate evidence without rewriting report assets')
+    args = parser.parse_args()
+    if args.audit_only:
+        print(json.dumps(audit()[2], indent=2, ensure_ascii=False))
+        return
     for sub in ('figures','generated'):(REPORT/sub).mkdir(parents=True,exist_ok=True)
     quality,timings,checks=audit()
     figures(quality,timings);tables(quality,timings)

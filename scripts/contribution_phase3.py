@@ -2,6 +2,8 @@
 
 No CUDA rebuild, optimizer updates, test-view scoring or recovery in this phase.
 """
+from artifact_io import export_directory
+from result_validation import checked_row
 import argparse
 import csv
 import datetime as dt
@@ -310,33 +312,35 @@ def export(experiment, name):
         actual = checked_metrics(experiment / row['variant'], c['iterations'], previous['test_views'])
         if any(row[k] != actual[k] for k in actual):
             raise ValueError('Summary metrics differ from artifacts')
+        checked_row(row, experiment / row['variant'], dict(c, output=str(experiment / row['variant'])),
+                    previous['test_views'], previous['baseline_metrics'], 0)
     dest = ROOT / 'results' / name
     if dest.exists():
         raise FileExistsError('Use a new export label')
-    dest.mkdir(parents=True)
-    write_json(dest / 'summary.json', e)
-    with (dest / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=list(e['rows'][0])); writer.writeheader(); writer.writerows(e['rows'])
-    public = {k: v for k, v in info.items() if k != 'parent'}
-    public['baseline_config'] = {k: v for k, v in c.items() if k not in ('source', 'output')}
-    public['variants'] = ready['variants']
-    public['upstream'] = previous['upstream']
-    names = [f'{i:05d}.png' for i in (0, 14, 24, 31, 33, 35) if i < previous['test_views']]
-    public['selected_images'] = names
-    public['selection_note'] = 'Same diagnostic views, not an unbiased gallery'
-    env = read_json(experiment / 'evaluation_environment.json')
-    public['environment'] = {k: env.get(k) for k in ('python', 'torch', 'torch_cuda', 'gpu', 'platform')}
-    write_json(dest / 'protocol.json', public)
-    shutil.copy2(experiment / 'scoring.json', dest / 'scoring.json')
-    for v in VARIANTS:
-        (dest / v / 'renders').mkdir(parents=True)
-        shutil.copy2(experiment / v / 'benchmark.json', dest / v / 'benchmark.json')
-        shutil.copy2(experiment / v / 'per_view.json', dest / v / 'metrics_per_view.json')
+    with export_directory(dest) as staging:
+        write_json(staging / 'summary.json', e)
+        with (staging / 'summary.csv').open('w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=list(e['rows'][0])); writer.writeheader(); writer.writerows(e['rows'])
+        public = {k: v for k, v in info.items() if k != 'parent'}
+        public['baseline_config'] = {k: v for k, v in c.items() if k not in ('source', 'output')}
+        public['variants'] = ready['variants']
+        public['upstream'] = previous['upstream']
+        names = [f'{i:05d}.png' for i in (0, 14, 24, 31, 33, 35) if i < previous['test_views']]
+        public['selected_images'] = names
+        public['selection_note'] = 'Same diagnostic views, not an unbiased gallery'
+        env = read_json(experiment / 'evaluation_environment.json')
+        public['environment'] = {k: env.get(k) for k in ('python', 'torch', 'torch_cuda', 'gpu', 'platform')}
+        write_json(staging / 'protocol.json', public)
+        shutil.copy2(experiment / 'scoring.json', staging / 'scoring.json')
+        for v in VARIANTS:
+            (staging / v / 'renders').mkdir(parents=True)
+            shutil.copy2(experiment / v / 'benchmark.json', staging / v / 'benchmark.json')
+            shutil.copy2(experiment / v / 'per_view.json', staging / v / 'metrics_per_view.json')
+            for n in names:
+                shutil.copy2(experiment / v / f'test/ours_{c["iterations"]}/renders' / n, staging / v / 'renders' / n)
+        (staging / 'gt').mkdir()
         for n in names:
-            shutil.copy2(experiment / v / f'test/ours_{c["iterations"]}/renders' / n, dest / v / 'renders' / n)
-    (dest / 'gt').mkdir()
-    for n in names:
-        shutil.copy2(experiment / 'identity100' / f'test/ours_{c["iterations"]}/gt' / n, dest / 'gt' / n)
+            shutil.copy2(experiment / 'identity100' / f'test/ours_{c["iterations"]}/gt' / n, staging / 'gt' / n)
     print('Exported:', dest)
 
 

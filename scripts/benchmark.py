@@ -5,6 +5,8 @@ from pathlib import Path
 import statistics
 import sys
 from types import SimpleNamespace
+from dataset import sha256
+from result_validation import config_digest
 from run import ROOT, UPSTREAM, load_config, verify_upstream, write_json
 
 def main():
@@ -16,7 +18,9 @@ def main():
     if args.repeats < 1 or args.warmup < 0: raise ValueError('Invalid repeat count')
     c=load_config(args.config); verify_upstream()
     out=Path(c['output'])
-    if json.loads((out/'manifest.json').read_text())['config'] != c: raise ValueError('Config mismatch')
+    if json.loads((out/'manifest.json').read_text(encoding='utf-8'))['config'] != c: raise ValueError('Config mismatch')
+    source_ply = out / f'point_cloud/iteration_{c["iterations"]}/point_cloud.ply'
+    source = {'ply_sha256': sha256(source_ply), 'config_sha256': config_digest(c)}
     sys.path.insert(0,str(UPSTREAM))
     import torch
     from scene import Scene, GaussianModel
@@ -48,6 +52,8 @@ def main():
             'peak_torch_reserved_bytes':torch.cuda.max_memory_reserved(),
             'gaussian_count':int(gaussians.get_xyz.shape[0]),'samples_ms':times,
             'caveat':'Not SIBR viewer FPS, not total nvidia-smi VRAM, not training peak memory.'}
+    if sha256(source_ply) != source['ply_sha256']: raise ValueError('Model changed during timing')
+    result['source'] = source
     write_json(out/'benchmark.json',result)
     print(json.dumps(result,indent=2))
 
